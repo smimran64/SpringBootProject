@@ -1,0 +1,45 @@
+<!-- hotel-details.component.html -->
+<div class="hotel-details-container mt-5" *ngIf="!loading && hotel">
+
+    <!-- Hotel Basic Info -->
+    <div class="row mb-5">
+        <div class="col-md-6 image-container">
+            <img [src]="'http://localhost:8082/images/hotels/' + hotel.image" class="img-fluid rounded shadow-lg"
+                alt="Hotel Image" />
+        </div>
+
+        <div class="col-md-6 info-container">
+            <h2 class="section-title">🏨 Hotel Details</h2>
+            <p><strong>📍 Address:</strong> {{ hotel.address }}</p>
+            <p><strong>⭐ Rating:</strong> {{ hotel.rating }}</p>
+            <p><strong>🗺️ Location:</strong> {{ hotel.location?.name }}</p>
+        </div>
+    </div>
+
+    <!-- Rooms Section -->
+    <h3 class="text-center mb-4 section-title" style="justify-content: center;">🛏️ Available Rooms</h3>
+    <div class="row">
+        <div *ngFor="let room of rooms" class="col-md-4 mb-4">
+            <div class="card h-100 room-card">
+                <img [src]="'http://localhost:8082/images/rooms/' + room.image" class="card-img-top" alt="Room Image" />
+
+                <div class="card-body">
+                    <h5 class="card-title text-center">{{ room.roomType }}</h5>
+                    <ul class="room-details">
+                        <li>👨‍👩‍👧 Adults: {{ room.adults }}</li>
+                        <li>👶 Children: {{ room.children }}</li>
+                        <li>💰 Price: <strong>BDT {{ room.price }}</strong></li>
+                        <li>🛏️ Available Rooms: {{ room.availableRooms }}</li>
+                    </ul>
+                    <button class="btn btn-success w-100 book-btn" [disabled]="room.availableRooms <= 0">
+                        {{ room.availableRooms > 0 ? 'Book Now' : 'Sold Out' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="loading" class="loading-message">
+        <p>Loading hotel details...</p>
+    </div>
+</div>

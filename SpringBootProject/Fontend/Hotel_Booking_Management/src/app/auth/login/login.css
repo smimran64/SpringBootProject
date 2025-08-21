@@ -1,0 +1,82 @@
+/* Whole Section Styling */
+section.vh-100 {
+    background: linear-gradient(135deg, #a0a74a, #392485);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Image */
+img.img-fluid {
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(167, 45, 45, 0.815);
+}
+
+/* Form Background */
+form {
+    justify-content: center;
+    background-color: #383636;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgb(248, 245, 245);
+    margin-top: 15%;
+    color: #f7f1f1;
+}
+
+/* Labels */
+.form-label {
+    font-weight: bold;
+    color: #f6f4fa;
+}
+
+/* Input fields */
+.form-control {
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    transition: 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #00b4db;
+    box-shadow: 0 0 8px #00b4db66;
+}
+
+/* Social Icons */
+.btn-floating i {
+    font-size: 1.1rem;
+}
+
+/* Divider Text */
+.divider p {
+    color: #f7f1f1;
+    font-weight: 600;
+}
+
+/* Submit Button */
+button[type='submit'] {
+    background-color: #7f34e2;
+    border: none;
+    transition: 0.3s;
+    border-radius: 10px;
+}
+
+button[type='submit']:hover {
+    background-color: #e7d807;
+}
+
+/* Error Messages */
+.text-danger small {
+    font-size: 0.9rem;
+}
+
+/* Footer */
+.bg-primary {
+    background: linear-gradient(135deg, #0083b0, #00b4db) !important;
+}
+
+.bg-primary a:hover {
+    color: #ffd700 !important;
+}

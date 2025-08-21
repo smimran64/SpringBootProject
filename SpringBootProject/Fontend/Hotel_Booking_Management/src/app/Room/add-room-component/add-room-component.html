@@ -1,0 +1,73 @@
+<div class="room-form-container">
+  <div class="room-form-card">
+    <h2>Add Room</h2>
+
+    <form [formGroup]="roomForm" (ngSubmit)="saveRoom()" class="room-form">
+
+      <!-- Row 1: Room Type + Total Rooms -->
+      <div class="form-row neon">
+        <div class="form-group">
+          <label><i class="fas fa-bed"></i> Room Type</label>
+          <input type="text" formControlName="roomType" placeholder="Enter room type" />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-layer-group"></i> Total Rooms</label>
+          <input type="number" formControlName="totalRooms" placeholder="Enter total rooms" />
+        </div>
+      </div>
+
+      <!-- Row 2: Adults + Children -->
+      <div class="form-row neon">
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> Adults</label>
+          <input type="number" formControlName="adults" placeholder="No. of adults" />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-child"></i> Children</label>
+          <input type="number" formControlName="children" placeholder="No. of children" />
+        </div>
+      </div>
+
+      <!-- Row 3: Price + Hotel Dropdown -->
+      <div class="form-row neon">
+        <div class="form-group">
+          <label><i class="fas fa-dollar-sign"></i> Price</label>
+          <input type="number" formControlName="price" placeholder="Enter price" />
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-hotel"></i> Hotel</label>
+          <select formControlName="hotelId">
+            <option value="">Select hotel</option>
+            <option *ngFor="let hotel of hotels" [value]="hotel.id">{{ hotel.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Row 4: Image Upload -->
+      <div class="form-row neon">
+        <div class="form-group full-width">
+          <label><i class="fas fa-image"></i> Room Image</label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+          <div *ngIf="!selectedImage && roomForm.touched" class="text-danger">
+            Please select an image
+          </div>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="message">
+        {{ message }}
+      </div>
+
+      <!-- Buttons -->
+      <div class="form-actions">
+        <button type="submit" class="neon-btn"><i class="fas fa-save"></i> Save</button>
+        <button type="reset" class="neon-btn reset-btn"><i class="fas fa-undo"></i> Reset</button>
+      </div>
+
+    </form>
+  </div>
+</div>

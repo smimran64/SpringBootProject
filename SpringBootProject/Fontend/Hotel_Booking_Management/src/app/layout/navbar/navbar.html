@@ -1,0 +1,114 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="margin-bottom: 1%;">
+    <div class="container">
+        <a class="navbar-brand" href="#"> HBMS</a>
+        <button class="navbar-toggler" type="button" id="sidebarToggle">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/home"><i class="fas fa-home me-1"></i> Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="hotelDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-hotel me-1"></i> Hotel
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="hotelDropdown">
+
+                        <li><a class="dropdown-item" href="addhotel">Add Hotel</a></li>
+
+
+                        <li><a class="dropdown-item" routerLink="viewHotel">View All Hotel</a></li>
+
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="roomsDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-bed me-1"></i> Rooms
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="roomsDropdown">
+
+                        <li><a class="dropdown-item" routerLink="addroom">Add Room</a></li>
+
+
+                        <li><a class="dropdown-item" routerLink="allroom">View All Room By Hotel</a></li>
+
+
+                        <li><a class="dropdown-item" routerLink="viewallroomforhoteladmin">View Room For Hotel
+                                Admin</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="locationDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-map-marker-alt me-1"></i> Location
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+                        <li><a class="dropdown-item" routerLink="addlocation">Add Location</a></li>
+                        <li><a class="dropdown-item" routerLink="viewlocation">View All Location</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="locationDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-book"></i> Bookings
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+
+                        <li><a class="dropdown-item" routerLink="viewallbooking">View All Bookings</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="locationDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user"></i> Profile
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+
+                        <li><a class="dropdown-item" routerLink="userprofile">User Profile</a></li>
+
+
+                        <li><a class="dropdown-item" routerLink="hoteladminprofile">Hotel Admin Profile</a></li>
+
+
+                        <li><a class="dropdown-item" routerLink="adminprofile">Super Admin Profile</a></li>
+
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/bookingalert"><i class="fa-solid fa-bell"></i>
+                        Notifications</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="viewallusers"><i class="fa-solid fa-users"></i> All Users</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link auth-link" routerLink="login"><i class="fas fa-sign-in-alt me-1"></i> Sign In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link auth-link" routerLink="logout"><i class="fas fa-user-plus me-1"></i> Sign Up</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Header -->
+<!-- <header class="header" id="home">
+    <div class="container">
+        <h1>To Be Demulcent Your Mind</h1>
+        <p>Indulge in a world-class hospitality experience with our exquisite accommodations and services.</p>
+        <a routerLink="reg" class="btn btn-custom">Join With Us Today!!</a>
+    </div>
+</header> -->

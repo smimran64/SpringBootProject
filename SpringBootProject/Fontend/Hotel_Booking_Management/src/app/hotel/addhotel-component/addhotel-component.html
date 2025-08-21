@@ -1,0 +1,73 @@
+<div class="hotel-admin-container">
+    <div class="hotel-form-card">
+        <h2>Add New Hotel</h2>
+
+        <form [formGroup]="hotelForm" (ngSubmit)="saveHotel()" class="hotel-form">
+
+            <!-- Row 1: Hotel Name + Address -->
+            <div class="form-row neon">
+                <div class="form-group">
+                    <label><i class="fas fa-hotel"></i> Hotel Name</label>
+                    <input type="text" formControlName="name" placeholder="Enter hotel name" />
+                    <span *ngIf="hotelForm.get('name')?.invalid && hotelForm.get('name')?.touched" class="error">
+                        Hotel name is required
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                    <input type="text" formControlName="address" placeholder="Enter address" />
+                    <span *ngIf="hotelForm.get('address')?.invalid && hotelForm.get('address')?.touched" class="error">
+                        Address is required
+                    </span>
+                </div>
+            </div>
+
+            <!-- Row 2: Rating + Location -->
+            <div class="form-row neon">
+                <div class="form-group">
+                    <label><i class="fas fa-star"></i> Rating</label>
+                    <input type="text" formControlName="rating" placeholder="Enter rating" />
+                    <span *ngIf="hotelForm.get('rating')?.invalid && hotelForm.get('rating')?.touched" class="error">
+                        Rating is required
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-map-pin"></i> Location</label>
+                    <select formControlName="locationId">
+                        <option value="" disabled>Select Location</option>
+                        <option *ngFor="let loc of locations" [value]="loc.id">{{ loc.name }}</option>
+                    </select>
+                    <span *ngIf="hotelForm.get('locationId')?.invalid && hotelForm.get('locationId')?.touched"
+                        class="error">
+                        Please select a location
+                    </span>
+                </div>
+            </div>
+
+            <!-- Row 3: File Upload -->
+            <div class="form-row neon">
+                <div class="form-group full-width">
+                    <label><i class="fas fa-image"></i> Hotel Image</label>
+                    <input type="file" (change)="onFileSelected($event)" accept="image/*" />
+                    <span *ngIf="!selectedImage && hotelForm.touched" class="error">
+                        Please select an image
+                    </span>
+                </div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-message error" *ngIf="message">
+                {{ message }}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit" [disabled]="hotelForm.invalid || !selectedImage" class="neon-btn">
+                    <i class="fas fa-save"></i> Save Hotel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

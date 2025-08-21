@@ -1,0 +1,74 @@
+<div class="container home-container">
+    <h2 class="page-title">Find Your Perfect Hotel</h2>
+
+    <!-- Search Form -->
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-card">
+        <div class="row g-3 align-items-end">
+            <div class="col-12 col-md-4">
+                <label for="location" class="form-label">Location</label>
+                <select id="location" formControlName="locationId" class="form-select">
+                    <option value="">-- Select Location --</option>
+                    <option *ngFor="let loc of locations" [value]="loc.id">{{ loc.name }}</option>
+                </select>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <label for="checkIn" class="form-label">Check-In</label>
+                <input type="date" id="checkIn" class="form-control" formControlName="checkIn">
+            </div>
+
+            <div class="col-6 col-md-3">
+                <label for="checkOut" class="form-label">Check-Out</label>
+                <input type="date" id="checkOut" class="form-control" formControlName="checkOut">
+            </div>
+
+            <div class="col-12 col-md-2">
+                <button type="submit" class="btn btn-gradient w-100">
+                    <i class="bi bi-search me-1"></i> Search
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <hr class="divider" />
+
+    <!-- Search Results -->
+    <div *ngIf="searched">
+        <h3 *ngIf="hotels.length > 0" class="section-title">Available Hotels</h3>
+        <p *ngIf="hotels.length === 0" class="text-muted text-center">No hotels found for this search.</p>
+
+        <div class="row g-4">
+            <div class="col-12 col-sm-6 col-lg-4" *ngFor="let h of hotels; trackBy: trackById">
+                <div class="hotel-card">
+                    <div class="image-wrap">
+                        <img [src]="getHotelImage(h)" (error)="imgFallback($event)" alt="{{ h.name }}"
+                            class="hotel-img" />
+                        <div class="img-gradient"></div>
+
+                        <div class="badge-wrap">
+                            <span class="badge-pill">
+                                <i class="bi bi-geo-alt"></i>
+                                {{ h?.location?.name || 'Unknown' }}
+                            </span>
+                            <span class="badge-rate" *ngIf="h.rating !== null && h.rating !== undefined">
+                                <i class="bi bi-star-fill"></i> {{ h.rating | number:'1.1-1' }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="hotel-title" [title]="h.name">{{ h.name }}</h5>
+                        <p class="hotel-address" [title]="h.address">{{ h.address }}</p>
+
+                        <div class="card-actions">
+                            <button class="btn btn-outline" (click)="goToHotelPage(h.id)">
+                                View Details
+                                <i class="bi bi-arrow-right-short ms-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /col -->
+        </div> <!-- /row -->
+    </div>
+</div>

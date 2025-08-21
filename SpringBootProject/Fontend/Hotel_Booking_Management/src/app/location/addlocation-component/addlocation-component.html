@@ -1,0 +1,33 @@
+<div class="location-container">
+    <div class="location-card">
+        <h2 class="form-title">➕ Add New Location</h2>
+
+        <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+
+            <!-- Location Name -->
+            <div class="mb-3">
+                <label for="name" class="form-label">🌍 Location Name</label>
+                <input type="text" id="name" formControlName="name" class="form-control custom-input"
+                    placeholder="Enter location name"
+                    [class.is-invalid]="formGroup.get('name')?.invalid && formGroup.get('name')?.touched" />
+                <div class="invalid-feedback" *ngIf="formGroup.get('name')?.invalid && formGroup.get('name')?.touched">
+                    Location name is required
+                </div>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="mb-3">
+                <label for="image" class="form-label">🖼️ Upload Image</label>
+                <input type="file" id="image" class="form-control custom-input" accept="image/*"
+                    (change)="onFileSelected($event)" />
+                <small class="text-muted">Select an image file for this location</small>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn save-btn" [disabled]="formGroup.invalid">
+                💾 Save Location
+            </button>
+
+        </form>
+    </div>
+</div>

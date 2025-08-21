@@ -1,0 +1,52 @@
+<div class="container">
+
+  <!-- Header -->
+  <div class="jumbotron bg-primary text-white py-4 rounded-3 shadow-sm">
+    <h2 class="mb-4 text-center fw-bold">All Hotels</h2>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="loading" class="text-center my-3">
+    Loading hotels...
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="text-danger text-center my-2">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Hotels Cards -->
+  <div class="row row-cols-1 row-cols-md-3 g-4 mt-2">
+    <div class="col" *ngFor="let hotel of hotels">
+      <div class="card h-100 shadow-sm hotel-card">
+
+        <!-- Hotel Image -->
+        <img [src]="'http://localhost:8082/images/hotels/' + hotel.image" class="card-img-top"
+          alt="{{ hotel.name }}" style="object-fit: cover; height: 180px;" />
+
+        <!-- Card Body -->
+        <div class="card-body">
+          <h5 class="card-title fw-bold">{{ hotel.name }}</h5>
+          <p class="card-text mb-1"><strong>Address:</strong> {{ hotel.address }}</p>
+          <p class="card-text mb-1"><strong>Rating:</strong> {{ hotel.rating }} ⭐</p>
+          <p class="card-text mb-1"><strong>Location:</strong> {{ hotel.location?.name }}</p>
+        </div>
+
+        <!-- Card Footer: Actions -->
+        <div class="card-footer bg-white d-flex justify-content-end gap-2">
+          <button *ngIf="hotel.id" class="btn btn-outline-primary btn-sm" (click)="editHotel(hotel.id)">Edit</button>
+          <button *ngIf="hotel.id" class="btn btn-outline-danger btn-sm"
+            (click)="deleteHotels(hotel.id)">Delete</button>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- No Hotels Message -->
+  <div *ngIf="!loading && hotels.length === 0" class="text-center my-3">
+    No hotels available.
+  </div>
+
+</div>
