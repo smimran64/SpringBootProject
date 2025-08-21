@@ -1,45 +1,30 @@
-<!-- hotel-details.component.html -->
-<div class="hotel-details-container mt-5" *ngIf="!loading && hotel">
-
-    <!-- Hotel Basic Info -->
-    <div class="row mb-5">
-        <div class="col-md-6 image-container">
-            <img [src]="'http://localhost:8082/images/hotels/' + hotel.image" class="img-fluid rounded shadow-lg"
-                alt="Hotel Image" />
-        </div>
-
-        <div class="col-md-6 info-container">
-            <h2 class="section-title">🏨 Hotel Details</h2>
-            <p><strong>📍 Address:</strong> {{ hotel.address }}</p>
-            <p><strong>⭐ Rating:</strong> {{ hotel.rating }}</p>
-            <p><strong>🗺️ Location:</strong> {{ hotel.location?.name }}</p>
+<div class="hotel-details-container" *ngIf="!loading && hotel">
+    <!-- Hotel Info -->
+    <div class="hotel-info card mb-4">
+        <img [src]="'/assets/images/hotels/' + hotel.image" alt="{{hotel.name}}" class="hotel-image">
+        <div class="hotel-text">
+            <h2>{{ hotel.name }}</h2>
+            <p class="address">{{ hotel.address }}</p>
+            <p class="rating">Rating: {{ hotel.rating }} ⭐</p>
+           
         </div>
     </div>
 
-    <!-- Rooms Section -->
-    <h3 class="text-center mb-4 section-title" style="justify-content: center;">🛏️ Available Rooms</h3>
-    <div class="row">
-        <div *ngFor="let room of rooms" class="col-md-4 mb-4">
-            <div class="card h-100 room-card">
-                <img [src]="'http://localhost:8082/images/rooms/' + room.image" class="card-img-top" alt="Room Image" />
-
-                <div class="card-body">
-                    <h5 class="card-title text-center">{{ room.roomType }}</h5>
-                    <ul class="room-details">
-                        <li>👨‍👩‍👧 Adults: {{ room.adults }}</li>
-                        <li>👶 Children: {{ room.children }}</li>
-                        <li>💰 Price: <strong>BDT {{ room.price }}</strong></li>
-                        <li>🛏️ Available Rooms: {{ room.availableRooms }}</li>
-                    </ul>
-                    <button class="btn btn-success w-100 book-btn" [disabled]="room.availableRooms <= 0">
-                        {{ room.availableRooms > 0 ? 'Book Now' : 'Sold Out' }}
-                    </button>
-                </div>
-            </div>
+    <!-- Rooms -->
+    <h3 class="mb-3">Available Rooms</h3>
+    <div *ngIf="rooms.length > 0; else noRooms">
+        <div class="room-card" *ngFor="let room of rooms">
+            <h5>{{ room.roomType }}</h5>
+            <p>Price: ${{ room.price }}/night</p>
+            <p>Available: {{ room.availableRooms }} / {{ room.totalRooms }}</p>
+           
         </div>
     </div>
+    <ng-template #noRooms>
+        <p class="text-muted">No rooms available for this hotel.</p>
+    </ng-template>
+</div>
 
-    <div *ngIf="loading" class="loading-message">
-        <p>Loading hotel details...</p>
-    </div>
+<div *ngIf="loading">
+    <p>Loading hotel details...</p>
 </div>

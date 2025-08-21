@@ -27,6 +27,8 @@ import { HotelAdminProfile } from './hotelAdmin/hotel-admin-profile/hotel-admin-
 import { CustomerProfileComponent } from './customer/customer-profile-component/customer-profile-component';
 import { HomeComponenent } from './home/home-componenent/home-componenent';
 import { HotelDetailsCompononent } from './hotel/hotel-details-compononent/hotel-details-compononent';
+import { AddAmenitiesComponent } from './HotelAmenities/add-amenities-component/add-amenities-component';
+import { ViewAmenitiesComponent } from './HotelAmenities/view-amenities-component/view-amenities-component';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,9 @@ import { HotelDetailsCompononent } from './hotel/hotel-details-compononent/hotel
     HotelAdminProfile,
     CustomerProfileComponent,
     HomeComponenent,
-    HotelDetailsCompononent
+    HotelDetailsCompononent,
+    AddAmenitiesComponent,
+    ViewAmenitiesComponent
   ],
   imports: [
     BrowserModule,

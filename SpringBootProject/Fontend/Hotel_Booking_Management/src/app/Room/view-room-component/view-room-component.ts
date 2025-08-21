@@ -44,7 +44,6 @@ export class ViewRoomComponent implements OnInit {
     this.roomService.getAllRooms().subscribe({
       next: (data) => {
         this.rooms = data;
-        console.log(data);
         this.filterRooms();  // ensure filter on load
         this.loading = false;
         this.cdr.markForCheck();

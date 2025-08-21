@@ -85,7 +85,7 @@ console.log(customer);
         this.userForm.reset();
         this.customerForm.reset();
         this.photoFile = undefined!;
-        this.router.navigate(['login']);
+        this.router.navigate(['/login']);
 
       },
       error: err => {

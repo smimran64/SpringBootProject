@@ -40,7 +40,7 @@ public class SecurityConfig {
                                 ,"/api/active/**","/api/user/active/**","/api/location/save","/api/location/all","/api/hotel/searchByHotelAdminId","/api/admin/reg",
                                 "/api/location/delete/**", "/api/hoteladmin/reg","/api/admin/reg", "/api/hoteladmin/profile","/api/admin/profile","/api/hotel/search","/api/hotel/{id}/rooms",
                                 "/api/hotel/{id}").permitAll()
-                        .requestMatchers("/api/hotel/save","/api/room/save","/api/hotel/myHotels","/api/room/hotel/{hotelId}").hasRole("HOTEL_ADMIN")
+                        .requestMatchers("/api/hotel/save","/api/room/save","/api/hotel/myHotels","/api/room/hotel/{hotelId}","/api/amenities/save","/api/amenities/all").hasRole("HOTEL_ADMIN")
 
                         .anyRequest().authenticated()
                 )

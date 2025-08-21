@@ -1,0 +1,89 @@
+.container {
+    max-width: 100%;
+    padding: 20px;
+    overflow-x: auto;
+    margin-top: 6%;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.amenities-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.amenities-table th,
+.amenities-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.amenities-table th {
+    background-color: #007BFF;
+    color: white;
+    position: sticky;
+    top: 0;
+}
+
+.amenities-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+}
+
+.badge.yes {
+    background-color: #28a745;
+}
+
+.badge.no {
+    background-color: #dc3545;
+}
+
+.delete-btn {
+    padding: 6px 12px;
+    background-color: #dc3545;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+    .amenities-table th,
+    .amenities-table td {
+        padding: 8px;
+    }
+}
+
+.edit-btn {
+    padding: 6px 12px;
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: 0.3s;
+}
+
+.edit-btn:hover {
+    background-color: #0056b3;
+}

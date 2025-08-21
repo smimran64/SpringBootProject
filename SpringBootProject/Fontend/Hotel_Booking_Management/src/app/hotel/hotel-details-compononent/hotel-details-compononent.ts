@@ -1,10 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Hotel } from '../../model/hotel.model';
 import { Room } from '../../model/room.model';
 import { ActivatedRoute } from '@angular/router';
 import { HotelService } from '../../service/hotel.service';
-import { forkJoin } from 'rxjs';
-import { RoomService } from '../../service/room-service';
 
 @Component({
   selector: 'app-hotel-details-compononent',
@@ -14,33 +12,46 @@ import { RoomService } from '../../service/room-service';
 })
 export class HotelDetailsCompononent implements OnInit {
 
-  hotel: any;
+  hotel: Hotel | null = null;
   rooms: any[] = [];
   loading = true;
+  errorMessage = '';
 
   constructor(
-    private route: ActivatedRoute,
     private hotelService: HotelService,
-    private roomService: RoomService,
-    private cd: ChangeDetectorRef
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    const hotelId = +this.route.snapshot.paramMap.get('id')!;  // get from route param
-    console.log(hotelId + "+++++++++++++++++++++++++++");
-    forkJoin({
-      hotel: this.hotelService.getHotelById(hotelId),
-      rooms: this.roomService.getRoomsByHotelId(hotelId)
-    }).subscribe({
-      next: (result) => {
-        this.hotel = result.hotel;
-        this.rooms = result.rooms;
-        this.cd.markForCheck();
-        this.loading = false;   // stop loading
+    const hotelId = Number(this.route.snapshot.paramMap.get('id'));
+    if (hotelId) {
+      this.loadHotelDetails(hotelId);
+    }
+  }
+
+  loadHotelDetails(hotelId: number) {
+    this.loading = true;
+    this.hotelService.getHotelById(hotelId).subscribe({
+      next: (data) => {
+        this.hotel = data;
+        this.loadRooms(hotelId);
+        this.loading = false;
       },
       error: (err) => {
-        console.error('Error loading hotel data:', err);
+        console.error('Error fetching hotel:', err);
+        this.errorMessage = err.message;
         this.loading = false;
+      }
+    });
+  }
+
+  loadRooms(hotelId: number) {
+    this.hotelService.getRoomsByHotel(hotelId).subscribe({
+      next: (data) => {
+        this.rooms = data;
+      },
+      error: (err) => {
+        console.error('Error fetching rooms:', err);
       }
     });
   }

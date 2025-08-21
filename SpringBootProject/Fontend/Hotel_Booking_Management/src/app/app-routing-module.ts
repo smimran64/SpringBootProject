@@ -17,6 +17,9 @@ import { CustomerProfileComponent } from './customer/customer-profile-component/
 import { HomeComponenent } from './home/home-componenent/home-componenent';
 import { HotelDetailsCompononent } from './hotel/hotel-details-compononent/hotel-details-compononent';
 import { AboutHotel } from './layout/about-hotel/about-hotel';
+import { Logout } from './auth/logout/logout';
+import { AddAmenitiesComponent } from './HotelAmenities/add-amenities-component/add-amenities-component';
+import { ViewAmenitiesComponent } from './HotelAmenities/view-amenities-component/view-amenities-component';
 
 const routes: Routes = [
   {path: 'addlocation', component: AddlocationComponent},
@@ -36,6 +39,9 @@ const routes: Routes = [
   {path: 'hotel-details/:id', component: HotelDetailsCompononent},
   {path: '', component: AboutHotel},
   {path: 'login', component: Login},
+  {path: 'logout', component: Logout},
+  {path: 'addamenities', component: AddAmenitiesComponent},
+  {path: 'viewamenities', component: ViewAmenitiesComponent},
 
 ];
 

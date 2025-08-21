@@ -1,0 +1,58 @@
+<h2>Add / Edit Amenities</h2>
+
+<form (ngSubmit)="saveAmenities()">
+
+    <!-- Hotel Dropdown -->
+    <div>
+        <label for="hotel">Select Hotel:</label>
+        <select id="hotel" [(ngModel)]="amenities.hotelId" name="hotelId" required>
+            <option value="" disabled selected>Select a hotel</option>
+            <option *ngFor="let hotel of hotels" [value]="hotel.id">{{ hotel.name }}</option>
+        </select>
+    </div>
+
+    <hr>
+
+    <!-- Amenities Radio Buttons -->
+    <div *ngFor="let option of amenitiesOptions">
+        <label>{{ option.label }}:</label>
+        <label>
+            <input type="radio" [(ngModel)]="amenities[option.key]" [value]="true" [name]="option.key"> Yes
+        </label>
+        <label>
+            <input type="radio" [(ngModel)]="amenities[option.key]" [value]="false" [name]="option.key"> No
+        </label>
+    </div>
+
+    <hr>
+
+    <!-- Form Buttons -->
+    <div>
+        <button type="submit">{{ isEditMode ? 'Update' : 'Add' }} Amenities</button>
+        <button type="button" (click)="resetForm()">Reset</button>
+    </div>
+</form>
+
+<hr>
+
+<h2>All Amenities</h2>
+
+<table tableborder="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Hotel</th>
+            <th *ngFor="let option of amenitiesOptions">{{ option.label }}</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of amenitiesList">
+            <td>{{ item.hotelName }}</td>
+            <td *ngFor="let option of amenitiesOptions">{{ item[option.key] ? 'Yes' : 'No' }}</td>
+            <td>
+                <button (click)="editAmenities(item)">Edit</button>
+                <button (click)="deleteAmenities(item.id)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

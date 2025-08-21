@@ -1,0 +1,126 @@
+/* General Page Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Form Container */
+form {
+    background: #ffffff;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 12px;
+    max-width: 800px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Section Titles */
+h2 {
+    text-align: center;
+    color: #1a73e8;
+    margin-bottom: 15px;
+}
+
+/* Labels & Inputs */
+label {
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 6px;
+}
+
+select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+input[type="radio"] {
+    margin: 0 5px 0 10px;
+    cursor: pointer;
+}
+
+
+
+/* Buttons */
+button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+}
+
+button[type="submit"] {
+    background-color: #1a73e8;
+    color: #fff;
+}
+
+button[type="submit"]:hover {
+    background-color: #0c5dc0;
+}
+
+button[type="button"] {
+    background-color: #f44336;
+    color: #fff;
+}
+
+button[type="button"]:hover {
+    background-color: #c62828;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px auto;
+    max-width: 1000px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+table th {
+    background-color: #1a73e8;
+    color: #fff;
+    font-weight: 600;
+}
+
+table tr:nth-child(even) {
+    background-color: #f5f5f5;
+}
+
+table tr:hover {
+    background-color: #e3f2fd;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    form, table {
+        padding: 15px;
+        font-size: 14px;
+    }
+
+    table th, table td {
+        padding: 8px 10px;
+    }
+
+    button {
+        padding: 8px 12px;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+}

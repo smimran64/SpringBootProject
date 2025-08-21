@@ -5,7 +5,6 @@ import { HotelService } from '../../service/hotel.service';
 import { Router } from '@angular/router';
 import { environments } from '../../../environments/environments';
 import { RoomService } from '../../service/room-service';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-home-componenent',
@@ -55,27 +54,36 @@ export class HomeComponenent {
     });
   }
 
-goToHotelPage(hotelId: number) {
-  this.router.navigate(['/hotel-details/', hotelId]); 
-}
-
-
-
-  placeholder = 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1600&auto=format&fit=crop'; // বা লোকাল প্লেসহোল্ডার
-
-getHotelImage(h: any): string {
-  
-  if (h?.image) {
-   
-    return `${environments.apiUrl}/images/hotels/${h.image}`;
+  // navigate to hotel details
+  viewHotel(hotelId: number) {
+    this.roomService.getRoomsByHotelId(hotelId).subscribe({
+      next: (hotelData) => {
+        this.selectedHotel = hotelData;
+        this.router.navigate(['/hotel-details', hotelId]);
+      },
+      error: (err) => {
+        console.error('Failed to fetch hotel details', err);
+        // Optionally show an error message
+      }
+    });
   }
-  return this.placeholder;
-}
 
-imgFallback(ev: Event) {
-  const target = ev.target as HTMLImageElement;
-  target.src = this.placeholder;
-}
 
-trackById = (_: number, item: any) => item.id;
+  placeholder = 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1600&auto=format&fit=crop';
+
+  getHotelImage(h: any): string {
+
+    if (h?.image) {
+
+      return `${environments.apiUrl}/images/hotels/${h.image}`;
+    }
+    return this.placeholder;
+  }
+
+  imgFallback(ev: Event) {
+    const target = ev.target as HTMLImageElement;
+    target.src = this.placeholder;
+  }
+
+  trackById = (_: number, item: any) => item.id;
 }

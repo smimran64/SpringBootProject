@@ -28,7 +28,7 @@ export class AdminService {
     formData.append('admin', JSON.stringify(admin));
     formData.append('image', image);
 
-    return this.http.post(`${this.baseUrl}/reg`, formData);
+    return this.http.post(this.baseUrl, formData);
   }
 
 
