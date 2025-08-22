@@ -1,27 +1,25 @@
-<div class="container">
-    <h2>All Hotel Amenities</h2>
+<div class="view-amenities-container">
+    <h2>Hotel Amenities</h2>
 
-    <table class="amenities-table">
-        <thead>
-            <tr>
-                <th>Hotel</th>
-                <th *ngFor="let option of amenitiesOptions">{{ option.label }}</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of amenitiesList">
-                <td>{{ item.hotelName }}</td>
-                <td *ngFor="let option of amenitiesOptions">
-                    <span class="badge" [ngClass]="item[option.key] ? 'yes' : 'no'">
-                        {{ item[option.key] ? 'Yes' : 'No' }}
-                    </span>
-                </td>
-                <td>
-                    <button class="edit-btn" (click)="editAmenities(item)">Edit</button>
-                    <button class="delete-btn" (click)="deleteAmenities(item.id)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="cards-container">
+        <div class="amenities-card" *ngFor="let amenity of amenitiesList">
+            <h3>{{ amenity.hotelName }}</h3>
+
+            <div class="amenities-grid">
+                <ng-container *ngFor="let option of amenitiesOptions">
+                    <ng-container *ngIf="amenity[option.key]">
+                        <div class="amenity-item">
+                            <span class="circle active"></span>
+                            <span class="amenity-label-text">{{ option.label }}</span>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+
+            <div class="card-buttons">
+                <button class="btn edit-btn" (click)="editAmenities(amenity)">Edit</button>
+                <button class="btn delete-btn" (click)="deleteAmenities(amenity.id)">Delete</button>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,89 +1,121 @@
-.container {
-    max-width: 100%;
+/* Container */
+.view-amenities-container {
+    max-width: 900px;
+    margin: 30px auto;
     padding: 20px;
-    overflow-x: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin-top: 6%;
 }
 
-h2 {
+.view-amenities-container h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     color: #333;
 }
 
-.amenities-table {
-    width: 100%;
-    border-collapse: collapse;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* Cards Grid */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
 }
 
-.amenities-table th,
-.amenities-table td {
-    border: 1px solid #ddd;
-    padding: 12px;
+/* Single Card */
+.amenities-card {
+    background-color: #f8f9fa;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Hotel Name */
+.amenities-card h3 {
+    margin: 0;
+    color: #0d6efd;
+    font-size: 18px;
     text-align: center;
 }
 
-.amenities-table th {
-    background-color: #007BFF;
-    color: white;
-    position: sticky;
-    top: 0;
+/* Amenities Grid */
+.amenities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    /* max 2 per row */
+    gap: 10px 15px;
+    /* vertical and horizontal gap */
 }
 
-.amenities-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+/* Single Amenity */
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
 }
 
-.badge {
-    padding: 5px 10px;
-    border-radius: 12px;
-    color: white;
-    font-weight: bold;
+/* Circle Indicator */
+.amenity-item .circle {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #0d6efd;
+    display: inline-block;
 }
 
-.badge.yes {
-    background-color: #28a745;
+.amenity-item .circle.active {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
 }
 
-.badge.no {
-    background-color: #dc3545;
+/* Label Text */
+.amenity-label-text {
+    font-size: 14px;
+    color: #555;
 }
 
-.delete-btn {
-    padding: 6px 12px;
-    background-color: #dc3545;
+/* Card Buttons */
+.card-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.btn {
+    padding: 6px 14px;
+    border-radius: 8px;
     border: none;
-    color: white;
-    border-radius: 6px;
     cursor: pointer;
-    transition: 0.3s;
-}
-
-.delete-btn:hover {
-    background-color: #c82333;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-
-    .amenities-table th,
-    .amenities-table td {
-        padding: 8px;
-    }
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
 }
 
 .edit-btn {
-    padding: 6px 12px;
-    background-color: #007BFF;
-    border: none;
+    background-color: #0d6efd;
     color: white;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-right: 5px;
-    transition: 0.3s;
 }
 
 .edit-btn:hover {
-    background-color: #0056b3;
+    background-color: #0b5ed7;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #b02a37;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .amenities-grid {
+        grid-template-columns: 1fr;
+        /* single column on mobile */
+    }
 }

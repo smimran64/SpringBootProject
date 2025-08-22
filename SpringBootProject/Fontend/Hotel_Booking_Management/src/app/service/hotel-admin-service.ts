@@ -11,7 +11,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class HotelAdminService {
 
-  private baseUrl = environments.apiUrl + '/api/hoteladmin/reg';
+  private baseUrl = environments.apiUrl + '/api/hoteladmin';
 
 
   constructor(
@@ -27,7 +27,7 @@ export class HotelAdminService {
     formData.append('hotelAdmin', JSON.stringify(hotelAdmin));
     formData.append('image', image);
 
-    return this.http.post(this.baseUrl, formData);
+    return this.http.post(`${this.baseUrl}/reg`, formData);
   }
 
 
@@ -42,7 +42,7 @@ export class HotelAdminService {
       }
     }
 
-    return this.http.get<HotelAdmin>(`${environments.apiUrl}/api/hotelAdmin/profile`, { headers });
+    return this.http.get<HotelAdmin>(`${this.baseUrl}/profile`, { headers });
   }
 
 

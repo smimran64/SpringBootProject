@@ -1,58 +1,30 @@
-<h2>Add / Edit Amenities</h2>
+<div class="amenities-container">
+    <h2>{{ isEditMode ? 'Edit Amenities' : 'Add Amenities' }}</h2>
 
-<form (ngSubmit)="saveAmenities()">
+    <form (ngSubmit)="saveAmenities()">
+        <!-- Select Hotel -->
+        <div class="form-group">
+            <label for="hotel">Select Hotel</label>
+            <select [(ngModel)]="amenities.hotelId" name="hotelId" required>
+                <option value="" disabled selected>Select a hotel</option>
+                <option *ngFor="let hotel of hotels" [value]="hotel.id">{{ hotel.name }}</option>
+            </select>
+        </div>
 
-    <!-- Hotel Dropdown -->
-    <div>
-        <label for="hotel">Select Hotel:</label>
-        <select id="hotel" [(ngModel)]="amenities.hotelId" name="hotelId" required>
-            <option value="" disabled selected>Select a hotel</option>
-            <option *ngFor="let hotel of hotels" [value]="hotel.id">{{ hotel.name }}</option>
-        </select>
-    </div>
+        <!-- Inline Compact Circle Radio Buttons -->
+        <div class="amenities-inline">
+            <div class="amenity-item" *ngFor="let amenity of amenitiesOptions">
+                <input type="radio" [name]="amenity.key" [value]="true" [(ngModel)]="amenities[amenity.key]"
+                    id="{{amenity.key}}_circle" />
+                <label for="{{amenity.key}}_circle" class="circle"></label>
+                <span class="amenity-label-text">{{ amenity.label }}</span>
+            </div>
+        </div>
 
-    <hr>
-
-    <!-- Amenities Radio Buttons -->
-    <div *ngFor="let option of amenitiesOptions">
-        <label>{{ option.label }}:</label>
-        <label>
-            <input type="radio" [(ngModel)]="amenities[option.key]" [value]="true" [name]="option.key"> Yes
-        </label>
-        <label>
-            <input type="radio" [(ngModel)]="amenities[option.key]" [value]="false" [name]="option.key"> No
-        </label>
-    </div>
-
-    <hr>
-
-    <!-- Form Buttons -->
-    <div>
-        <button type="submit">{{ isEditMode ? 'Update' : 'Add' }} Amenities</button>
-        <button type="button" (click)="resetForm()">Reset</button>
-    </div>
-</form>
-
-<hr>
-
-<h2>All Amenities</h2>
-
-<table tableborder="1" cellpadding="5">
-    <thead>
-        <tr>
-            <th>Hotel</th>
-            <th *ngFor="let option of amenitiesOptions">{{ option.label }}</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let item of amenitiesList">
-            <td>{{ item.hotelName }}</td>
-            <td *ngFor="let option of amenitiesOptions">{{ item[option.key] ? 'Yes' : 'No' }}</td>
-            <td>
-                <button (click)="editAmenities(item)">Edit</button>
-                <button (click)="deleteAmenities(item.id)">Delete</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+        <!-- Buttons -->
+        <div class="button-group">
+            <button type="submit" class="btn save-btn">{{ isEditMode ? 'Update' : 'Save' }}</button>
+            <button type="button" class="btn reset-btn" (click)="resetForm()">Reset</button>
+        </div>
+    </form>
+</div>

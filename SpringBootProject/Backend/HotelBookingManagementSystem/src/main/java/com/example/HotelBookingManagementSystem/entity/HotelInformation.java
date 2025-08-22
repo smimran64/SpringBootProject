@@ -11,7 +11,7 @@ public class HotelInformation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(name = "owner_info", nullable = false)
     private String ownerSpeach;
 
     @Column(length = 1000)

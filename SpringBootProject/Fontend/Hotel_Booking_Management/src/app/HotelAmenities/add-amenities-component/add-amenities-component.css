@@ -1,126 +1,126 @@
-/* General Page Styling */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f5f7fa;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-
-/* Form Container */
-form {
-    background: #ffffff;
+/* Container */
+.amenities-container {
+    max-width: 750px;
+    margin: 30px auto;
     padding: 20px;
-    margin: 20px auto;
+    background-color: #f8f9fa;
     border-radius: 12px;
-    max-width: 800px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 5%;
 }
 
-/* Section Titles */
-h2 {
+/* Heading */
+.amenities-container h2 {
     text-align: center;
-    color: #1a73e8;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    color: #333;
 }
 
-/* Labels & Inputs */
-label {
-    font-weight: 600;
-    display: inline-block;
-    margin-bottom: 6px;
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
 }
 
+/* Select */
 select {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
     width: 100%;
-    margin-bottom: 15px;
-    font-size: 14px;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fff;
 }
 
-input[type="radio"] {
-    margin: 0 5px 0 10px;
+/* Inline Amenities */
+.amenities-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: calc(50% - 10px);
+    /* 2 per row, adjust for gap */
+}
+
+/* Circle Radio Button */
+.amenity-item input[type="radio"] {
+    display: none;
+}
+
+.amenity-item .circle {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #0d6efd;
+    border-radius: 50%;
     cursor: pointer;
+    position: relative;
 }
 
+.amenity-item input[type="radio"]:checked+.circle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
 
+/* Label Text */
+.amenity-label-text {
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+}
 
 /* Buttons */
-button {
-    padding: 10px 18px;
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 8px 18px;
     border-radius: 8px;
     border: none;
     cursor: pointer;
+    font-size: 15px;
     font-weight: 600;
-    transition: all 0.3s ease;
-    margin-right: 10px;
+    transition: all 0.2s ease-in-out;
 }
 
-button[type="submit"] {
-    background-color: #1a73e8;
-    color: #fff;
+.save-btn {
+    background-color: #0d6efd;
+    color: white;
 }
 
-button[type="submit"]:hover {
-    background-color: #0c5dc0;
+.save-btn:hover {
+    background-color: #0b5ed7;
 }
 
-button[type="button"] {
-    background-color: #f44336;
-    color: #fff;
+.reset-btn {
+    background-color: #6c757d;
+    color: white;
 }
 
-button[type="button"]:hover {
-    background-color: #c62828;
-}
-
-/* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px auto;
-    max-width: 1000px;
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-table th, table td {
-    padding: 12px 15px;
-    text-align: center;
-}
-
-table th {
-    background-color: #1a73e8;
-    color: #fff;
-    font-weight: 600;
-}
-
-table tr:nth-child(even) {
-    background-color: #f5f5f5;
-}
-
-table tr:hover {
-    background-color: #e3f2fd;
+.reset-btn:hover {
+    background-color: #5c636a;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-    form, table {
-        padding: 15px;
-        font-size: 14px;
-    }
-
-    table th, table td {
-        padding: 8px 10px;
-    }
-
-    button {
-        padding: 8px 12px;
-        font-size: 14px;
-        margin-bottom: 8px;
+@media (max-width: 600px) {
+    .amenity-item {
+        width: 100%;
+        /* Single column on mobile */
     }
 }

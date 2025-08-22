@@ -30,7 +30,7 @@ export class Customerservice {
     formData.append('customer', JSON.stringify(customer));
     formData.append('image', image);
 
-    return this.http.post(this.baseUrl, formData);
+    return this.http.post(`${this.baseUrl}/reg`, formData);
   }
 
   getProfile(): Observable<Customer> {
@@ -44,7 +44,7 @@ export class Customerservice {
       }
     }
 
-    return this.http.get<Customer>(`${environments.apiUrl}/api/customer/profile`, { headers });
+    return this.http.get<Customer>(`${this.baseUrl}/profile`, { headers });
   }
   
 }

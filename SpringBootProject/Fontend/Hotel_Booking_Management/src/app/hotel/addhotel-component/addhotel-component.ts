@@ -24,7 +24,8 @@ export class AddhotelComponent implements OnInit {
     private fb: FormBuilder,
     private hotelService: HotelService,
     private locationService: LocationService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -40,8 +41,13 @@ export class AddhotelComponent implements OnInit {
 
   loadLocations(): void {
     this.locationService.getAllLocations().subscribe({
-      next: (res) => this.locations = res,
-      error: (err) => console.error('Error loading locations', err)
+      next: (res) => {
+        this.locations = res;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Error loading locations', err)
+      }
     });
   }
 
