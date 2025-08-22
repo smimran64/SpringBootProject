@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { HotelAmenities } from '../../model/hotelAmenities.model';
 import { HotelAmenitiesService } from '../../service/hotel-amenities.service';
 
@@ -28,17 +28,27 @@ export class ViewAmenitiesComponent implements OnInit {
     { key: 'breakFast', label: 'Break Fast' }
   ];
 
-  constructor(private amenitiesService: HotelAmenitiesService) { }
+  constructor(
+    private amenitiesService: HotelAmenitiesService,
+    private cdr: ChangeDetectorRef
+  
+  ) { }
 
   ngOnInit(): void {
     this.loadAllAmenities();
   }
 
-  loadAllAmenities(): void {
-    this.amenitiesService.getAllAmenities().subscribe(
-      data => this.amenitiesList = data,
-      err => console.error(err)
-    );
+  
+  loadAllAmenities():void{
+    this.amenitiesService.getAllAmenities().subscribe({
+      next:(data)=>{
+        this.amenitiesList = data;
+        this.cdr.markForCheck();
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    })
   }
 
   deleteAmenities(id: number): void {
@@ -56,6 +66,6 @@ export class ViewAmenitiesComponent implements OnInit {
   editAmenities(item: HotelAmenities): void {
     // Redirect to Add/Edit Amenities page with id or open modal
     // For simplicity, we redirect to AddAmenitiesComponent
-    window.location.href = `/add-amenities/${item.id}`;
+    window.location.href = `/addamenities/${item.id}`;
   }
 }

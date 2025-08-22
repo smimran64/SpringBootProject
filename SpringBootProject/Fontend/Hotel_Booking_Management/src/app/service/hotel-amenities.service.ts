@@ -15,8 +15,9 @@ export class HotelAmenitiesService {
   constructor(private http: HttpClient) { }
 
   // Helper method: create headers with JWT token
+
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken'); // token localStorage থেকে নাও
+    const token = localStorage.getItem('authToken'); 
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
@@ -47,13 +48,13 @@ export class HotelAmenitiesService {
     return this.http.get<HotelAmenities>(`${this.baseUrl}/hotel/${hotelId}`, { headers: this.getAuthHeaders() });
   }
 
-                         //Update amenities
+                         // Update amenities
 
   updateAmenities(id: number, dto: HotelAmenities): Observable<HotelAmenities> {
     return this.http.put<HotelAmenities>(`${this.baseUrl}/edit/${id}`, dto, { headers: this.getAuthHeaders() });
   }
 
-                //Delete amenities
+                // Delete amenities
 
   deleteAmenities(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`, { headers: this.getAuthHeaders() });

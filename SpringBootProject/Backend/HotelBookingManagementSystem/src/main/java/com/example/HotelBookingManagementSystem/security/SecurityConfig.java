@@ -39,8 +39,8 @@ public class SecurityConfig {
                         .requestMatchers("/images/**","/api/customer/**","/api/customer/","/api/hotelAdmin/**","/api/hotel/all","/api/login","/api/room/all"
                                 ,"/api/active/**","/api/user/active/**","/api/hotel/searchByHotelAdminId","/api/admin/reg",
                                 "/api/location/delete/**", "/api/hoteladmin/reg","/api/admin/reg", "/api/hoteladmin/profile","/api/admin/profile","/api/hotel/search","/api/hotel/{id}/rooms",
-                                "/api/hotel/{id}","/api/location/all").permitAll()
-                        .requestMatchers("/api/hotel/save","/api/room/save","/api/hotel/myHotels","/api/room/hotel/{hotelId}","/api/amenities/save","/api/amenities/all","/api/hotel/information/save").hasRole("HOTEL_ADMIN")
+                                "/api/hotel/{id}","/api/location/all","/api/amenities/all","/api/hotel/information/save").permitAll()
+                        .requestMatchers("/api/hotel/save","/api/room/save","/api/hotel/myHotels","/api/room/hotel/{hotelId}","/api/amenities/save").hasRole("HOTEL_ADMIN")
 
                         .requestMatchers("/api/location/save").hasRole("ADMIN")
 
