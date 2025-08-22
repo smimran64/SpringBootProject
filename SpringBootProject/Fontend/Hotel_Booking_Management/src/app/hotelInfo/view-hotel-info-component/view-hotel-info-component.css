@@ -1,0 +1,102 @@
+.hotel-info-container {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 5%;
+}
+
+.hotel-info-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #0b1020;
+    font-size: 2.2rem;
+    text-shadow: 1px 1px #ffd700;
+}
+
+.hotel-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.hotel-info-card {
+    background: linear-gradient(145deg, #c78509, #987bc7);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hotel-info-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.hotel-header h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    color: #0b1020;
+}
+
+.hotel-body p {
+    margin: 8px 0;
+    color: #333;
+    line-height: 1.4;
+}
+
+.hotel-footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn {
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #0b1020;
+    color: #fff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #1a2a40;
+    transform: scale(1.05);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid #e90b28;
+    color: #ec0c1e;
+}
+
+.btn-outline:hover {
+    background-color: #0b1020;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.loading,
+.error,
+.no-info {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.1rem;
+}
+
+.no-info {
+    color: #555;
+}
+
+.error {
+    color: red;
+}

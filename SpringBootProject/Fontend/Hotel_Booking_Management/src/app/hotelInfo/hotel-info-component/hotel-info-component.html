@@ -1,0 +1,30 @@
+<form [formGroup]="hotelInfoForm" (ngSubmit)="selectedHotelInfo ? updateHotelInfo() : saveHotelInfo()"
+    class="hotel-info-form">
+
+    <h2>{{ selectedHotelInfo ? 'Edit' : 'Add' }} Hotel Information</h2>
+
+    <div class="form-group">
+        <label for="hotel">Select Hotel</label>
+        <select id="hotel" formControlName="hotelId">
+            <option value="0">-- Select Hotel --</option>
+            <option *ngFor="let hotel of hotels" [value]="hotel.id">{{ hotel.name }}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="ownerSpeach">Owner Speech</label>
+        <input id="ownerSpeach" type="text" formControlName="ownerSpeach" placeholder="Enter owner speech">
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" placeholder="Enter hotel description"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="hotelPolicy">Hotel Policy</label>
+        <textarea id="hotelPolicy" formControlName="hotelPolicy" placeholder="Enter hotel policy"></textarea>
+    </div>
+
+    <button type="submit" class="btn-submit">{{ selectedHotelInfo ? 'Update' : 'Save' }}</button>
+</form>

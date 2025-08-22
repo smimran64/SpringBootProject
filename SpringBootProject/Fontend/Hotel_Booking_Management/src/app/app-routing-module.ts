@@ -20,6 +20,8 @@ import { AboutHotel } from './layout/about-hotel/about-hotel';
 import { Logout } from './auth/logout/logout';
 import { AddAmenitiesComponent } from './HotelAmenities/add-amenities-component/add-amenities-component';
 import { ViewAmenitiesComponent } from './HotelAmenities/view-amenities-component/view-amenities-component';
+import { HotelInfoComponent } from './hotelInfo/hotel-info-component/hotel-info-component';
+import { ViewHotelInfoComponent } from './hotelInfo/view-hotel-info-component/view-hotel-info-component';
 
 const routes: Routes = [
   {path: 'addlocation', component: AddlocationComponent},
@@ -42,6 +44,8 @@ const routes: Routes = [
   {path: 'logout', component: Logout},
   {path: 'addamenities', component: AddAmenitiesComponent},
   {path: 'viewamenities', component: ViewAmenitiesComponent},
+  {path: 'addhotelinfo', component: HotelInfoComponent},
+  {path: 'viewhotelinfo', component: ViewHotelInfoComponent},
 
 ];
 

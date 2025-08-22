@@ -21,22 +21,34 @@ export class HotelService {
     if (isPlatformBrowser(this.platformId)) {
       return localStorage.getItem('authToken') || '';
     }
-    return '';
+    return ''; // SSR বা Node context এ empty token
   }
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken') || '';
+    const token = this.getToken();
+    console.log('TOKEN', token); 
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
   }
 
+
   // Get logged-in admin hotels
+
   getMyHotels(): Observable<Hotel[]> {
-    this.getToken();
-    const headers = this.getAuthHeaders(); // আগে tumi getAuthHeaders method বানিয়েছো
+    const headers = this.getAuthHeaders();
     return this.http.get<Hotel[]>(`${this.baseUrl}/myHotels`, { headers });
   }
+
+
+  // Fetch only hotels of logged-in HOTEL_ADMIN
+
+  // getHotelsForhotelAdmin(): Observable<Hotel[]> {
+  //   const headers = this.getAuthHeaders();
+  //   return this.http.get<Hotel[]>(`${this.baseUrl}/forhotelAdmin`, { headers })
+  //     .pipe(catchError(this.handleError));
+  // }
+
 
 
 
@@ -46,10 +58,7 @@ export class HotelService {
     );
   }
 
-  // private handleError(error: any) {
-  //   console.error('HotelService Error:', error);
-  //   return throwError(() => error);
-  // }
+
 
   // Save hotel with optional image
   saveHotel(hotel: Hotel, imageFile?: File): Observable<any> {
@@ -60,12 +69,12 @@ export class HotelService {
       formData.append('image', imageFile);
     }
 
-    const token = localStorage.getItem('authToken') || '';
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    const headers = this.getAuthHeaders();
 
     return this.http.post(`${this.baseUrl}/save`, formData, { headers })
       .pipe(catchError(err => throwError(() => err)));
   }
+
 
   // Update hotel with optional image
   updateHotel(id: number, hotel: Hotel, image?: File): Observable<any> {
@@ -111,7 +120,7 @@ export class HotelService {
   }
 
   // Get hotel details by ID
-  // Fetch hotel details by ID
+
   getHotelById(hotelId: number): Observable<Hotel> {
     return this.http.get<Hotel>(`${this.baseUrl}/${hotelId}`, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));

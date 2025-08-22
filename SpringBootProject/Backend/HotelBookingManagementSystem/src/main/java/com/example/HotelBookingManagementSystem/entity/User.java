@@ -29,6 +29,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Token> tokens;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private HotelAdmin hotelAdmins;
+
+
+
     @Column(nullable = false)
     private boolean active;
     private boolean isLock;
@@ -36,7 +41,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(int id, String name, String email, String password, String phone, String image, Role role, List<Token> tokens, boolean active, boolean isLock) {
+    public User(int id, String name, String email, String password, String phone, String image, Role role, List<Token> tokens, HotelAdmin hotelAdmins, boolean active, boolean isLock) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -45,10 +50,10 @@ public class User implements UserDetails {
         this.image = image;
         this.role = role;
         this.tokens = tokens;
+        this.hotelAdmins = hotelAdmins;
         this.active = active;
         this.isLock = isLock;
     }
-
 
     public int getId() {
         return id;
@@ -110,6 +115,14 @@ public class User implements UserDetails {
         this.tokens = tokens;
     }
 
+    public HotelAdmin getHotelAdmins() {
+        return hotelAdmins;
+    }
+
+    public void setHotelAdmins(HotelAdmin hotelAdmins) {
+        this.hotelAdmins = hotelAdmins;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -128,7 +141,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_"+ role.name()));
     }
 
     @Override

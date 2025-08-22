@@ -1,10 +1,7 @@
 package com.example.HotelBookingManagementSystem.restcontroller;
 
 import com.example.HotelBookingManagementSystem.dto.HotelDTO;
-import com.example.HotelBookingManagementSystem.entity.Hotel;
-import com.example.HotelBookingManagementSystem.entity.HotelAdmin;
-import com.example.HotelBookingManagementSystem.entity.Location;
-import com.example.HotelBookingManagementSystem.entity.Room;
+import com.example.HotelBookingManagementSystem.entity.*;
 import com.example.HotelBookingManagementSystem.repository.HotelAdminRepository;
 import com.example.HotelBookingManagementSystem.repository.HotelRepository;
 import com.example.HotelBookingManagementSystem.repository.LocationRepository;
@@ -19,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -40,6 +38,9 @@ public class HotelRestController {
 
     @Autowired
     private LocationRepository locationRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     @GetMapping("/all")
@@ -121,6 +122,10 @@ public class HotelRestController {
     }
 
 
+
+
+
+
     @GetMapping("/h/searchhotelname")
     public ResponseEntity<Hotel> findHotelByName(@RequestParam(value = "name") String name) {
 
@@ -129,7 +134,7 @@ public class HotelRestController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteHotel(@PathVariable int id) {
+    public ResponseEntity<String> deleteHotel(@PathVariable long id) {
         try {
             hotelService.deleteHotel(id);
             return ResponseEntity.ok("Hotel deleted successfully");
@@ -141,7 +146,7 @@ public class HotelRestController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Hotel> updateHotel(
-            @PathVariable int id,
+            @PathVariable long id,
             @RequestPart Hotel hotel,
             @RequestParam(value = "image", required = true) MultipartFile file
     )

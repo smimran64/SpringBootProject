@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { HotelAmenities } from '../model/hotelAmenities.model';
 import { Observable } from 'rxjs';
 import { environments } from '../../environments/environments';
@@ -12,7 +12,12 @@ export class HotelAmenitiesService {
 
   private baseUrl = environments.apiUrl+'/api/amenities';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+     @Inject(PLATFORM_ID) private platformId: Object
+  
+  
+  ) { }
 
   // Helper method: create headers with JWT token
 

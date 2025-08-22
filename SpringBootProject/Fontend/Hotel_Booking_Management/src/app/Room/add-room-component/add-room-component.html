@@ -40,8 +40,10 @@
         <div class="form-group">
           <label><i class="fas fa-hotel"></i> Hotel</label>
           <select formControlName="hotelId">
-            <option value="">Select hotel</option>
-            <option *ngFor="let hotel of hotels" [value]="hotel.id">{{ hotel.name }}</option>
+            <option value="" disabled>Select Hotel</option>
+            <option *ngFor="let hotel of hotels" [value]="hotel.id">
+              {{ hotel.name }}
+            </option>
           </select>
         </div>
       </div>

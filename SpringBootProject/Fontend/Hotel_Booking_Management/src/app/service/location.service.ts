@@ -16,15 +16,18 @@ export class LocationService {
      @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
-  // ✅ Helper method to get JWT headers
+          // Helper method to get JWT headers
+
+
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken'); // তুমি যেখানে save করেছো
+    const token = localStorage.getItem('authToken'); 
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
   }
 
-  // ✅ Create location
+                // Create location
+
   createLocation(location: Location, image: File) {
     const formData = new FormData();
     formData.append('location', new Blob([JSON.stringify(location)], { type: 'application/json' }));
@@ -36,7 +39,8 @@ export class LocationService {
     });
   }
 
-  // ✅ Update location with image
+              // Update location with image
+
   updateLocation(id: number, location: Location, image?: File) {
     const formData = new FormData();
     formData.append('location', new Blob([JSON.stringify(location)], { type: 'application/json' }));
@@ -51,7 +55,8 @@ export class LocationService {
     });
   }
 
-  // ✅ Delete location by id
+        // Delete location by id
+
   deleteLocation(id: number) {
     return this.http.delete(this.baseUrl + `/delete/${id}`, {
       headers: this.getAuthHeaders(),
@@ -59,7 +64,8 @@ export class LocationService {
     });
   }
 
-  // ✅ Get all locations
+          // Get all locations
+
   getAllLocations(): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl + '/all', {
       headers: this.getAuthHeaders()

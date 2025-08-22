@@ -1,0 +1,27 @@
+<div class="hotel-info-container">
+    <h2>Our Hotels</h2>
+
+    <div *ngIf="loading" class="loading">Loading hotel information...</div>
+    <div *ngIf="message" class="error">{{ message }}</div>
+
+    <div class="hotel-info-grid" *ngIf="!loading && hotelInfos.length">
+        <div class="hotel-info-card" *ngFor="let info of hotelInfos">
+            <div class="hotel-header">
+                <h3>{{ info.hotelName }}</h3>
+            </div>
+            <div class="hotel-body">
+                <p><strong>Owner Speech:</strong> {{ info.ownerSpeach }}</p>
+                <p><strong>Description:</strong> {{ info.description }}</p>
+                <p><strong>Hotel Policy:</strong> {{ info.hotelPolicy }}</p>
+            </div>
+            <div class="hotel-footer">
+                <button class="btn btn-primary">Edit</button>
+                <button class="btn btn-outline" (click)="deleteHotelInfo(info.id)"> Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="!loading && hotelInfos.length === 0" class="no-info">
+        No hotel information available yet.
+    </div>
+</div>

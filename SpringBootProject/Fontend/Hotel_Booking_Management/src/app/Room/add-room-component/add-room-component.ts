@@ -42,21 +42,23 @@ export class AddRoomComponent implements OnInit {
     this.loadHotels();
   }
 
-  private loadHotels(): void {
-    this.loading = true;
-    this.hotelService.getMyHotels().subscribe({
-      next: (data: Hotel[]) => {
-        this.hotels = data;
-        this.loading = false;
-        this.cdr.markForCheck();
-      },
-      error: (err) => {
-        console.error('Hotel loading error', err);
-        this.message = 'Failed to load hotels';
-        this.loading = false;
-      }
-    });
-  }
+ private loadHotels(): void {
+  this.loading = true;
+
+  this.hotelService.getMyHotels().subscribe({
+    next: (data: Hotel[]) => {
+      this.hotels = data;
+      this.loading = false;
+      this.cdr.markForCheck();
+    },
+    error: (err) => {
+      console.error('Hotel loading error', err);
+      this.message = 'Failed to load hotels';
+      this.loading = false;
+    }
+  });
+}
+
 
     onFileSelected(event: any): void {
     if (event.target.files && event.target.files.length > 0) {
