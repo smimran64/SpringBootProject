@@ -59,7 +59,8 @@ public class SecurityConfig {
                                 "/api/location/all",
                                 "/api/amenities/all",
                                 "/api/hotel/information/save",
-                                "/api/room/hotel/{hotelId}").permitAll()
+                                "/api/room/hotel/{hotelId}",
+                                "/api/booking/save").permitAll()
 
                         .requestMatchers("/api/hotel/save",
                                 "/api/room/save",

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "bookings")
 public class Booking {
@@ -12,8 +14,8 @@ public class Booking {
     private Long id;
     private String contractPersonName;
     private String phone;
-    private String checkIn;
-    private String checkOut;
+    private Date checkIn;
+    private Date checkOut;
     private double advanceAmount;
     private double totalAmount;
     private double dueAmount;
@@ -36,7 +38,7 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(Long id, String contractPersonName, String phone, String checkIn, String checkOut, double advanceAmount, double totalAmount, double dueAmount, int numberOfRooms, Customer customer, Hotel hotel, Room room) {
+    public Booking(Long id, String contractPersonName, String phone, Date checkIn, Date checkOut, double advanceAmount, double totalAmount, double dueAmount, int numberOfRooms, Customer customer, Hotel hotel, Room room) {
         this.id = id;
         this.contractPersonName = contractPersonName;
         this.phone = phone;
@@ -75,19 +77,19 @@ public class Booking {
         this.phone = phone;
     }
 
-    public String getCheckIn() {
+    public Date getCheckIn() {
         return checkIn;
     }
 
-    public void setCheckIn(String checkIn) {
+    public void setCheckIn(Date checkIn) {
         this.checkIn = checkIn;
     }
 
-    public String getCheckOut() {
+    public Date getCheckOut() {
         return checkOut;
     }
 
-    public void setCheckOut(String checkOut) {
+    public void setCheckOut(Date checkOut) {
         this.checkOut = checkOut;
     }
 
