@@ -1,30 +1,36 @@
-<div class="hotel-details-container" *ngIf="!loading && hotel">
-    <!-- Hotel Info -->
-    <div class="hotel-info card mb-4">
-        <img [src]="'/assets/images/hotels/' + hotel.image" alt="{{hotel.name}}" class="hotel-image">
-        <div class="hotel-text">
-            <h2>{{ hotel.name }}</h2>
-            <p class="address">{{ hotel.address }}</p>
-            <p class="rating">Rating: {{ hotel.rating }} ⭐</p>
-           
-        </div>
-    </div>
+<div *ngIf="!loading && hotel; else loadingOrEmpty">
 
-    <!-- Rooms -->
-    <h3 class="mb-3">Available Rooms</h3>
-    <div *ngIf="rooms.length > 0; else noRooms">
-        <div class="room-card" *ngFor="let room of rooms">
-            <h5>{{ room.roomType }}</h5>
-            <p>Price: ${{ room.price }}/night</p>
-            <p>Available: {{ room.availableRooms }} / {{ room.totalRooms }}</p>
-           
-        </div>
+  <!-- Hotel Info -->
+  <div class="hotel-info card mb-4 shadow-sm">
+    <img [src]="'http://localhost:8082/images/hotels/' + hotel.image" 
+         alt="{{ hotel.name }}" 
+         class="hotel-image img-fluid rounded-top">
+    <div class="hotel-text p-3">
+      <h2>{{ hotel.name }}</h2>
+      <p class="address">{{ hotel.address }}</p>
+      <p class="rating">Rating: {{ hotel.rating }} ⭐</p>
     </div>
-    <ng-template #noRooms>
-        <p class="text-muted">No rooms available for this hotel.</p>
-    </ng-template>
+  </div>
+
+  <!-- Rooms -->
+  <h3 class="mb-3">Available Rooms</h3>
+  <div *ngIf="rooms.length > 0; else noRooms" class="row g-3">
+    <div class="col-md-4" *ngFor="let room of rooms">
+      <div class="room-card card h-100 shadow-sm p-3">
+        <h5 class="card-title">{{ room.roomType }}</h5>
+        <p class="card-text">Price: ${{ room.price }}/night</p>
+        <p class="card-text">Available: {{ room.availableRooms }} / {{ room.totalRooms }}</p>
+        <button class="btn btn-primary mt-2" (click)="bookRoom(room)">Book Now</button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noRooms>
+    <p class="text-muted">No rooms available for this hotel.</p>
+  </ng-template>
 </div>
 
-<div *ngIf="loading">
-    <p>Loading hotel details...</p>
-</div>
+<ng-template #loadingOrEmpty>
+  <p *ngIf="loading">Loading hotel and rooms...</p>
+  <p *ngIf="!loading && errorMessage" class="text-danger">{{ errorMessage }}</p>
+</ng-template>

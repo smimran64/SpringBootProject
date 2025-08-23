@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Hotel } from '../../model/hotel.model';
-import { Room } from '../../model/room.model';
 import { RoomService } from '../../service/room-service';
 import { HotelService } from '../../service/hotel.service';
+import { Hotel } from '../../model/hotel.model';
+import { ActivatedRoute, Route } from '@angular/router';
 
 @Component({
   selector: 'app-view-room-component',
@@ -15,8 +15,9 @@ export class ViewRoomComponent implements OnInit {
 
   rooms: any[] = [];
   filteredRooms: any[] = [];
-  hotels: any[] = [];
-  selectedHotelId?: number;
+  hotels: Hotel[] = [];
+  selectedHotelId!: number;
+
 
   loading: boolean = false;
   errorMessage: string = '';
@@ -24,49 +25,95 @@ export class ViewRoomComponent implements OnInit {
   constructor(
     private roomService: RoomService,
     private hotelService: HotelService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {    
+
+    const hotelId = Number(this.route.snapshot.paramMap.get('hotelId'));
+    this.selectedHotelId = hotelId;
     this.loadHotels();
-    this.loadRooms();
+    this.loadRooms(hotelId);
   }
 
-  loadHotels() {
-    this.hotelService.getAllHotels().subscribe({
-      next: (data) => this.hotels = data,
-      error: (err) => console.error('Hotel loading error', err)
-    });
-  }
-
-  loadRooms() {
+  private loadHotels(): void {
     this.loading = true;
-    this.roomService.getAllRooms().subscribe({
-      next: (data) => {
-        this.rooms = data;
-        this.filterRooms();  // ensure filter on load
+
+    this.hotelService.getMyHotels().subscribe({
+      next: (data: Hotel[]) => {
+        this.hotels = data;
         this.loading = false;
         this.cdr.markForCheck();
       },
-      error: () => {
+      error: (err) => {
+        console.error('Hotel loading error', err);
+        this.errorMessage = 'Failed to load hotels';
+        this.loading = false;
+      }
+    });
+  }
+
+  loadRooms(hotelId: number): void {
+    this.loading = true;
+    this.roomService.getRoomsByHotelId(hotelId).subscribe({
+      next: (data) => {
+        this.rooms = data;
+         this.filterRooms(hotelId); //  Add this line
+        this.loading = false;
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.log(err);
         this.errorMessage = 'Failed to load rooms';
         this.loading = false;
       }
     });
   }
 
-  onHotelChange() {
-    this.filterRooms();
-  }
-
-  filterRooms() {
-    if (this.selectedHotelId != null) {
-      const selectedId = Number(this.selectedHotelId); // ensure number
-      this.filteredRooms = this.rooms.filter(r => Number(r.hotelDTO?.id) === selectedId);
+  onHotelChange(hotelId: number): void {
+    if (hotelId) {
+      this.loadRooms(hotelId);
     } else {
-      this.filteredRooms = this.rooms;
+      this.filteredRooms = [];
     }
   }
+
+  filterRooms(hotelId: number): void {
+    this.filteredRooms = this.rooms.filter(
+      r => Number(r.hotelDTO?.id) === hotelId
+      
+    );
+  }
+
+  // loadRooms() {
+  //   this.loading = true;
+  //   this.roomService.getAllRooms().subscribe({
+  //     next: (data) => {
+  //       this.rooms = data;
+  //       this.filterRooms();  // ensure filter on load
+  //       this.loading = false;
+  //       this.cdr.markForCheck();
+  //     },
+  //     error: () => {
+  //       this.errorMessage = 'Failed to load rooms';
+  //       this.loading = false;
+  //     }
+  //   });
+  // }
+
+  // onHotelChange() {
+  //   this.filterRooms();
+  // }
+
+  // filterRooms() {
+  //   if (this.selectedHotelId != null) {
+  //     const selectedId = Number(this.selectedHotelId); // ensure number
+  //     this.filteredRooms = this.rooms.filter(r => Number(r.hotelDTO?.id) === selectedId);
+  //   } else {
+  //     this.filteredRooms = this.rooms;
+  //   }
+  // }
 
 }
 

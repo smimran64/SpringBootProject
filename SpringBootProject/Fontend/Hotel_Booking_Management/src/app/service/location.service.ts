@@ -3,6 +3,7 @@ import { environments } from '../../environments/environments';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Location } from '../model/location.model';
 import { Observable } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -13,20 +14,27 @@ export class LocationService {
 
   constructor(
     private http: HttpClient,
-     @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
-          // Helper method to get JWT headers
+  // Helper method to get JWT headers
+
+  private getToken(): string {
+    if (isPlatformBrowser(this.platformId)) {
+      return localStorage.getItem('authToken') || '';
+    }
+    return ''; // SSR বা Node context এ empty token
+  }
 
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken'); 
+    const token = localStorage.getItem('authToken');
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
   }
 
-                // Create location
+  // Create location
 
   createLocation(location: Location, image: File) {
     const formData = new FormData();
@@ -39,7 +47,7 @@ export class LocationService {
     });
   }
 
-              // Update location with image
+  // Update location with image
 
   updateLocation(id: number, location: Location, image?: File) {
     const formData = new FormData();
@@ -55,7 +63,7 @@ export class LocationService {
     });
   }
 
-        // Delete location by id
+  // Delete location by id
 
   deleteLocation(id: number) {
     return this.http.delete(this.baseUrl + `/delete/${id}`, {
@@ -64,12 +72,15 @@ export class LocationService {
     });
   }
 
-          // Get all locations
+  // Get all locations
 
-  getAllLocations(): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + '/all', {
-      headers: this.getAuthHeaders()
-    });
+  getAllLocations(): Observable<any[]> { 
+
+      return this.http.get<any[]>(this.baseUrl + '/all', {
+        headers: this.getAuthHeaders()
+      });
+
+    
   }
 
 }

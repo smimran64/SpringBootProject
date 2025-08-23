@@ -60,6 +60,7 @@ export class AboutHotel implements OnInit {
       next: (hotelData) => {
         this.selectedHotel = hotelData;
         this.router.navigate(['/hotel-details', hotelId]);
+        
       },
       error: (err) => {
         console.error('Failed to fetch hotel details', err);

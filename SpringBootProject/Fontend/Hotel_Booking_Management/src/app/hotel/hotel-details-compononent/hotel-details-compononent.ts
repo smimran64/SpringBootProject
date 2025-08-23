@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Hotel } from '../../model/hotel.model';
-import { Room } from '../../model/room.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, RouteConfigLoadEnd, Router } from '@angular/router';
 import { HotelService } from '../../service/hotel.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-hotel-details-compononent',
@@ -19,40 +19,52 @@ export class HotelDetailsCompononent implements OnInit {
 
   constructor(
     private hotelService: HotelService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
-    const hotelId = Number(this.route.snapshot.paramMap.get('id'));
+  this.route.paramMap.subscribe(params => {
+    const hotelId = Number(params.get('id'));
     if (hotelId) {
-      this.loadHotelDetails(hotelId);
+      this.loadHotelWithRooms(hotelId);
+     
     }
-  }
+  });
+}
 
-  loadHotelDetails(hotelId: number) {
+  loadHotelWithRooms(hotelId: number) {
     this.loading = true;
-    this.hotelService.getHotelById(hotelId).subscribe({
-      next: (data) => {
-        this.hotel = data;
-        this.loadRooms(hotelId);
+    this.hotel = null;
+    this.rooms = [];
+
+    forkJoin({
+      hotel: this.hotelService.getHotelById(hotelId),
+      rooms: this.hotelService.getRoomsByHotel(hotelId)
+    }).subscribe({
+      next: ({ hotel, rooms }) => {
+        this.hotel = hotel;
+        this.rooms = rooms;
+        this.cd.markForCheck();
         this.loading = false;
+        
       },
       error: (err) => {
-        console.error('Error fetching hotel:', err);
         this.errorMessage = err.message;
         this.loading = false;
       }
     });
   }
 
-  loadRooms(hotelId: number) {
-    this.hotelService.getRoomsByHotel(hotelId).subscribe({
-      next: (data) => {
-        this.rooms = data;
-      },
-      error: (err) => {
-        console.error('Error fetching rooms:', err);
+  bookRoom(room: any) {
+    this.router.navigate(['/booking'], {
+      queryParams: {
+        hotelId: this.hotel?.id,
+        roomType: room.roomType,
+        price: room.price
       }
     });
   }
+
 }

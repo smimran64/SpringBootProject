@@ -234,9 +234,14 @@ public class HotelService {
             Files.createDirectories(uploadPath);
         }
 
-        String fileName = hotel.getName() + "_" + UUID.randomUUID();
+        String employerName = hotel.getName();
+        String fileName = employerName.trim().replaceAll("\\s+", "_");
 
-        Path filePath = uploadPath.resolve(fileName);
+        String savedFileName = fileName + "_" + UUID.randomUUID().toString();
+
+
+
+        Path filePath = uploadPath.resolve(savedFileName);
 
         Files.copy(file.getInputStream(), filePath);
 

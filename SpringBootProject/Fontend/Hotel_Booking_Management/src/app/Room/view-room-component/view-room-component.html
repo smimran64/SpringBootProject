@@ -1,27 +1,35 @@
 <div class="container">
-    <div class="filter">
-        <label for="hotelFilter">Filter by Hotel:</label>
-        <select id="hotelFilter" [(ngModel)]="selectedHotelId" (change)="onHotelChange()">
-            <option [ngValue]="undefined">All Hotels</option>
-            <option *ngFor="let hotel of hotels" [ngValue]="hotel.id">{{ hotel.name }}</option>
-        </select>
-    </div>
+  <div class="filter mb-3">
+    <label for="hotelFilter"><strong>Filter by Hotel:</strong></label>
+    <select id="hotelFilter" class="form-control" [(ngModel)]="selectedHotelId" (change)="onHotelChange(selectedHotelId)">
+      <option [ngValue]="undefined">All Hotels</option>
+      <option *ngFor="let hotel of hotels" [ngValue]="hotel.id">{{ hotel.name }}</option>
+    </select>
+  </div>
 
-    <div *ngIf="loading" class="loading">Loading rooms...</div>
-    <div *ngIf="errorMessage">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="alert alert-info">Loading rooms...</div>
+  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
 
-    <div class="room-container" *ngIf="!loading && filteredRooms.length > 0">
-        <div class="room-card" *ngFor="let room of filteredRooms">
-            <img [src]="'http://localhost:8082/images/rooms/' + room.image" class="card-img-top"
-                alt="{{ room.roomType }}" style="object-fit: cover; height: 180px;" />
-            <h3>{{ room.roomType }}</h3>
-            <p><strong>Hotel:</strong> {{ room.hotelDTO?.name }}</p>
-            <p><strong>Available:</strong> {{ room.availableRooms }}</p>
-            <p><strong>Booked:</strong> {{ room.bookedRooms }}</p>
-            <p><strong>Adults:</strong> {{ room.adults }} | <strong>Children:</strong> {{ room.children }}</p>
-            <p><strong>Price:</strong> {{ room.price }} BDT/night</p>
+  <div class="row" *ngIf="!loading && filteredRooms.length > 0">
+    <div class="col-md-4 mb-4" *ngFor="let room of filteredRooms">
+      <div class="card h-100">
+        <img [src]="'http://localhost:8082/images/rooms/' + room.image"
+             class="card-img-top"
+             alt="{{ room.roomType }}"
+             style="object-fit: cover; height: 180px;" />
+        <div class="card-body">
+          <h5 class="card-title">{{ room.roomType }}</h5>
+          <p class="card-text"><strong>Hotel:</strong> {{ room.hotelDTO?.name }}</p>
+          <p class="card-text"><strong>Available:</strong> {{ room.availableRooms }}</p>
+          <p class="card-text"><strong>Booked:</strong> {{ room.bookedRooms }}</p>
+          <p class="card-text"><strong>Adults:</strong> {{ room.adults }} | <strong>Children:</strong> {{ room.children }}</p>
+          <p class="card-text"><strong>Price:</strong> {{ room.price }} BDT/night</p>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div *ngIf="!loading && filteredRooms.length === 0">No rooms available</div>
+  <div *ngIf="!loading && filteredRooms.length === 0" class="alert alert-warning">
+    No rooms available.
+  </div>
 </div>

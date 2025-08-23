@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Hotel } from '../../model/hotel.model';
 import { HotelAmenities } from '../../model/hotelAmenities.model';
 import { HotelService } from '../../service/hotel.service';
@@ -38,7 +38,8 @@ export class AddAmenitiesComponent implements OnInit {
   constructor(
     private hotelService: HotelService,
     private amenitiesService: HotelAmenitiesService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -48,10 +49,16 @@ export class AddAmenitiesComponent implements OnInit {
 
   // 🔹 Load hotels for HotelAdmin dropdown
   loadHotels(): void {
-    this.hotelService.getMyHotels().subscribe(
-      data => this.hotels = data,
-      err => console.error(err)
-    );
+    this.hotelService.getMyHotels().subscribe({
+
+      next:(data)=>{
+        this.hotels = data;
+        this.cdr.markForCheck();
+
+      }
+      // data => this.hotels = data,
+      // err => console.error(err)
+  });
   }
 
   // 🔹 Load all amenities

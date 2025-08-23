@@ -21,7 +21,7 @@ export class HotelService {
     if (isPlatformBrowser(this.platformId)) {
       return localStorage.getItem('authToken') || '';
     }
-    return ''; // SSR বা Node context এ empty token
+    return ''; 
   }
 
   private getAuthHeaders(): HttpHeaders {
@@ -61,6 +61,7 @@ export class HotelService {
 
 
   // Save hotel with optional image
+
   saveHotel(hotel: Hotel, imageFile?: File): Observable<any> {
     const formData = new FormData();
     formData.append('hotel', new Blob([JSON.stringify(hotel)], { type: 'application/json' }));
@@ -77,6 +78,7 @@ export class HotelService {
 
 
   // Update hotel with optional image
+
   updateHotel(id: number, hotel: Hotel, image?: File): Observable<any> {
     const formData = new FormData();
     formData.append('hotel', new Blob([JSON.stringify(hotel)], { type: 'application/json' }));
@@ -93,6 +95,7 @@ export class HotelService {
   }
 
   // Delete hotel by id
+
   deleteHotel(id: number): Observable<any> {
     const token = localStorage.getItem('authToken') || '';
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
@@ -102,6 +105,7 @@ export class HotelService {
   }
 
   // Handle error
+
   private handleError(error: any) {
     console.error('An error occurred:', error);
     return throwError(() => new Error('Something bad happened; please try again later.'));
@@ -109,6 +113,7 @@ export class HotelService {
 
 
   // Search hotels by location and date
+
   searchHotels(locationId: number, checkIn: string, checkOut: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/search`, {
       params: {
@@ -131,4 +136,5 @@ export class HotelService {
     return this.http.get<any[]>(`${this.baseUrl}/${hotelId}/rooms`, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
+  
 }
