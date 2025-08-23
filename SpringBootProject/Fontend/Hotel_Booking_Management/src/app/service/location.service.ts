@@ -37,6 +37,15 @@ export class LocationService {
   // Create location
 
   createLocation(location: Location, image: File) {
+    
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
     const formData = new FormData();
     formData.append('location', new Blob([JSON.stringify(location)], { type: 'application/json' }));
     formData.append('image', image);
@@ -74,13 +83,13 @@ export class LocationService {
 
   // Get all locations
 
-  getAllLocations(): Observable<any[]> { 
+  getAllLocations(): Observable<any[]> {
 
-      return this.http.get<any[]>(this.baseUrl + '/all', {
-        headers: this.getAuthHeaders()
-      });
+    return this.http.get<any[]>(this.baseUrl + '/all', {
+      headers: this.getAuthHeaders()
+    });
 
-    
+
   }
 
 }

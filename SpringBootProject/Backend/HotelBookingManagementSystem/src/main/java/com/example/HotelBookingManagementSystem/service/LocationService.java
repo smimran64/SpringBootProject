@@ -94,10 +94,12 @@ public class LocationService {
         if (!Files.exists(uploadPath)) {
             Files.createDirectory(uploadPath);
         }
+        String locationName = location.getName();
+        String fileName = locationName.trim().replaceAll("\\s+", "_");
 
-        String fileName = location.getName() + "_" + UUID.randomUUID();
+        String saveFileName = location.getName() + "_" + UUID.randomUUID();
 
-        Path filePath = uploadPath.resolve(fileName);
+        Path filePath = uploadPath.resolve(saveFileName);
 
         Files.copy(file.getInputStream(), filePath);
 

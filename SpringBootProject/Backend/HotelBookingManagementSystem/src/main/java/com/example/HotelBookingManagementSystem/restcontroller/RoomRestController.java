@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/room")
@@ -142,6 +143,12 @@ public class RoomRestController {
 
         List<Room> rooms = roomService.findRoomByHotelName(hotelName);
         return ResponseEntity.ok(rooms);
+    }
+
+
+    @GetMapping("/{id}")
+    public Optional<Room> getRoomById(@PathVariable long id) {
+        return roomService.findRoomById(id);
     }
 
     // Delete room

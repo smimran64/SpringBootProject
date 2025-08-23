@@ -1,0 +1,77 @@
+/* Container padding */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Card style for fieldsets */
+fieldset {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+}
+
+/* Legend styling */
+legend {
+    font-weight: bold;
+    padding: 0 10px;
+    width: auto;
+    font-size: 1.1rem;
+}
+
+/* Form labels */
+label {
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: block;
+}
+
+/* Inputs styling */
+input.form-control {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    transition: border 0.3s;
+}
+
+/* Input focus effect */
+input.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    outline: none;
+}
+
+/* Submit button */
+button.btn-primary {
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    border: none;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+button.btn-primary:hover {
+    background: linear-gradient(90deg, #0056b3, #007bff);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    fieldset {
+        padding: 15px;
+    }
+
+    legend {
+        font-size: 1rem;
+    }
+
+    button.btn-primary {
+        font-size: 0.95rem;
+        padding: 8px;
+    }
+}

@@ -1,70 +1,38 @@
-/* .hotel-details-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.hotel-info {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #fff3e0;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+.hotel-card {
+    border-radius: 15px;
     overflow: hidden;
+    margin-top: 6%;
 }
 
 .hotel-image {
-    width: 100%;
-    max-width: 400px;
+    min-height: 280px;
+    /* small screen এও বড় দেখাবে */
+    max-height: 400px;
     object-fit: cover;
-    border-radius: 10px 0 0 10px;
-}
+    border-radius: 12px;
 
-.hotel-text {
-    flex: 1;
-    padding: 20px;
-}
-
-.hotel-text h2 {
-    color: #ff5722;
-    margin-bottom: 10px;
-}
-
-.address {
-    font-style: italic;
-    color: #555;
-}
-
-.rating {
-    color: #fbc02d;
-    font-weight: bold;
-}
-
-.description {
-    margin-top: 15px;
-    color: #333;
 }
 
 .room-card {
-    background-color: #e0f7fa;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
-    transition: transform 0.3s;
+    border-radius: 15px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .room-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-@media (max-width: 768px) {
-    .hotel-info {
-        flex-direction: column;
-    }
+.btn-gradient {
+    background: linear-gradient(45deg, #007bff, #00c6ff);
+    border: none;
+    border-radius: 12px;
+    padding: 10px;
+    font-weight: 600;
+    color: #fff;
+    transition: opacity 0.2s;
+}
 
-    .hotel-image {
-        max-width: 100%;
-        border-radius: 10px 10px 0 0;
-    }
-} */
+.btn-gradient:hover {
+    opacity: 0.9;
+}

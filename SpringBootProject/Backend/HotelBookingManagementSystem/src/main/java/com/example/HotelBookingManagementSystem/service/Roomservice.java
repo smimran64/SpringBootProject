@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -84,6 +85,10 @@ public class Roomservice {
         return rooms.stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
+    }
+
+    public Optional<Room> findRoomById(long id) {
+        return roomRepository.findRoomById(id);
     }
 
     private RoomDTO mapToDTO(Room room) {
@@ -206,6 +211,7 @@ public class Roomservice {
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
+
 
         String fileName = room.getRoomType() + "_" + UUID.randomUUID();
 

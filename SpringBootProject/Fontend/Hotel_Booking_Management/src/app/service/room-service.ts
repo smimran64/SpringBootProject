@@ -108,6 +108,17 @@ export class RoomService {
     );
   }
 
+  // ✅ Find room by id
+  getRoomById(id: number): Observable<Room> {
+    return this.http.get<Room>(`${this.baseUrl}/${id}`, { headers: this.getAuthHeaders() });
+  }
+
+  // ✅ Update room (availability)
+
+  
+
+
+
 
   // Delete room
   deleteRoom(id: number): Observable<any> {

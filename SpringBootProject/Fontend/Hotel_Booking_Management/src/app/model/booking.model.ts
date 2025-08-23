@@ -5,8 +5,8 @@ export interface Booking {
     checkIn: Date | string;
     checkOut: Date | string;
     advanceAmount: number;
-    dueAmount?: number;
-    totalAmount?: number;
+    dueAmount: number;
+    totalAmount: number;
     numberOfRooms: number;
 
     customerdto?: {

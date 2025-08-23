@@ -234,8 +234,8 @@ public class HotelService {
             Files.createDirectories(uploadPath);
         }
 
-        String employerName = hotel.getName();
-        String fileName = employerName.trim().replaceAll("\\s+", "_");
+        String hotelName = hotel.getName();
+        String fileName = hotelName.trim().replaceAll("\\s+", "_");
 
         String savedFileName = fileName + "_" + UUID.randomUUID().toString();
 

@@ -139,11 +139,14 @@ public class AuthService {
             }
         }
 
-        String fileName = user.getName() + "_" + UUID.randomUUID().toString();
+        String userName = user.getName();
+        String fileName = userName.trim().replaceAll("\\s+", "_");
+
+        String saveFileName = user.getName() + "_" + UUID.randomUUID().toString();
 
 
         try {
-            Path filePath = uploadPath.resolve(fileName);
+            Path filePath = uploadPath.resolve(saveFileName);
             Files.copy(file.getInputStream(), filePath);
         } catch (IOException e) {
             throw new RuntimeException(e);
