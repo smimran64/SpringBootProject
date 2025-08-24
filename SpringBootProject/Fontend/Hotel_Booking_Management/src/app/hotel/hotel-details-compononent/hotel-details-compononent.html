@@ -5,16 +5,18 @@
     <div class="row g-0 align-items-center">
       <div class="col-md-4 text-center p-3">
         <img [src]="'http://localhost:8082/images/hotels/' + hotel.image" alt="{{ hotel.name }}"
-          class="img-fluid rounded-3 hotel-image"/>
+          class="img-fluid rounded-3 hotel-image" height="700px" width="700px" />
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h2 class="card-title fw-bold">{{ hotel.name }}</h2>
-          <p class="text-muted mb-2"><i class="bi bi-geo-alt-fill"></i> <strong>Address:</strong> {{ hotel.address }}</p>
-          <p class="text-muted mb-2"><i class="bi bi-geo-alt-fill"></i> <strong>Location:</strong> {{ hotel.location.name }}</p>
-          <p class="rating mb-0">
+          <h2 class="card-title fw-bold text-gradient text-center">{{ hotel.name }}</h2>
+          <p class="text-muted mb-2 text-center"><i class="bi bi-geo-alt-fill"></i> <strong>Address:</strong> {{
+            hotel.address }}
+          </p>
+          <p class="text-muted mb-2 text-center"><i class="bi bi-geo-alt-fill"></i> <strong>Location:</strong> {{
+            hotel.location.name }}</p>
+          <p class="rating mb-0 text-center">
             <span class="fw-semibold">Rating: {{ hotel.rating }} ⭐</span>
-            
           </p>
         </div>
       </div>
@@ -22,23 +24,21 @@
   </div>
 
   <!-- Rooms -->
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="fw-bold" >Available Rooms</h3>
-    <span class="badge bg-primary fs-6">{{ rooms.length }} Types</span>
+  <div class="section-header mb-3">
+    <h3 class="fw-bold">Available Rooms</h3>
+    <span class="badge bg-gradient fs-6">{{ rooms.length }} Types</span>
   </div>
 
   <div *ngIf="rooms.length > 0; else noRooms" class="row g-4">
     <div class="col-12 col-sm-6 col-lg-4" *ngFor="let room of rooms">
-      <div class="card room-card h-100 border-0 shadow-sm">
+      <div class="card room-card h-100 border-0 shadow-lg">
+        <img [src]="'http://localhost:8082/images/rooms/' + room.image" class="card-img-top" alt="{{ room.image }}"
+          style="object-fit: cover; height: 200px;" />
         <div class="card-body d-flex flex-column">
-          <img [src]="'http://localhost:8082/images/rooms/' + room.image"
-             class="card-img-top"
-             alt="{{ room.image }}"
-             style="object-fit: cover; height: 180px;" />
-          <h5 class="card-title fw-semibold">{{ room.roomType }}</h5>
+          <h5 class="card-title fw-semibold text-gradient">{{ room.roomType }}</h5>
           <p class="mb-1 text-muted">Price: <span class="fw-bold text-dark">${{ room.price }}/night</span></p>
-          <p class="mb-3">Available: <span class="fw-bold">{{ room.availableRooms }}</span></p>
-          <p class="mb-3">Adults: <span class="fw-bold">{{ room.adults }}</span></p>
+          <p class="mb-1">Available: <span class="fw-bold">{{ room.availableRooms }}</span></p>
+          <p class="mb-1">Adults: <span class="fw-bold">{{ room.adults }}</span></p>
           <p class="mb-3">Children: <span class="fw-bold">{{ room.children }}</span></p>
           <div class="mt-auto">
             <button class="btn btn-gradient w-100" (click)="bookRoom(room)">Book Now</button>
@@ -53,6 +53,66 @@
       No rooms available for this hotel.
     </div>
   </ng-template>
+
+
+  <!-- Extra Hotel Information -->
+  <div *ngIf="hotelInfo" class="card shadow-sm mb-5 border-0">
+    <div class="card-body">
+      <h3 class="fw-bold mb-3 text-center text-gradient">Hotel Information</h3>
+      <p class="mb-2"><strong>Description:</strong> {{ hotelInfo.description }}</p>
+      <p class="mb-2"><strong>Owner's Mind:</strong> {{ hotelInfo.ownerSpeach }}</p>
+      <p class="mb-0"><strong>Hotel Policy:</strong> {{ hotelInfo.hotelPolicy }}</p>
+    </div>
+  </div>
+
+  <!-- Amenities -->
+  <div *ngIf="amenities" class="card shadow-sm mb-5 border-0">
+    <div class="card-body">
+      <h3 class="fw-bold mb-3 text-center text-gradient">Amenities</h3>
+      <ul class="list-unstyled row text-center">
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.freeWifi">
+          <i class="bi bi-wifi text-primary"></i> Free WiFi
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.freeParking">
+          <i class="bi bi-car-front-fill text-success"></i> Free Parking
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.swimmingPool">
+          <i class="bi bi-water text-info"></i> Swimming Pool
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.gym">
+          <i class="bi bi-heart-pulse text-danger"></i> Gym
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.restaurant">
+          <i class="bi bi-cup-straw text-warning"></i> Restaurant
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.roomService">
+          <i class="bi bi-bell text-primary"></i> Room Service
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.airConditioning">
+          <i class="bi bi-snow text-info"></i> Air Conditioning
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.laundryService">
+          <i class="bi bi-basket text-success"></i> Laundry Service
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.wheelchairAccessible">
+          <i class="bi bi-universal-access-circle text-dark"></i> Wheelchair Accessible
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.healthServices">
+          <i class="bi bi-hospital text-danger"></i> Health Services
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.playGround">
+          <i class="bi bi-tree text-success"></i> Playground
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.airportSuttle">
+          <i class="bi bi-airplane text-primary"></i> Airport Shuttle
+        </li>
+        <li class="col-6 col-md-4 mb-2" *ngIf="amenities.breakFast">
+          <i class="bi bi-egg-fried text-warning"></i> Breakfast
+        </li>
+      </ul>
+    </div>
+  </div>
+
 </div>
 
 <ng-template #loadingOrEmpty>

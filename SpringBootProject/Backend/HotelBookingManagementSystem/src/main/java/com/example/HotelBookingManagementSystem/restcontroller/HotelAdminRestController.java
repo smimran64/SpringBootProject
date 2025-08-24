@@ -1,6 +1,7 @@
 package com.example.HotelBookingManagementSystem.restcontroller;
 
 
+import com.example.HotelBookingManagementSystem.dto.HotelAdminDTO;
 import com.example.HotelBookingManagementSystem.entity.HotelAdmin;
 import com.example.HotelBookingManagementSystem.entity.User;
 import com.example.HotelBookingManagementSystem.repository.HotelAdminRepository;
@@ -92,14 +93,18 @@ public class HotelAdminRestController {
     }
 
     @GetMapping("/profile")
-    public ResponseEntity<?> getProfile(Authentication authentication) {
-        System.out.println("Authenticated User: " + authentication.getName());
-        System.out.println("Authorities: " + authentication.getAuthorities());
+    public ResponseEntity<HotelAdminDTO> getProfile(Authentication authentication) {
+        // Current logged-in user email
         String email = authentication.getName();
-        Optional<User> user =userRepository.findByEmail(email);
-        HotelAdmin hotelAdmin = hotelAminService.getProfileByUserId((Integer) user.get().getId());
-        return ResponseEntity.ok(hotelAdmin);
 
+        // Find user entity by email
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Get HotelAdmin profile using userId and convert to DTO
+        HotelAdminDTO profile = hotelAminService.getProfileByUserId(user.getId());
+
+        return ResponseEntity.ok(profile);
     }
 
 

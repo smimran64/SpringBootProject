@@ -46,7 +46,7 @@ onSubmit(): void {
         if (role === 'CUSTOMER') {
           this.router.navigate(['/home']);
         } else if (role === 'HOTEL_ADMIN') {
-          this.router.navigate(['/addhotel']);
+          this.router.navigate(['/hoteladminProfile']);
         } else if (role === 'ADMIN') {
           this.router.navigate(['/addlocation']);
         } else {

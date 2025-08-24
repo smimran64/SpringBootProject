@@ -32,6 +32,7 @@ export class HotelAdminService {
 
 
   getProfile(): Observable<HotelAdmin> {
+
     let headers = new HttpHeaders();
 
     if (isPlatformBrowser(this.platformId)) {
@@ -46,8 +47,54 @@ export class HotelAdminService {
   }
 
 
-   getHotelByAdminId(id: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/${id}`);
+  // Get Hotel Info by Hotel ID
+  getHotelInfoByHotelId(hotelId: number): Observable<any> {
+
+     let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+        console.log(headers);
+      }
+    }
+
+    return this.http.get(`${this.baseUrl}/hotelInfo/${hotelId}`);
   }
+
+  // Get Hotel Amenities by Hotel ID
+  getHotelAmenitiesByHotelId(hotelId: number): Observable<any> {
+
+
+     let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+        console.log(headers);
+      }
+    }
+
+    return this.http.get(`${this.baseUrl}/amenities/${hotelId}`);
+  }
+
+  // Optionally: Get all hotels for this admin (already partially exists)
+  getHotelsByAdminId(adminId: number): Observable<any[]> {
+
+     let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+        console.log(headers);
+      }
+    }
+    
+    return this.http.get<any[]>(`${this.baseUrl}/myHotels/${adminId}`);
+  }
+
 
 }

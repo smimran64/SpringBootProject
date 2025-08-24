@@ -1,38 +1,128 @@
-.hotel-card {
-    border-radius: 15px;
-    overflow: hidden;
+/* General Container Padding */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
     margin-top: 6%;
 }
 
-.hotel-image {
-    min-height: 280px;
-    /* small screen এও বড় দেখাবে */
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: 12px;
-
+/* Gradient Text */
+.text-gradient {
+    background: linear-gradient(90deg, #000000, #270835, #d39511);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.room-card {
-    border-radius: 15px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+/* Section Headers */
+.section-header,
+h3.text-gradient {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
 }
 
-.room-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+/* Gradient Badge */
+.bg-gradient {
+    background: linear-gradient(90deg, #36d1dc, #5b86e5) !important;
+    color: #fff !important;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
 }
 
+/* Buttons */
 .btn-gradient {
-    background: linear-gradient(45deg, #007bff, #00c6ff);
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    color: white;
     border: none;
-    border-radius: 12px;
-    padding: 10px;
+    border-radius: 8px;
+    transition: 0.3s;
     font-weight: 600;
-    color: #fff;
-    transition: opacity 0.2s;
 }
 
 .btn-gradient:hover {
-    opacity: 0.9;
+    opacity: 0.85;
+    transform: translateY(-2px);
+}
+
+/* Cards */
+.card {
+    border-radius: 15px;
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Hotel Image */
+.hotel-image {
+    max-height: 300px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+/* Room Card */
+.room-card img {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/* Text Alignments */
+.card-body p,
+.card-body h5 {
+    text-align: center;
+}
+
+/* Amenities Icons & List */
+ul.list-unstyled {
+    padding: 0;
+}
+
+ul.list-unstyled li {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+ul.list-unstyled i {
+    font-size: 1.3rem;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hotel-card .row {
+        flex-direction: column;
+    }
+
+    .hotel-image {
+        max-height: 250px;
+        margin-bottom: 1rem;
+    }
+
+    .section-header,
+    h3.text-gradient {
+        font-size: 1.5rem;
+    }
+
+    .btn-gradient {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .section-header,
+    h3.text-gradient {
+        font-size: 1.3rem;
+    }
+
+    ul.list-unstyled li {
+        font-size: 0.95rem;
+    }
 }

@@ -21,12 +21,12 @@ export class HotelService {
     if (isPlatformBrowser(this.platformId)) {
       return localStorage.getItem('authToken') || '';
     }
-    return ''; 
+    return '';
   }
 
   private getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
-    console.log('TOKEN', token); 
+    console.log('TOKEN', token);
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -36,7 +36,16 @@ export class HotelService {
   // Get logged-in admin hotels
 
   getMyHotels(): Observable<Hotel[]> {
-    const headers = this.getAuthHeaders();
+
+
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
     return this.http.get<Hotel[]>(`${this.baseUrl}/myHotels`, { headers });
   }
 
@@ -53,6 +62,15 @@ export class HotelService {
 
 
   getAllHotels(): Observable<any[]> {
+
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
     return this.http.get<any[]>(`${this.baseUrl}/all`).pipe(
       catchError(this.handleError)
     );
@@ -63,6 +81,8 @@ export class HotelService {
   // Save hotel with optional image
 
   saveHotel(hotel: Hotel, imageFile?: File): Observable<any> {
+
+
     const formData = new FormData();
     formData.append('hotel', new Blob([JSON.stringify(hotel)], { type: 'application/json' }));
 
@@ -70,7 +90,14 @@ export class HotelService {
       formData.append('image', imageFile);
     }
 
-    const headers = this.getAuthHeaders();
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
 
     return this.http.post(`${this.baseUrl}/save`, formData, { headers })
       .pipe(catchError(err => throwError(() => err)));
@@ -97,8 +124,14 @@ export class HotelService {
   // Delete hotel by id
 
   deleteHotel(id: number): Observable<any> {
-    const token = localStorage.getItem('authToken') || '';
-    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
 
     return this.http.delete(`${this.baseUrl}/delete/${id}`, { headers, responseType: 'text' as 'json' })
       .pipe(catchError(err => throwError(() => err)));
@@ -108,6 +141,14 @@ export class HotelService {
 
   private handleError(error: any) {
     console.error('An error occurred:', error);
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
 
@@ -115,6 +156,14 @@ export class HotelService {
   // Search hotels by location and date
 
   searchHotels(locationId: number, checkIn: string, checkOut: string): Observable<any[]> {
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
     return this.http.get<any[]>(`${this.baseUrl}/search`, {
       params: {
         locationId: locationId.toString(),
@@ -127,14 +176,32 @@ export class HotelService {
   // Get hotel details by ID
 
   getHotelById(hotelId: number): Observable<Hotel> {
+
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
     return this.http.get<Hotel>(`${this.baseUrl}/${hotelId}`, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
   // Fetch all rooms of a hotel
   getRoomsByHotel(hotelId: number): Observable<any[]> {
+
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
     return this.http.get<any[]>(`${this.baseUrl}/${hotelId}/rooms`, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
-  
+
 }
