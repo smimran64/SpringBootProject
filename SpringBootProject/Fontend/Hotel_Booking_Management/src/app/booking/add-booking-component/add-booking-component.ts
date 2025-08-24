@@ -23,12 +23,12 @@ export class AddBookingComponent implements OnInit {
     private roomService: RoomService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    const roomId = Number(this.route.snapshot.paramMap.get('roomId'));
+    const roomId = Number(this.route.snapshot.paramMap.get('id'));
 
-    // Load selected room
+    console.log(roomId)
     this.roomService.getRoomById(roomId).subscribe(room => {
       this.selectedRoom = room;
       this.initForm();
@@ -47,6 +47,7 @@ export class AddBookingComponent implements OnInit {
       dueAmount: [{ value: 0, disabled: true }],
 
       customerdto: this.fb.group({
+        id: [1], // 
         name: [''],
         email: [''],
         phone: [''],
@@ -54,11 +55,13 @@ export class AddBookingComponent implements OnInit {
       }),
 
       hoteldto: this.fb.group({
+        id: [this.selectedRoom.hotelDTO.id], 
         name: [''],
         location: ['']
       }),
 
       roomdto: this.fb.group({
+        id: [this.selectedRoom.id],
         roomType: [this.selectedRoom.roomType],
         price: [this.selectedRoom.price],
         adults: [this.selectedRoom.adults],
@@ -67,11 +70,9 @@ export class AddBookingComponent implements OnInit {
       })
     });
 
-
     this.bookingForm.valueChanges.subscribe(() => this.calculateAmounts());
   }
 
-  // 🔹 Total, Due, Advance Calculation
   private calculateAmounts(): void {
     const numberOfRooms = this.bookingForm.get('numberOfRooms')?.value || 0;
     const roomPrice = this.bookingForm.get('roomdto.price')?.value || 0;
@@ -88,7 +89,6 @@ export class AddBookingComponent implements OnInit {
 
     const total = numberOfRooms * roomPrice * nights;
 
-    // Prevent advance > total
     if (advance > total) {
       advance = total;
     }
@@ -105,7 +105,6 @@ export class AddBookingComponent implements OnInit {
     );
   }
 
-  // 🔹 Booking Submit
   bookRoom(): void {
     if (this.bookingForm.invalid) {
       alert('Please fill all required fields correctly!');
@@ -113,40 +112,34 @@ export class AddBookingComponent implements OnInit {
     }
 
     const booking: Booking = this.bookingForm.getRawValue();
-    console.log('Booking Data:', booking);
 
-    // Room availability check
-    if (booking.numberOfRooms > this.selectedRoom.totalRooms) {
+    
+    if (booking.numberOfRooms > (this.selectedRoom.availableRooms || 0)) {
       alert('Not enough rooms available!');
       return;
     }
 
-    // Advance validation
     if (booking.advanceAmount > booking.totalAmount) {
       alert('Advance amount cannot exceed total amount!');
       return;
     }
 
-    // Save booking
     this.bookingService.createBooking(booking).subscribe({
       next: (res) => {
-
         const updatedRoom: Room = {
           ...this.selectedRoom,
           availableRooms: (this.selectedRoom.availableRooms || 0) - booking.numberOfRooms,
           bookedRooms: (this.selectedRoom.bookedRooms || 0) + booking.numberOfRooms
         };
 
-        // Use the id from selectedRoom
-        const roomId = this.selectedRoom.id!;
-
-        this.roomService.updateRoom(roomId, updatedRoom).subscribe({
+        this.roomService.updateRoom(this.selectedRoom.id!, updatedRoom).subscribe({
           next: () => {
-            alert('Room availability updated successfully!');
+            alert('Booking successful and room availability updated!');
+            this.router.navigate(['/bookings']);
           },
           error: (err) => {
             console.error(err);
-            alert('Failed to update room!');
+            alert('Failed to update room availability!');
           }
         });
       },

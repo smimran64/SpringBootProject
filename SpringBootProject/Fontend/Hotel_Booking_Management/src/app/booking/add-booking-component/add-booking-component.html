@@ -1,12 +1,11 @@
 <div class="container py-4">
     <h2 class="mb-4">Book Room</h2>
 
-    <!-- Prevent undefined error -->
     <form *ngIf="bookingForm" [formGroup]="bookingForm" (ngSubmit)="bookRoom()">
 
         <!-- Contract Person Info -->
         <fieldset class="mb-3 border p-3 rounded">
-            <legend>Contract Person Info</legend>
+            <legend>Contact Person Info</legend>
             <div class="mb-2">
                 <label>Full Name:</label>
                 <input class="form-control" formControlName="contractPersonName" placeholder="Enter full name">
@@ -15,10 +14,6 @@
                 <label>Phone:</label>
                 <input class="form-control" formControlName="phone" placeholder="Enter phone number">
             </div>
-            <div class="mb-2">
-                <label>Address:</label>               
-                <input class="form-control" placeholder="Enter address" formControlName="address">
-            </div>
         </fieldset>
 
         <!-- Customer Info (readonly) -->
@@ -26,15 +21,19 @@
             <legend>Customer Info</legend>
             <div class="mb-2">
                 <label>Name:</label>
-                <input class="form-control" [value]="bookingForm.get('customerdto')?.get('name')?.value" readonly>
+                <input class="form-control" [value]="bookingForm.get('customerdto.name')?.value" readonly>
+            </div>
+            <div class="mb-2">
+                <label>Email:</label>
+                <input class="form-control" [value]="bookingForm.get('customerdto.email')?.value" readonly>
             </div>
             <div class="mb-2">
                 <label>Phone:</label>
-                <input class="form-control" [value]="bookingForm.get('customerdto')?.get('phone')?.value" readonly>
+                <input class="form-control" [value]="bookingForm.get('customerdto.phone')?.value" readonly>
             </div>
             <div class="mb-2">
                 <label>Address:</label>
-                <input class="form-control" [value]="bookingForm.get('customerdto')?.get('address')?.value" readonly>
+                <input class="form-control" [value]="bookingForm.get('customerdto.address')?.value" readonly>
             </div>
         </fieldset>
 
@@ -43,11 +42,11 @@
             <legend>Hotel Info</legend>
             <div class="mb-2">
                 <label>Name:</label>
-                <input class="form-control" [value]="bookingForm.get('hoteldto')?.get('name')?.value" readonly>
+                <input class="form-control" [value]="bookingForm.get('hoteldto.name')?.value" readonly>
             </div>
             <div class="mb-2">
                 <label>Location:</label>
-                <input class="form-control" [value]="bookingForm.get('hoteldto')?.get('location')?.value" readonly>
+                <input class="form-control" [value]="bookingForm.get('hoteldto.location')?.value" readonly>
             </div>
         </fieldset>
 
@@ -56,19 +55,19 @@
             <legend>Room Info</legend>
             <div class="mb-2">
                 <label>Room Type:</label>
-                <input class="form-control" [value]="bookingForm.get('roomdto')?.get('roomType')?.value" readonly>
+                <input class="form-control" [value]="bookingForm.get('roomdto.roomType')?.value" readonly>
             </div>
             <div class="mb-2">
                 <label>Adults:</label>
-                <input class="form-control" [value]="bookingForm.get('roomdto')?.get('adults')?.value" readonly>
+                <input class="form-control" [value]="bookingForm.get('roomdto.adults')?.value" readonly>
             </div>
             <div class="mb-2">
                 <label>Children:</label>
-                <input class="form-control" [value]="bookingForm.get('roomdto')?.get('children')?.value" readonly>
+                <input class="form-control" [value]="bookingForm.get('roomdto.children')?.value" readonly>
             </div>
             <div class="mb-2">
                 <label>Price per Night:</label>
-                <input class="form-control" [value]="bookingForm.get('roomdto')?.get('price')?.value" readonly>
+                <input class="form-control" [value]="bookingForm.get('roomdto.price')?.value | currency:'USD'" readonly>
             </div>
         </fieldset>
 
@@ -76,11 +75,11 @@
         <fieldset class="mb-3 border p-3 rounded">
             <legend>Booking Details</legend>
             <div class="mb-2">
-                <label>Check-in:</label>
+                <label>Check-in Date:</label>
                 <input type="date" class="form-control" formControlName="checkIn">
             </div>
             <div class="mb-2">
-                <label>Check-out:</label>
+                <label>Check-out Date:</label>
                 <input type="date" class="form-control" formControlName="checkOut">
             </div>
             <div class="mb-2">
@@ -101,6 +100,6 @@
             </div>
         </fieldset>
 
-        <button type="submit" class="btn btn-primary w-100">Submit</button>
+        <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
     </form>
-</div>
+</div>ss

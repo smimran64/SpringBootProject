@@ -47,7 +47,7 @@ const routes: Routes = [
   {path: 'viewamenities', component: ViewAmenitiesComponent},
   {path: 'addhotelinfo', component: HotelInfoComponent},
   {path: 'viewhotelinfo', component: ViewHotelInfoComponent},
-  {path: 'addbooking', component: AddBookingComponent},
+  {path: 'addbooking/:id', component: AddBookingComponent},
 
 ];
 

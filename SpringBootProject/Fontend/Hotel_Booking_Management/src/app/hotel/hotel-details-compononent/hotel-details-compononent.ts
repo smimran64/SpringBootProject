@@ -3,6 +3,8 @@ import { Hotel } from '../../model/hotel.model';
 import { ActivatedRoute, Route, RouteConfigLoadEnd, Router } from '@angular/router';
 import { HotelService } from '../../service/hotel.service';
 import { forkJoin } from 'rxjs';
+import { HotelAmenities } from '../../model/hotelAmenities.model';
+import { HotelAmenitiesService } from '../../service/hotel-amenities.service';
 
 @Component({
   selector: 'app-hotel-details-compononent',
@@ -13,7 +15,7 @@ import { forkJoin } from 'rxjs';
 export class HotelDetailsCompononent implements OnInit {
 
   hotel: Hotel | null = null;
-  rooms: any[] = [];
+  rooms: any[] = [];  
   loading = true;
   errorMessage = '';
 
@@ -21,7 +23,7 @@ export class HotelDetailsCompononent implements OnInit {
     private hotelService: HotelService,
     private route: ActivatedRoute,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef    
   ) { }
 
   ngOnInit(): void {
@@ -58,13 +60,13 @@ export class HotelDetailsCompononent implements OnInit {
   }
 
   bookRoom(room: any) {
-    this.router.navigate(['/addbooking'], {
+    this.router.navigate(['/addbooking',room.id], {
       queryParams: {
         hotelId: this.hotel?.id,
         roomType: room.roomType,
         price: room.price
       }
     });
-  }
+  } 
 
 }
