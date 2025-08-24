@@ -47,7 +47,6 @@ export class AddBookingComponent implements OnInit {
       dueAmount: [{ value: 0, disabled: true }],
 
       customerdto: this.fb.group({
-        id: [1], // ধরলাম demo user
         name: [''],
         email: [''],
         phone: [''],
@@ -55,13 +54,11 @@ export class AddBookingComponent implements OnInit {
       }),
 
       hoteldto: this.fb.group({
-        id: [this.selectedRoom.hotelDTO.id],
         name: [''],
         location: ['']
       }),
 
       roomdto: this.fb.group({
-        id: [this.selectedRoom.id],
         roomType: [this.selectedRoom.roomType],
         price: [this.selectedRoom.price],
         adults: [this.selectedRoom.adults],
@@ -70,7 +67,7 @@ export class AddBookingComponent implements OnInit {
       })
     });
 
-    // যখনই form এর কোনো value change হবে calculation হবে
+
     this.bookingForm.valueChanges.subscribe(() => this.calculateAmounts());
   }
 
@@ -91,7 +88,7 @@ export class AddBookingComponent implements OnInit {
 
     const total = numberOfRooms * roomPrice * nights;
 
-    // ✅ Prevent advance > total
+    // Prevent advance > total
     if (advance > total) {
       advance = total;
     }
@@ -115,7 +112,7 @@ export class AddBookingComponent implements OnInit {
       return;
     }
 
-    const booking: Booking = this.bookingForm.getRawValue(); // disabled field সহ
+    const booking: Booking = this.bookingForm.getRawValue();
     console.log('Booking Data:', booking);
 
     // Room availability check
@@ -133,7 +130,7 @@ export class AddBookingComponent implements OnInit {
     // Save booking
     this.bookingService.createBooking(booking).subscribe({
       next: (res) => {
-        // ✅ Room availability কমানো
+
         const updatedRoom: Room = {
           ...this.selectedRoom,
           availableRooms: (this.selectedRoom.availableRooms || 0) - booking.numberOfRooms,
@@ -141,7 +138,7 @@ export class AddBookingComponent implements OnInit {
         };
 
         // Use the id from selectedRoom
-        const roomId = this.selectedRoom.id!; // '!' দিয়ে নিশ্চিত করছি id আছে
+        const roomId = this.selectedRoom.id!;
 
         this.roomService.updateRoom(roomId, updatedRoom).subscribe({
           next: () => {

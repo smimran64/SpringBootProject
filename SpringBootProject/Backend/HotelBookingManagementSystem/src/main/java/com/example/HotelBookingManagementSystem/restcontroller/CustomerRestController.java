@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/customer/")
+@RequestMapping("/api/customer")
 public class CustomerRestController {
 
     @Autowired
@@ -38,7 +38,7 @@ public class CustomerRestController {
     private AuthService authService;
 
 
-    @PostMapping("")
+    @PostMapping("/reg")
     public ResponseEntity<Map<String, String>> registerCustomer(
             @RequestPart(value = "user") String userJson,
             @RequestPart(value = "customer") String customerJson,
@@ -69,14 +69,14 @@ public class CustomerRestController {
 
     }
 
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<List<Customer>> getAllUsers() {
         List<Customer> customerList = customerService.getAllCustomers();
         return ResponseEntity.ok(customerList);
 
     }
 
-    @GetMapping("profile")
+    @GetMapping("/profile")
     public ResponseEntity<?> getProfile(Authentication authentication) {
         System.out.println("Authenticated User: " + authentication.getName());
         System.out.println("Authorities: " + authentication.getAuthorities());

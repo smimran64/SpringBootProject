@@ -152,6 +152,7 @@ public class RoomRestController {
     }
 
     // Delete room
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteRoom(@PathVariable long id) {
         if (roomService.deleteRoom(id)) {

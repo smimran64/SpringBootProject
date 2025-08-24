@@ -58,7 +58,7 @@ export class HotelDetailsCompononent implements OnInit {
   }
 
   bookRoom(room: any) {
-    this.router.navigate(['/booking'], {
+    this.router.navigate(['/addbooking'], {
       queryParams: {
         hotelId: this.hotel?.id,
         roomType: room.roomType,

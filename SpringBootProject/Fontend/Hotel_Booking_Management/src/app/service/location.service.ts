@@ -37,7 +37,7 @@ export class LocationService {
   // Create location
 
   createLocation(location: Location, image: File) {
-    
+
     let headers = new HttpHeaders();
 
     if (isPlatformBrowser(this.platformId)) {
@@ -59,6 +59,17 @@ export class LocationService {
   // Update location with image
 
   updateLocation(id: number, location: Location, image?: File) {
+
+
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
+
     const formData = new FormData();
     formData.append('location', new Blob([JSON.stringify(location)], { type: 'application/json' }));
 
@@ -75,6 +86,17 @@ export class LocationService {
   // Delete location by id
 
   deleteLocation(id: number) {
+
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
+
+
     return this.http.delete(this.baseUrl + `/delete/${id}`, {
       headers: this.getAuthHeaders(),
       responseType: 'text' as 'json'
@@ -84,6 +106,16 @@ export class LocationService {
   // Get all locations
 
   getAllLocations(): Observable<any[]> {
+
+
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
 
     return this.http.get<any[]>(this.baseUrl + '/all', {
       headers: this.getAuthHeaders()

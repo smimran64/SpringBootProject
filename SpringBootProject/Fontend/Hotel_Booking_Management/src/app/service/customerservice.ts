@@ -11,7 +11,7 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class Customerservice {
 
-  private baseUrl = environments.apiUrl + '/api/customer/';
+  private baseUrl = environments.apiUrl + '/api/customer';
 
 
 
