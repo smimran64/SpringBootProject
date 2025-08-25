@@ -173,6 +173,19 @@ export class HotelService {
     }).pipe(catchError(this.handleError));
   }
 
+  //serach hotel for public
+
+  searchHotelhome(locationId: number, checkIn: string, checkOut: string): Observable<any[]> {
+    let headers = new HttpHeaders();   
+    return this.http.get<any[]>(`${this.baseUrl}/search`, {
+      params: {
+        locationId: locationId.toString(),
+        checkIn,
+        checkOut
+      }
+    }).pipe(catchError(this.handleError));
+  }
+
   // Get hotel details by ID
 
   getHotelById(hotelId: number): Observable<Hotel> {
@@ -189,6 +202,15 @@ export class HotelService {
       .pipe(catchError(this.handleError));
   }
 
+  // for public
+
+   getHotelByIdpublic(hotelId: number): Observable<Hotel> {
+
+   
+    return this.http.get<Hotel>(`${this.baseUrl}/${hotelId}`)
+      .pipe(catchError(this.handleError));
+  }
+
   // Fetch all rooms of a hotel
   getRoomsByHotel(hotelId: number): Observable<any[]> {
 
@@ -201,6 +223,14 @@ export class HotelService {
       }
     }
     return this.http.get<any[]>(`${this.baseUrl}/${hotelId}/rooms`, { headers: this.getAuthHeaders() })
+      .pipe(catchError(this.handleError));
+  }
+
+  //for public
+  getRoomsByHotelpublic(hotelId: number): Observable<any[]> {
+
+    
+    return this.http.get<any[]>(`${this.baseUrl}/${hotelId}/rooms`)
       .pipe(catchError(this.handleError));
   }
 

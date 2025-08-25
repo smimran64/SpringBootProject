@@ -96,7 +96,16 @@ export class HotelAmenitiesService {
     return this.http.get<HotelAmenities>(`${this.baseUrl}/hotel/${hotelId}`, { headers});
   }
 
+  // for public
+
+  getAmenitiesByHotelIdpublic(hotelId: number): Observable<HotelAmenities> {    
+
+    return this.http.get<HotelAmenities>(`${this.baseUrl}/hotel/${hotelId}`);
+  }
+  
+
                          // Update amenities
+
 
   updateAmenities(id: number, dto: HotelAmenities): Observable<HotelAmenities> {
 

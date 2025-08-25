@@ -38,7 +38,7 @@ const routes: Routes = [
   {path: 'adminProfile', component: AdminProfileComponent},
   {path: 'hoteladminProfile', component: HotelAdminProfile},
   {path: 'customerProfile', component: CustomerProfileComponent},
-  {path: 'home', component: HomeComponenent},
+  // {path: 'home', component: HomeComponenent},
   {path: 'hotel-details/:id', component: HotelDetailsCompononent},
   {path: '', component: AboutHotel},
   {path: 'login', component: Login},

@@ -1,6 +1,7 @@
 package com.example.HotelBookingManagementSystem.repository;
 
 
+import com.example.HotelBookingManagementSystem.dto.RoomDTO;
 import com.example.HotelBookingManagementSystem.entity.Hotel;
 import com.example.HotelBookingManagementSystem.entity.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,6 +27,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
 
     Optional<Room> findRoomById(long id);
+
 
 
 }

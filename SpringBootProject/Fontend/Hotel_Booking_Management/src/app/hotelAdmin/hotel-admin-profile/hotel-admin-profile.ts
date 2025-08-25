@@ -26,7 +26,7 @@ export class HotelAdminProfile {
 
         //Load HotelAdmin Profile
 
-  loadProfile() {
+  loadProfile(): void {
     this.hotelAdminService.getProfile().subscribe({
       next: (res) => {
         this.profile = res;

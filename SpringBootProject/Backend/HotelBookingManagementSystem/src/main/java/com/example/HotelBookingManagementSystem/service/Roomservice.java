@@ -2,6 +2,7 @@ package com.example.HotelBookingManagementSystem.service;
 
 
 import com.example.HotelBookingManagementSystem.dto.HotelDTO;
+import com.example.HotelBookingManagementSystem.dto.LocationDTO;
 import com.example.HotelBookingManagementSystem.dto.RoomDTO;
 import com.example.HotelBookingManagementSystem.entity.Hotel;
 import com.example.HotelBookingManagementSystem.entity.HotelAdmin;
@@ -87,8 +88,33 @@ public class Roomservice {
                 .collect(Collectors.toList());
     }
 
-    public Optional<Room> findRoomById(long id) {
-        return roomRepository.findRoomById(id);
+    public Optional<RoomDTO> findRoomById(long id) {
+        return roomRepository.findById(id)
+                .map(room -> new RoomDTO(
+                        room.getId(),
+                        room.getRoomType(),
+                        room.getImage(),
+                        room.getTotalRooms(),
+                        room.getAdults(),
+                        room.getChildren(),
+                        room.getPrice(),
+                        room.getAvailableRooms(),
+                        room.getBookedRooms(),
+                        new HotelDTO(
+                                room.getHotel().getId(),
+                                room.getHotel().getName(),
+                                room.getHotel().getAddress(),
+                                room.getHotel().getRating(),
+                                room.getHotel().getImage(),
+                                room.getHotel().getLocation() != null
+                                        ? new LocationDTO(
+                                        room.getHotel().getLocation().getId(),
+                                        room.getHotel().getLocation().getName()
+
+                                )
+                                        : null
+                        )
+                ));
     }
 
     private RoomDTO mapToDTO(Room room) {

@@ -78,5 +78,12 @@ export class HotelInfoService {
       headers: this.getAuthHeaders()
     });
   }
+
+  //for public
+
+  
+  getHotelInfoByHotelIdpublic(hotelId: number): Observable<HotelInfo> {
+    return this.http.get<HotelInfo>(`${this.baseUrl}/hotel/${hotelId}`);
+  }
   
 }

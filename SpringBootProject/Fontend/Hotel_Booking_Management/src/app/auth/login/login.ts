@@ -28,41 +28,89 @@ export class Login implements OnInit {
     });
   }
 
-onSubmit(): void {
-  if (this.loginForm.invalid) return;
+  // onSubmit(): void {
+  //   if (this.loginForm.invalid) return;
 
-  const { email, password } = this.loginForm.value;
+  //   const { email, password } = this.loginForm.value;
 
-  this.authService.login(email, password).subscribe({
-    next: (response) => {
-      if (response.token) {
-        // token এবং role localStorage-এ already save হচ্ছে authService.login() থেকে
-        const role = this.authService.getUserRole(); 
+  //   this.authService.login(email, password).subscribe({
+  //     next: (response) => {
+  //       if (response.token) {
+  //         // token এবং role localStorage-এ already save হচ্ছে authService.login() থেকে
+  //         const role = this.authService.getUserRole(); 
 
-        this.successMessage = 'Login successful!';
-        this.errorMessage = null;
+  //         this.successMessage = 'Login successful!';
+  //         this.errorMessage = null;
 
-        // Role-based redirect
-        if (role === 'CUSTOMER') {
-          this.router.navigate(['/home']);
-        } else if (role === 'HOTEL_ADMIN') {
-          this.router.navigate(['/hoteladminProfile']);
-        } else if (role === 'ADMIN') {
-          this.router.navigate(['/addlocation']);
+  //         // Role-based redirect
+  //         if (role === 'CUSTOMER') {
+  //           this.router.navigate(['/home']);
+  //         } else if (role === 'HOTEL_ADMIN') {
+  //           this.router.navigate(['/hoteladminProfile']);
+  //         } else if (role === 'ADMIN') {
+  //           this.router.navigate(['/addlocation']);
+  //         } else {
+  //           this.router.navigate(['/']); // fallback
+  //         }
+
+  //       } else {
+  //         this.errorMessage = response.message || 'Login failed.';
+  //         this.successMessage = null;
+  //       }
+  //     },
+  //     error: (err) => {
+  //       this.errorMessage = 'Login failed. Please check your credentials.';
+  //       this.successMessage = null;
+  //     }
+  //   });
+  // }
+
+
+  onSubmit(): void {
+    if (this.loginForm.invalid) return;
+
+    const { email, password } = this.loginForm.value;
+
+    this.authService.login(email, password).subscribe({
+      next: (response) => {
+        if (response.token) {
+          // token এবং role localStorage-এ already save হচ্ছে authService.login() থেকে
+          const role = this.authService.getUserRole();
+
+          this.successMessage = 'Login successful!';
+          this.errorMessage = null;
+
+          // Check if there is a redirect URL
+          const redirectUrl = localStorage.getItem('redirectUrl');
+          if (redirectUrl) {
+            localStorage.removeItem('redirectUrl'); // clean up
+            this.router.navigateByUrl(redirectUrl);
+            return;
+          }
+
+          // Role-based redirect (fallback)
+          if (role === 'CUSTOMER') {
+            this.router.navigate(['/']);
+          } else if (role === 'HOTEL_ADMIN') {
+            this.router.navigate(['/hoteladminProfile']);
+          } else if (role === 'ADMIN') {
+            this.router.navigate(['/addlocation']);
+          } else {
+            this.router.navigate(['/']); // fallback
+          }
+
         } else {
-          this.router.navigate(['/']); // fallback
+          this.errorMessage = response.message || 'Login failed.';
+          this.successMessage = null;
         }
-
-      } else {
-        this.errorMessage = response.message || 'Login failed.';
+      },
+      error: (err) => {
+        this.errorMessage = 'Login failed. Please check your credentials.';
         this.successMessage = null;
       }
-    },
-    error: (err) => {
-      this.errorMessage = 'Login failed. Please check your credentials.';
-      this.successMessage = null;
-    }
-  });
-}
+    });
+  }
+
+
 
 }

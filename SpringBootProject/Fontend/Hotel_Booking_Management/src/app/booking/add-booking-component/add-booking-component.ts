@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Room } from '../../model/room.model';
 import { BookingService } from '../../service/booking-service';
@@ -22,16 +22,19 @@ export class AddBookingComponent implements OnInit {
     private bookingService: BookingService,
     private roomService: RoomService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     const roomId = Number(this.route.snapshot.paramMap.get('id'));
 
-    console.log(roomId)
+    console.log(roomId+"  :::11111111111111111")
     this.roomService.getRoomById(roomId).subscribe(room => {
       this.selectedRoom = room;
+      console.log(room);
       this.initForm();
+      this.cdr.markForCheck();
     });
   }
 
@@ -66,6 +69,7 @@ export class AddBookingComponent implements OnInit {
         price: [this.selectedRoom.price],
         adults: [this.selectedRoom.adults],
         children: [this.selectedRoom.children],
+        
         bookedRooms: [0]
       })
     });
@@ -107,6 +111,7 @@ export class AddBookingComponent implements OnInit {
 
   bookRoom(): void {
     if (this.bookingForm.invalid) {
+      
       alert('Please fill all required fields correctly!');
       return;
     }
@@ -136,6 +141,7 @@ export class AddBookingComponent implements OnInit {
           next: () => {
             alert('Booking successful and room availability updated!');
             this.router.navigate(['/bookings']);
+            this.cdr.markForCheck();
           },
           error: (err) => {
             console.error(err);

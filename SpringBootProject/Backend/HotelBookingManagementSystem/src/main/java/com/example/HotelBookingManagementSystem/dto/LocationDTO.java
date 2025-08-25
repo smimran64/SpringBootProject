@@ -9,6 +9,11 @@ public class LocationDTO {
     public LocationDTO() {
     }
 
+    public LocationDTO(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public LocationDTO(long id, String name, String image) {
         this.id = id;
         this.name = name;

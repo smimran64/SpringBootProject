@@ -14,10 +14,10 @@
                 <label>Phone:</label>
                 <input class="form-control" formControlName="phone" placeholder="Enter phone number">
             </div>
-        </fieldset>
+            <!-- </fieldset> -->
 
-        <!-- Customer Info (readonly) -->
-        <fieldset class="mb-3 border p-3 rounded">
+            <!-- Customer Info (readonly) -->
+            <!-- <fieldset class="mb-3 border p-3 rounded"> -->
             <legend>Customer Info</legend>
             <div class="mb-2">
                 <label>Name:</label>
@@ -35,11 +35,12 @@
                 <label>Address:</label>
                 <input class="form-control" [value]="bookingForm.get('customerdto.address')?.value" readonly>
             </div>
-        </fieldset>
+            <!-- </fieldset> -->
 
-        <!-- Hotel Info (readonly) -->
-        <fieldset class="mb-3 border p-3 rounded">
-            <legend>Hotel Info</legend>
+            <!-- Hotel Info (readonly) -->
+            <!-- <fieldset class="mb-3 border p-3 rounded">
+            <legend>Hotel Info</legend> -->
+            <legend> Hotel Information</legend>
             <div class="mb-2">
                 <label>Name:</label>
                 <input class="form-control" [value]="bookingForm.get('hoteldto.name')?.value" readonly>
@@ -48,11 +49,12 @@
                 <label>Location:</label>
                 <input class="form-control" [value]="bookingForm.get('hoteldto.location')?.value" readonly>
             </div>
-        </fieldset>
+            <!-- </fieldset> -->
 
-        <!-- Room Info (readonly) -->
-        <fieldset class="mb-3 border p-3 rounded">
-            <legend>Room Info</legend>
+            <!-- Room Info (readonly) -->
+            <!-- <fieldset class="mb-3 border p-3 rounded">
+            <legend>Room Info</legend> -->
+            <legend>Room Information</legend>
             <div class="mb-2">
                 <label>Room Type:</label>
                 <input class="form-control" [value]="bookingForm.get('roomdto.roomType')?.value" readonly>
@@ -69,11 +71,11 @@
                 <label>Price per Night:</label>
                 <input class="form-control" [value]="bookingForm.get('roomdto.price')?.value | currency:'USD'" readonly>
             </div>
-        </fieldset>
+            <!-- </fieldset> -->
 
-        <!-- Booking Info -->
-        <fieldset class="mb-3 border p-3 rounded">
-            <legend>Booking Details</legend>
+            <!-- Booking Info -->
+            <!-- <fieldset class="mb-3 border p-3 rounded">
+            <legend>Booking Details</legend> -->
             <div class="mb-2">
                 <label>Check-in Date:</label>
                 <input type="date" class="form-control" formControlName="checkIn">
@@ -88,7 +90,7 @@
             </div>
             <div class="mb-2">
                 <label>Advance Amount:</label>
-                <input type="number" class="form-control" formControlName="advanceAmount" min="0">
+                <input type="number" class="form-control" formControlName="advanceAmount">
             </div>
             <div class="mb-2">
                 <label>Total Amount:</label>
@@ -102,4 +104,4 @@
 
         <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
     </form>
-</div>ss
+</div>

@@ -38,8 +38,9 @@ export class AboutHotel implements OnInit {
     });
 
     // load all locations
-    this.locationService.getAllLocations().subscribe(data => {
+    this.locationService.getAllLocationsForHome().subscribe(data => {
       this.locations = data;
+      console.log(data+"Location");
       this.cdr.markForCheck();
     });
   }
@@ -47,8 +48,9 @@ export class AboutHotel implements OnInit {
   // search hotels
   onSearch() {
     const { locationId, checkIn, checkOut } = this.searchForm.value;
-    this.hotelService.searchHotels(locationId, checkIn, checkOut).subscribe(data => {
+    this.hotelService.searchHotelhome(locationId, checkIn, checkOut).subscribe(data => {
       this.hotels = data;
+      console.log(data+"Hotel");
       this.searched = true;
       this.cdr.markForCheck();
     });

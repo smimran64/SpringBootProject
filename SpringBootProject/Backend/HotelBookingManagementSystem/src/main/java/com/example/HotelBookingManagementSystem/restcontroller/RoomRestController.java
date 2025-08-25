@@ -79,6 +79,26 @@ public class RoomRestController {
         }
     }
 
+
+
+                // for public
+
+    @GetMapping("/hotell/{hotelId}")
+    public ResponseEntity<List<RoomDTO>> getRoomsByHotelIdPublic(
+            @PathVariable long hotelId
+    ) {
+
+
+            List<RoomDTO> rooms = roomService.getRoomsByHotelId( hotelId)
+                    .stream()
+                    .filter(r -> r.getHotelDTO().getId() == hotelId)
+                    .toList();
+
+            return ResponseEntity.ok(rooms);
+        }
+
+
+
     // Save new room
     @PostMapping("/save")
     public ResponseEntity<?> saveRoom(
@@ -147,7 +167,8 @@ public class RoomRestController {
 
 
     @GetMapping("/{id}")
-    public Optional<Room> getRoomById(@PathVariable long id) {
+    public Optional<RoomDTO> getRoomById(@PathVariable long id) {
+
         return roomService.findRoomById(id);
     }
 

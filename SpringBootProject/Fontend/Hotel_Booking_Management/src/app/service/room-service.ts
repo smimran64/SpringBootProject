@@ -55,7 +55,7 @@ export class RoomService {
   // Get rooms by hotel ID
 
   getRoomsByHotelId(hotelId: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/hotel/${hotelId}`, { headers: this.getAuthHeaders() })
+    return this.http.get<any>(`${this.baseUrl}/hotell/${hotelId}`, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
 
@@ -107,6 +107,8 @@ export class RoomService {
       catchError(this.handleError)
     );
   }
+
+
 
   // ✅ Find room by id
   getRoomById(id: number): Observable<Room> {

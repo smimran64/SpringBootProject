@@ -42,7 +42,8 @@ public class SecurityConfig {
                                 "/api/hotelAdmin/**",
                                 "/api/hotel/all",
                                 "/api/login",
-                                "/api/room/all"
+                                "/api/room/all",
+                                "/api/room/**"
                                 ,"/api/active/**",
                                 "/api/user/active/**",
                                 "/api/hotel/searchByHotelAdminId",
@@ -56,20 +57,22 @@ public class SecurityConfig {
                                 "/api/hotel/search",
                                 "/api/hotel/{id}/rooms",
                                 "/api/hotel/**",
-                                "/api/room/hotel/**",
+                                "/api/room/hotell/**",
                                 "/api/location/all",
                                 "/api/amenities/all",
                                 "/api/hotel/information/save",
                                 "/api/room/hotel/**",
+                                "/api/amenities/hotel/**",
+                                "/api/hotel/information/hotel/**",
                                 "/api/booking/save").permitAll()
 
                         .requestMatchers("/api/hotel/save",
                                 "/api/room/save",
                                 "/api/amenities/save",
-                                "/api/amenities/hotel/**",
+
                                 "/api/hotel/myHotels",
                                 "/api/hotel/information/save",
-                                "/api/hotel/information/hotel/**",
+
                                 "/api/hoteladmin/profile",
                                 "/api/hotel/information/0  delete/**").hasRole("HOTEL_ADMIN")
 

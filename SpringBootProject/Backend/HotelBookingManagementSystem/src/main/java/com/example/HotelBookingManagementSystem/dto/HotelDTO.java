@@ -21,6 +21,8 @@ public class HotelDTO {
         this.location = location;
     }
 
+
+
     public long getId() {
         return id;
     }

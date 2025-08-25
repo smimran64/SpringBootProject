@@ -7,6 +7,7 @@ import { HotelAmenities } from '../../model/hotelAmenities.model';
 import { HotelAmenitiesService } from '../../service/hotel-amenities.service';
 import { HotelInfo } from '../../model/hotelInfo.model';
 import { HotelInfoService } from '../../service/hotel-info.service';
+import { Authservice } from '../../service/authservice';
 
 @Component({
   selector: 'app-hotel-details-compononent',
@@ -30,6 +31,7 @@ export class HotelDetailsCompononent implements OnInit {
     private cd: ChangeDetectorRef,
     private hotelAmenitiesService: HotelAmenitiesService,
     private hotelInfoService: HotelInfoService,
+    private authService: Authservice
   ) { }
 
   ngOnInit(): void {
@@ -50,10 +52,10 @@ export class HotelDetailsCompononent implements OnInit {
     this.hotelInfo = null;
 
     forkJoin({
-      hotel: this.hotelService.getHotelById(hotelId),
-      rooms: this.hotelService.getRoomsByHotel(hotelId),
-      amenities: this.hotelAmenitiesService.getAmenitiesByHotelId(hotelId),
-      info: this.hotelInfoService.getHotelInfoByHotelId(hotelId)
+      hotel: this.hotelService.getHotelByIdpublic(hotelId),
+      rooms: this.hotelService.getRoomsByHotelpublic(hotelId),
+      amenities: this.hotelAmenitiesService.getAmenitiesByHotelIdpublic(hotelId),
+      info: this.hotelInfoService.getHotelInfoByHotelIdpublic(hotelId)
     }).subscribe({
       next: ({ hotel, rooms, amenities, info }) => {
         this.hotel = hotel;
@@ -71,14 +73,59 @@ export class HotelDetailsCompononent implements OnInit {
     });
   }
 
+  // bookRoom(room: any) {
+
+
+  //   if (this.authService.isLoggIn()) {
+  //     this.router.navigate(['/addbooking', room.id], {
+  //       queryParams: {
+  //         hotelId: this.hotel?.id,
+  //         roomType: room.roomType,
+  //         price: room.price
+  //       }
+  //     });
+
+  //   }
+
+  //   else {
+  //     this.router.navigate(['/login']);
+
+  //   }
+
+
+
+  // }
+
+
+
   bookRoom(room: any) {
-    this.router.navigate(['/addbooking', room.id], {
-      queryParams: {
-        hotelId: this.hotel?.id,
-        roomType: room.roomType,
-        price: room.price
-      }
-    });
+    if (this.authService.isLoggIn()) {
+      this.router.navigate(['/addbooking', room.id], {
+        queryParams: {
+          hotelId: this.hotel?.id,
+          roomType: room.roomType,
+          price: room.price
+        }
+      });
+    } else {
+      // Save redirect URL to localStorage (or service)
+      const redirectUrl = this.router.createUrlTree(
+        ['/addbooking', room.id],
+        {
+          queryParams: {
+            hotelId: this.hotel?.id,
+            roomType: room.roomType,
+            price: room.price
+          }
+        }
+      ).toString();
+
+      localStorage.setItem('redirectUrl', redirectUrl);
+
+      this.router.navigate(['/login']);
+    }
   }
+
+
 
 }

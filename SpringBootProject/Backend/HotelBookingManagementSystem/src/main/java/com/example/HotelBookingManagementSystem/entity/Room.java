@@ -31,6 +31,9 @@ public class Room {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "room-bookings")
     private List<Booking> bookings;
+
+
+
     public Room() {
     }
 
