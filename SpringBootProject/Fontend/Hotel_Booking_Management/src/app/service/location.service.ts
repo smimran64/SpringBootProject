@@ -19,20 +19,20 @@ export class LocationService {
 
   // Helper method to get JWT headers
 
-  private getToken(): string {
-    if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('authToken') || '';
-    }
-    return ''; // SSR বা Node context এ empty token
-  }
+  // private getToken(): string {
+  //   if (isPlatformBrowser(this.platformId)) {
+  //     return localStorage.getItem('authToken') || '';
+  //   }
+  //   return ''; // SSR বা Node context এ empty token
+  // }
 
 
-  private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken');
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-  }
+  // private getAuthHeaders(): HttpHeaders {
+  //   const token = localStorage.getItem('authToken');
+  //   return new HttpHeaders({
+  //     'Authorization': `Bearer ${token}`
+  //   });
+  // }
 
   // Create location
 
@@ -51,7 +51,7 @@ export class LocationService {
     formData.append('image', image);
 
     return this.http.post(this.baseUrl + '/save', formData, {
-      headers: this.getAuthHeaders(),
+      // headers: this.getAuthHeaders(),
       responseType: 'text' as 'json'
     });
   }
@@ -78,7 +78,7 @@ export class LocationService {
     }
 
     return this.http.put(this.baseUrl + `/update/${id}`, formData, {
-      headers: this.getAuthHeaders(),
+      // headers: this.getAuthHeaders(),
       responseType: 'text' as 'json'
     });
   }
@@ -98,7 +98,7 @@ export class LocationService {
 
 
     return this.http.delete(this.baseUrl + `/delete/${id}`, {
-      headers: this.getAuthHeaders(),
+      // headers: this.getAuthHeaders(),
       responseType: 'text' as 'json'
     });
   }
@@ -118,7 +118,7 @@ export class LocationService {
     }
 
     return this.http.get<any[]>(this.baseUrl + '/all', {
-      headers: this.getAuthHeaders()
+      // headers: this.getAuthHeaders()
     });
 
 

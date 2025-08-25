@@ -5,6 +5,7 @@ import { Authservice } from './authservice';
 import { Observable } from 'rxjs';
 import { HotelAdmin } from '../model/hotelAdmin.model';
 import { isPlatformBrowser } from '@angular/common';
+import { Hotel } from '../model/hotel.model';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +61,7 @@ export class HotelAdminService {
       }
     }
 
-    return this.http.get(`${this.baseUrl}/hotelInfo/${hotelId}`);
+    return this.http.get(`http://localhost:8082/api/hotel/information/hotel/${hotelId}`);
   }
 
   // Get Hotel Amenities by Hotel ID
@@ -77,24 +78,22 @@ export class HotelAdminService {
       }
     }
 
-    return this.http.get(`${this.baseUrl}/amenities/${hotelId}`);
+    return this.http.get(`http://localhost:8082/api/amenities/hotel/${hotelId}`);
   }
 
   // Optionally: Get all hotels for this admin (already partially exists)
-  getHotelsByAdminId(adminId: number): Observable<any[]> {
-
+ getMyHotels(): Observable<Hotel[]> {
+ 
+ 
      let headers = new HttpHeaders();
-
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        headers = headers.set('Authorization', 'Bearer ' + token);
-        console.log(headers);
-      }
-    }
-    
-    return this.http.get<any[]>(`${this.baseUrl}/myHotels/${adminId}`);
-  }
-
+ 
+     if (isPlatformBrowser(this.platformId)) {
+       const token = localStorage.getItem('authToken');
+       if (token) {
+         headers = headers.set('Authorization', 'Bearer ' + token);
+       }
+     }
+     return this.http.get<Hotel[]>(`${this.baseUrl}/myHotels`, { headers });
+   }
 
 }

@@ -66,8 +66,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/hotel/save",
                                 "/api/room/save",
                                 "/api/amenities/save",
+                                "/api/amenities/hotel/**",
                                 "/api/hotel/myHotels",
                                 "/api/hotel/information/save",
+                                "/api/hotel/information/hotel/**",
                                 "/api/hoteladmin/profile",
                                 "/api/hotel/information/0  delete/**").hasRole("HOTEL_ADMIN")
 

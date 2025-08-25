@@ -41,7 +41,7 @@ export class HotelAdminProfile {
   loadHotels() {
     if (!this.profile) return;
     this.activeTab = 'hotels';
-    this.hotelAdminService.getHotelsByAdminId(this.profile.id).subscribe({
+    this.hotelAdminService.getMyHotels().subscribe({
       next: (res) => {
         this.hotels = res;
         console.log('Hotels loaded:', res);

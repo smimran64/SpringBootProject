@@ -102,7 +102,7 @@ public class HotelAdminRestController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Get HotelAdmin profile using userId and convert to DTO
-        HotelAdminDTO profile = hotelAminService.getProfileByUserId(user.getId());
+        HotelAdminDTO profile = hotelAminService.getProfileById(user.getId());
 
         return ResponseEntity.ok(profile);
     }
