@@ -12,6 +12,8 @@ public class HotelDTO {
 
     public HotelDTO() {}
 
+
+
     public HotelDTO(long id, String name, String address, String rating, String image, LocationDTO location) {
         this.id = id;
         this.name = name;

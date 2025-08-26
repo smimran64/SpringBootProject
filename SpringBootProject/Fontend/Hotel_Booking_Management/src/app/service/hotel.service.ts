@@ -234,4 +234,8 @@ export class HotelService {
       .pipe(catchError(this.handleError));
   }
 
+  getHotelByHotelAdminId(hotelAdminId: number): Observable<any>{
+    return this.http.get(this.baseUrl + '/hotelbyhoteladmin/' + hotelAdminId);
+  }
+
 }

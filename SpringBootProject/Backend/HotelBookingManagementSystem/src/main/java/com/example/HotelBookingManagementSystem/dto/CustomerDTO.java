@@ -21,16 +21,16 @@ public class CustomerDTO {
     public CustomerDTO() {
     }
 
-    public CustomerDTO(Customer customer) {
-        this.id = customer.getId();
-        this.name = customer.getName();
-        this.email = customer.getEmail();
-        this.phone = customer.getPhone();
-        this.address = customer.getAddress();
-        this.gender = customer.getGender();
-        this.dateOfBirth = customer.getDateOfBirth();
-        this.image = customer.getImage();
-
+    public CustomerDTO(Long id, String name, String email, String password, String phone, String address, String gender, Date dateOfBirth, String image) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.address = address;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.image = image;
     }
 
     public Long getId() {
@@ -55,6 +55,14 @@ public class CustomerDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPhone() {

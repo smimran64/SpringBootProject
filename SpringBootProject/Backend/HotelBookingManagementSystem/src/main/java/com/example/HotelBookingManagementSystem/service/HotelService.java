@@ -273,4 +273,15 @@ public class HotelService {
 //        return fileName;
 //    }
 
+    public List<HotelDTO> findHotelByHotelAdminId(int hotelAdminId) {
+        List<Hotel> hotels = hotelRepository.findByHotelAdminId(hotelAdminId);
+        return hotels.stream().map(hotel -> new HotelDTO(
+                hotel.getId(),
+                hotel.getName(),
+                hotel.getAddress(),
+                hotel.getRating(),
+                hotel.getImage(),
+                null
+        )).collect(Collectors.toList());
+    }
 }

@@ -122,6 +122,11 @@ public class HotelRestController {
         return ResponseEntity.ok(hotels);
     }
 
+    @GetMapping("/hotelbyhoteladmin/{hotelAdminId}")
+    public List<HotelDTO> getHotelByAdminId(@PathVariable int hotelAdminId) {
+        return hotelService.findHotelByHotelAdminId(hotelAdminId);
+    }
+
 
 
 

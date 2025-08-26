@@ -46,5 +46,7 @@ export class Customerservice {
 
     return this.http.get<Customer>(`${this.baseUrl}/profile`, { headers });
   }
+
+  
   
 }

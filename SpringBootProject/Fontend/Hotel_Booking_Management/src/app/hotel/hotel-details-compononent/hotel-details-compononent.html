@@ -40,9 +40,10 @@
           <p class="mb-1">Available: <span class="fw-bold">{{ room.availableRooms }}</span></p>
           <p class="mb-1">Adults: <span class="fw-bold">{{ room.adults }}</span></p>
           <p class="mb-3">Children: <span class="fw-bold">{{ room.children }}</span></p>
-          <div class="mt-auto">
+          <div class="mt-auto" *ngIf="role?.toUpperCase() !== 'HOTEL_ADMIN'">
             <button class="btn btn-gradient w-100" (click)="bookRoom(room)">Book Now</button>
           </div>
+
         </div>
       </div>
     </div>

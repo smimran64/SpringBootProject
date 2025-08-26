@@ -5,6 +5,8 @@ import { BookingService } from '../../service/booking-service';
 import { RoomService } from '../../service/room-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Booking } from '../../model/booking.model';
+import { Customerservice } from '../../service/customerservice';
+import { Customer } from '../../model/customer.model';
 
 @Component({
   selector: 'app-add-booking-component',
@@ -17,23 +19,27 @@ export class AddBookingComponent implements OnInit {
   bookingForm!: FormGroup;
   selectedRoom!: Room;
 
+  customer!:any;
+
   constructor(
     private fb: FormBuilder,
     private bookingService: BookingService,
     private roomService: RoomService,
+    private customerService: Customerservice,
     private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const roomId = Number(this.route.snapshot.paramMap.get('id'));
 
-    console.log(roomId+"  :::11111111111111111")
+    console.log(roomId + "  :::11111111111111111")
     this.roomService.getRoomById(roomId).subscribe(room => {
       this.selectedRoom = room;
       console.log(room);
       this.initForm();
+      this.loadCustomerDetails();
       this.cdr.markForCheck();
     });
   }
@@ -49,18 +55,18 @@ export class AddBookingComponent implements OnInit {
       totalAmount: [{ value: 0, disabled: true }],
       dueAmount: [{ value: 0, disabled: true }],
 
-      customerdto: this.fb.group({
-        id: [1], // 
-        name: [''],
-        email: [''],
-        phone: [''],
-        address: ['']
-      }),
+      // customerdto: this.fb.group({
+      //   id: [''], // 
+      //   name: [''],
+      //   email: [''],
+      //   phone: [''],
+      //   address: ['']
+      // }),
 
       hoteldto: this.fb.group({
-        id: [this.selectedRoom.hotelDTO.id], 
-        name: [''],
-        location: ['']
+        id: [this.selectedRoom.hotelDTO.id],
+        name: [this.selectedRoom.hotelDTO.name],
+        location: [this.selectedRoom.hotelDTO.address]
       }),
 
       roomdto: this.fb.group({
@@ -69,7 +75,6 @@ export class AddBookingComponent implements OnInit {
         price: [this.selectedRoom.price],
         adults: [this.selectedRoom.adults],
         children: [this.selectedRoom.children],
-        
         bookedRooms: [0]
       })
     });
@@ -111,14 +116,14 @@ export class AddBookingComponent implements OnInit {
 
   bookRoom(): void {
     if (this.bookingForm.invalid) {
-      
+
       alert('Please fill all required fields correctly!');
       return;
     }
 
     const booking: Booking = this.bookingForm.getRawValue();
 
-    
+
     if (booking.numberOfRooms > (this.selectedRoom.availableRooms || 0)) {
       alert('Not enough rooms available!');
       return;
@@ -157,5 +162,21 @@ export class AddBookingComponent implements OnInit {
   }
 
 
+  loadCustomerDetails(): void {
+
+    this.customerService.getProfile().subscribe({
+      next: (data) =>{
+
+        this.customer = data;
+        console.log(data+"+++++++++++++++");
+
+      },
+      error:(err)=>{
+
+        console.log("Customer Details Loaded Failed")
+
+      }
+    })
+  }
 
 }

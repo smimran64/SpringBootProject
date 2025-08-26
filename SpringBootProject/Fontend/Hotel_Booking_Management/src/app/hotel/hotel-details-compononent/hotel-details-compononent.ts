@@ -23,6 +23,7 @@ export class HotelDetailsCompononent implements OnInit {
   errorMessage = '';
   amenities: HotelAmenities | null = null;
   hotelInfo: HotelInfo | null = null;
+  role!:string | null;
 
   constructor(
     private hotelService: HotelService,
@@ -35,6 +36,8 @@ export class HotelDetailsCompononent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getRole();
+    
     this.route.paramMap.subscribe(params => {
       const hotelId = Number(params.get('id'));
       if (hotelId) {
@@ -124,6 +127,10 @@ export class HotelDetailsCompononent implements OnInit {
 
       this.router.navigate(['/login']);
     }
+  }
+
+  getRole(): void{
+    this.role = localStorage.getItem('userRole');
   }
 
 

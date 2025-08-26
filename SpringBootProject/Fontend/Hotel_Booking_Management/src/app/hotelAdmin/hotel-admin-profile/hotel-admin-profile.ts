@@ -1,26 +1,24 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HotelAdmin } from '../../model/hotelAdmin.model';
 import { HotelAdminService } from '../../service/hotel-admin-service';
+import { HotelService } from '../../service/hotel.service';
 
 @Component({
   selector: 'app-hotel-admin-profile',
   standalone: false,
   templateUrl: './hotel-admin-profile.html',
-  styleUrl: './hotel-admin-profile.css'
+  styleUrls: ['./hotel-admin-profile.css'] // FIXED: changed from styleUrl to styleUrls
 })
 export class HotelAdminProfile implements OnInit {
 
   profile: HotelAdmin | null = null;
   hotels: any[] = [];
-  hotelInfo: any = null;
-  amenities: any = null;
-
-  activeTab: string = 'hotels'; // default tab
 
   constructor(
     private hotelAdminService: HotelAdminService,
+    private hotelService: HotelService,
     private cdr: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadProfile();
@@ -31,45 +29,25 @@ export class HotelAdminProfile implements OnInit {
       next: (res) => {
         this.profile = res;
         console.log('Profile loaded:', res);
-        this.cdr.detectChanges(); // optional, only if needed
-      }
-    });
-  }
-
-  loadHotels() {
-    if (!this.profile) return;
-    this.activeTab = 'hotels';
-    this.hotelAdminService.getMyHotels().subscribe({
-      next: (res) => {
-        this.hotels = res;
-        console.log('Hotels loaded:', res);
-      }
-    });
-  }
-
-  loadHotelInfo() {
-    this.activeTab = 'hotelInfo';    
-    if (this.hotels.length === 0) return;
-    const hotelId = this.hotels[0].id;
-    this.hotelAdminService.getHotelInfoByHotelId(hotelId).subscribe({
-      next: (res) => {
-        this.hotelInfo = res;
-        console.log('Hotel Info loaded:', res);
-      }
-    });
-  }
-
-  loadAmenities() {
-    this.activeTab = 'amenities';
-    if (this.hotels.length === 0) return;
-    const hotelId = this.hotels[0].id;
-    this.hotelAdminService.getHotelAmenitiesByHotelId(hotelId).subscribe({
-      next: (res) => {
-        this.amenities = res;
-        console.log('Amenities loaded:', res);
+        this.loadHotels(res.id);
+        this.cdr.markForCheck();
       },
-      error: (err) => console.error(err)
+      error: (err) => {
+        console.error('Failed to load profile:', err);
+      }
     });
   }
 
+  loadHotels(adminId: number): void {
+    this.hotelService.getHotelByHotelAdminId(adminId).subscribe({
+      next: (data) => {
+        this.hotels = data;
+        this.cdr.markForCheck();
+        console.log('Hotels loaded:', data);
+      },
+      error: (err) => {
+        console.error('Failed to load hotels:', err);
+      }
+    });
+  }
 }

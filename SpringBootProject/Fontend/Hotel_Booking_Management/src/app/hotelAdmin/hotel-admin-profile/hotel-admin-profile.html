@@ -1,86 +1,47 @@
-<div class="profile-container">
+<div class="profile-container my-5">
 
-    <!-- Cover Photo -->
-    <div class="cover-photo">
-        <img src="" alt="Cover Photo">
-    </div>
+  <!-- Cover Photo -->
+  <div class="cover-photo my-5">
+    <img src="https://plus.unsplash.com/premium_photo-1661964071015-d97428970584?q=80&w=1020&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Cover Photo" />
+  </div>
 
-    <!-- Profile Picture & Basic Info -->
-    <div class="profile-header">
-        <div class="profile-picture">
-            <img *ngIf="profile" [src]="'http://localhost:8082/images/hoteladmins/' + profile.image"
+  <!-- Profile Section -->
+  <div class="profile-header">
+    <div class="profile-picture">
+      <img *ngIf="profile" [src]="'http://localhost:8082/images/hotelAdmin/' + profile.image"
                 alt="{{ profile.name }}">
+    </div>
+    <div class="profile-info">
+      <h2>{{ profile?.name }}</h2>
+      <p><i class="fas fa-envelope"></i> {{ profile?.email }}</p>
+      <p><i class="fas fa-phone"></i> {{ profile?.phone }}</p>
+      <p><i class="fas fa-map-marker-alt"></i> {{ profile?.address }}</p>
+    </div>
+  </div>
+
+  <!-- Hotel List Section -->
+  <div class="hotel-list-section">
+    <h3>Managed Hotels</h3>
+    
+    <div class="hotel-grid" *ngIf="hotels.length > 0; else noHotels">
+      <div *ngFor="let hotel of hotels" class="hotel-card">
+        <div class="hotel-image">
+          <img *ngIf="hotel.image" [src]="'http://localhost:8082/images/hotels/' + hotel.image" alt="{{ hotel.name }}">
         </div>
-        <div class="profile-info">
-            <h2>{{ profile?.name }}</h2>
-            <p>{{ profile?.email }}</p>
-            <p>{{ profile?.phone }}</p>
-            <p>{{ profile?.address }}</p>
-            <p>{{ profile?.id }}</p>
+        <a routerLink="/hotel-details/{{hotel.id}}">
+        <div class="hotel-info">
+          <h4>{{ hotel.name }}</h4>
+          <p><strong>Address:</strong> {{ hotel.address }}</p>
+          <p><strong>Rating:</strong> {{ hotel.rating }}</p>
+          <p><strong>Location:</strong> {{ hotel.location?.name }}</p>
         </div>
+        </a>
+      </div>
     </div>
 
-    <!-- Tabs -->
-    <div class="tabs">
-        <button [class.active]="activeTab==='hotels'" (click)="loadHotels()">Hotels</button>
-        <button [class.active]="activeTab==='hotelInfo'" (click)="loadHotelInfo()">Hotel Info</button>
-        <button [class.active]="activeTab==='amenities'" (click)="loadAmenities()">Amenities</button>
-    </div>
-
-    <!-- Tab Contents -->
-    <div class="tab-content">
-
-        <!-- Hotels -->
-        <div *ngIf="activeTab==='hotels'">
-            <div *ngIf="hotels.length > 0; else noHotels">
-                <div class="hotel-card" *ngFor="let hotel of hotels">
-                    <img [src]="'http://localhost:8082/images/hotels/' + hotel.image" alt="{{ hotel.name }}">
-                    <h4>{{ hotel.name }}</h4>
-                    <p>{{ hotel.address }}</p>
-                    <p>{{ hotel.location?.name }}</p>
-                </div>
-            </div>
-            <ng-template #noHotels>
-                <p>No hotels added yet.</p>
-            </ng-template>
-        </div>
-
-        <!-- Hotel Info -->
-        <div *ngIf="activeTab==='hotelInfo'">
-            <div *ngIf="hotelInfo; else noInfo">
-                <p><strong>Description:</strong> {{ hotelInfo.description }}</p>
-                <p><strong>Owner's Mind:</strong> {{ hotelInfo.ownerSpeach }}</p>
-                <p><strong>Hotel Policy:</strong> {{ hotelInfo.hotelPolicy }}</p>
-            </div>
-            <ng-template #noInfo>
-                <p>No hotel information available.</p>
-            </ng-template>
-        </div>
-
-        <!-- Amenities -->
-        <div *ngIf="activeTab==='amenities'">
-            <div *ngIf="amenities; else noAmenities">
-                <ul class="amenities-list">
-                    <li *ngIf="amenities.freeWifi">Free WiFi</li>
-                    <li *ngIf="amenities.freeParking">Free Parking</li>
-                    <li *ngIf="amenities.swimmingPool">Swimming Pool</li>
-                    <li *ngIf="amenities.gym">Gym</li>
-                    <li *ngIf="amenities.restaurant">Restaurant</li>
-                    <li *ngIf="amenities.roomService">Room Service</li>
-                    <li *ngIf="amenities.airConditioning">Air Conditioning</li>
-                    <li *ngIf="amenities.laundryService">Laundry Service</li>
-                    <li *ngIf="amenities.wheelchairAccessible">Wheelchair Accessible</li>
-                    <li *ngIf="amenities.healthServices">Health Services</li>
-                    <li *ngIf="amenities.playGround">Playground</li>
-                    <li *ngIf="amenities.airportSuttle">Airport Shuttle</li>
-                    <li *ngIf="amenities.breakFast">Breakfast</li>
-                </ul>
-            </div>
-            <ng-template #noAmenities>
-                <p>No amenities available.</p>
-            </ng-template>
-        </div>
-
-    </div>
+    <ng-template #noHotels>
+      <p class="no-hotels">No hotels found for this admin.</p>
+    </ng-template>
+  </div>
 
 </div>
