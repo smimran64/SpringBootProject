@@ -32,13 +32,18 @@ export class AdminService {
   }
 
 
-getProfile(): Observable<Admin> {
-  const headers = isPlatformBrowser(this.platformId) && localStorage.getItem('authToken') 
-    ? new HttpHeaders({ 'Authorization': `Bearer ${localStorage.getItem('authToken')}` })
-    : new HttpHeaders();
+  getProfile(): Observable<Admin> {
+    let headers = new HttpHeaders();
 
-  return this.http.get<Admin>(`${this.baseUrl}/profile`, { headers });
-}
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+      }
+    }
+
+    return this.http.get<Admin>(`${this.baseUrl}/profile`, { headers });
+  }
 
 
 

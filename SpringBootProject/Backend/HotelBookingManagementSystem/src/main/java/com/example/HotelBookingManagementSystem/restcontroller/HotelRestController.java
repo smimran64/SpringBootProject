@@ -110,6 +110,7 @@ public class HotelRestController {
     public ResponseEntity<List<Room>> getRoomsByHotel(@PathVariable Long id) {
         List<Room> rooms = hotelService.getRoomsByHotelId(id);
         return ResponseEntity.ok(rooms);
+
     }
 
     @GetMapping("/myHotels")

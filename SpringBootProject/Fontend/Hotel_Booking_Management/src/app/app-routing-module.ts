@@ -35,7 +35,7 @@ const routes: Routes = [
   {path: 'customerReg', component: CustomerRegComponent},
   {path: 'hotelAdminReg', component: HotelAdminRegComponent},
   {path: 'adminReg', component: AdminRegComponent},
-  {path: 'adminProfile', component: AdminProfileComponent},
+  {path: 'adminprofile', component: AdminProfileComponent},
   {path: 'hoteladminProfile', component: HotelAdminProfile},
   {path: 'customerProfile', component: CustomerProfileComponent},
   // {path: 'home', component: HomeComponenent},

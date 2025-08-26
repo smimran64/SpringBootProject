@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HotelAdmin } from '../../model/hotelAdmin.model';
 import { HotelAdminService } from '../../service/hotel-admin-service';
 
@@ -8,8 +8,7 @@ import { HotelAdminService } from '../../service/hotel-admin-service';
   templateUrl: './hotel-admin-profile.html',
   styleUrl: './hotel-admin-profile.css'
 })
-export class HotelAdminProfile {
-
+export class HotelAdminProfile implements OnInit {
 
   profile: HotelAdmin | null = null;
   hotels: any[] = [];
@@ -18,25 +17,24 @@ export class HotelAdminProfile {
 
   activeTab: string = 'hotels'; // default tab
 
-  constructor(private hotelAdminService: HotelAdminService) { }
+  constructor(
+    private hotelAdminService: HotelAdminService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     this.loadProfile();
   }
-
-        //Load HotelAdmin Profile
 
   loadProfile(): void {
     this.hotelAdminService.getProfile().subscribe({
       next: (res) => {
         this.profile = res;
         console.log('Profile loaded:', res);
-      },
-      error: (err) => console.error(err)
+        this.cdr.detectChanges(); // optional, only if needed
+      }
     });
   }
-
-        //Load Hotels
 
   loadHotels() {
     if (!this.profile) return;
@@ -45,12 +43,9 @@ export class HotelAdminProfile {
       next: (res) => {
         this.hotels = res;
         console.log('Hotels loaded:', res);
-      },
-      error: (err) => console.error(err)
+      }
     });
   }
-
-      //Load Hotel Info
 
   loadHotelInfo() {
     this.activeTab = 'hotelInfo';    
@@ -60,12 +55,9 @@ export class HotelAdminProfile {
       next: (res) => {
         this.hotelInfo = res;
         console.log('Hotel Info loaded:', res);
-      },
-      error: (err) => console.error(err)
+      }
     });
   }
-
-        // Load Amenities
 
   loadAmenities() {
     this.activeTab = 'amenities';
