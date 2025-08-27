@@ -8,6 +8,8 @@ import { HotelAmenitiesService } from '../../service/hotel-amenities.service';
 import { HotelInfo } from '../../model/hotelInfo.model';
 import { HotelInfoService } from '../../service/hotel-info.service';
 import { Authservice } from '../../service/authservice';
+import { HotelPhotoService } from '../../service/hotel-photo.service';
+import { HotelPhotoDTO } from '../../model/hotelPhoto.model';
 
 @Component({
   selector: 'app-hotel-details-compononent',
@@ -23,7 +25,12 @@ export class HotelDetailsCompononent implements OnInit {
   errorMessage = '';
   amenities: HotelAmenities | null = null;
   hotelInfo: HotelInfo | null = null;
-  role!:string | null;
+  role!: string | null;
+  photos: HotelPhotoDTO[] = [];
+
+  maxVisiblePhotos: number = 4; // max photos to show in gallery card
+  showModal: boolean = false;
+  modalPhotos: HotelPhotoDTO[] = [];
 
   constructor(
     private hotelService: HotelService,
@@ -32,12 +39,13 @@ export class HotelDetailsCompononent implements OnInit {
     private cd: ChangeDetectorRef,
     private hotelAmenitiesService: HotelAmenitiesService,
     private hotelInfoService: HotelInfoService,
-    private authService: Authservice
+    private authService: Authservice,
+    private hotelPhotoService: HotelPhotoService
   ) { }
 
   ngOnInit(): void {
     this.getRole();
-    
+
     this.route.paramMap.subscribe(params => {
       const hotelId = Number(params.get('id'));
       if (hotelId) {
@@ -53,18 +61,24 @@ export class HotelDetailsCompononent implements OnInit {
     this.rooms = [];
     this.amenities = null;
     this.hotelInfo = null;
+    this.photos = [];
+
+
+
 
     forkJoin({
       hotel: this.hotelService.getHotelByIdpublic(hotelId),
       rooms: this.hotelService.getRoomsByHotelpublic(hotelId),
       amenities: this.hotelAmenitiesService.getAmenitiesByHotelIdpublic(hotelId),
-      info: this.hotelInfoService.getHotelInfoByHotelIdpublic(hotelId)
+      info: this.hotelInfoService.getHotelInfoByHotelIdpublic(hotelId),
+      photos: this.hotelPhotoService.getPhotosByHotelPublic(hotelId)
     }).subscribe({
-      next: ({ hotel, rooms, amenities, info }) => {
+      next: ({ hotel, rooms, amenities, info, photos }) => {
         this.hotel = hotel;
         this.rooms = rooms;
         this.amenities = amenities;
         this.hotelInfo = info;
+        this.photos = photos;
         this.cd.markForCheck();
         this.loading = false;
 
@@ -129,10 +143,27 @@ export class HotelDetailsCompononent implements OnInit {
     }
   }
 
-  getRole(): void{
+  getRole(): void {
     this.role = localStorage.getItem('userRole');
   }
 
+
+  openModal() {
+    this.modalPhotos = this.photos;
+    this.showModal = true;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
+
+  getVisiblePhotos(): HotelPhotoDTO[] {
+    return this.photos.slice(0, this.maxVisiblePhotos);
+  }
+
+  getExtraCount(): number {
+    return this.photos.length - this.maxVisiblePhotos;
+  }
 
 
 }

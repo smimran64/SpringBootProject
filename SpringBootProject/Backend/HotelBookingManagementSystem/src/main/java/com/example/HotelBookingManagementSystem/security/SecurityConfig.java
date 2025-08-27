@@ -64,7 +64,9 @@ public class SecurityConfig {
                                 "/api/amenities/hotel/**",
                                 "/api/hotel/information/hotel/**",
                                 "/api/booking/save",
-                                "/api/hotel/hotelbyhoteladmin/**").permitAll()
+                                "/api/hotel/hotelbyhoteladmin/**",
+                                "/api/hotelPhoto/**",
+                                "/api/hotelPhoto/hotel/**").permitAll()
 
                         .requestMatchers("/api/hotel/save",
                                 "/api/room/save",
@@ -75,7 +77,9 @@ public class SecurityConfig {
                                 "/api/admin/**",
                                 "/api/hoteladmin/profile",
                                 "/api/hotel/information/0  delete/**",
-                                "/images/**").hasRole("HOTEL_ADMIN")
+                                "/images/**",
+                                "/api/hotelPhoto/upload/* *"
+                                ).hasRole("HOTEL_ADMIN")
 
                         .requestMatchers("/api/location/save",
                                 "/api/admin/profile").hasRole("ADMIN")

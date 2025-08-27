@@ -1,5 +1,6 @@
 package com.example.HotelBookingManagementSystem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -40,11 +41,16 @@ public class Hotel {
     private HotelInformation hotelInformation;
 
 
+    @OneToMany(mappedBy = "hotel", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<HotelPhoto> photos;
+
+
 
     public Hotel() {
     }
 
-    public Hotel(long id, String name, String address, String rating, String image, Location location, HotelAdmin hotelAdmin, List<Room> rooms, List<Booking> bookings, HotelAmenities hotelAmenities, HotelInformation hotelInformation) {
+    public Hotel(long id, String name, String address, String rating, String image, Location location, HotelAdmin hotelAdmin, List<Room> rooms, List<Booking> bookings, HotelAmenities hotelAmenities, HotelInformation hotelInformation, List<HotelPhoto> photos) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -56,6 +62,7 @@ public class Hotel {
         this.bookings = bookings;
         this.hotelAmenities = hotelAmenities;
         this.hotelInformation = hotelInformation;
+        this.photos = photos;
     }
 
     public long getId() {
@@ -144,5 +151,13 @@ public class Hotel {
 
     public void setHotelInformation(HotelInformation hotelInformation) {
         this.hotelInformation = hotelInformation;
+    }
+
+    public List<HotelPhoto> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(List<HotelPhoto> photos) {
+        this.photos = photos;
     }
 }

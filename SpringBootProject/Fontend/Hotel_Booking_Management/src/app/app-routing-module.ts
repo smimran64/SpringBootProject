@@ -23,6 +23,8 @@ import { ViewAmenitiesComponent } from './HotelAmenities/view-amenities-componen
 import { HotelInfoComponent } from './hotelInfo/hotel-info-component/hotel-info-component';
 import { ViewHotelInfoComponent } from './hotelInfo/view-hotel-info-component/view-hotel-info-component';
 import { AddBookingComponent } from './booking/add-booking-component/add-booking-component';
+import { AddHotelPhotoComponent } from './hotelPhoto/add-hotel-photo-component/add-hotel-photo-component';
+import { ViewHotelPhotoComponent } from './hotelPhoto/view-hotel-photo-component/view-hotel-photo-component';
 
 const routes: Routes = [
   {path: 'addlocation', component: AddlocationComponent},
@@ -48,6 +50,8 @@ const routes: Routes = [
   {path: 'addhotelinfo', component: HotelInfoComponent},
   {path: 'viewhotelinfo', component: ViewHotelInfoComponent},
   {path: 'addbooking/:id', component: AddBookingComponent},
+  {path: 'photo', component: AddHotelPhotoComponent},
+  {path: 'viewgallery', component: ViewHotelPhotoComponent},
 
 ];
 

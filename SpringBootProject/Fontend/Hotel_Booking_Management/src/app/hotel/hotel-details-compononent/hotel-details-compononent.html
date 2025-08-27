@@ -114,6 +114,46 @@
     </div>
   </div>
 
+  <!-- Photos grid -->
+  <div>
+    <div class="row">
+      <h3 class="fw-bold mb-3 text-center text-gradient">Gallery</h3>
+      <div class="col-md-3 col-sm-6 mb-3" *ngFor="let photo of getVisiblePhotos()">
+        <div class="photo-card">
+          <img [src]="'http://localhost:8082' + photo.photoUrl" alt="Hotel Photo">
+          <div class="overlay">
+            <div class="hotel-name">{{ photo.hotelName }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- +N more overlay -->
+      <div *ngIf="photos.length > maxVisiblePhotos" class="col-md-3 col-sm-6 mb-3">
+        <div class="photo-card extra-card" (click)="openModal()">
+          <div class="extra-overlay">
+            +{{ getExtraCount() }} more
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal for all photos -->
+    <div class="modal-backdrop" *ngIf="showModal" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeModal()">×</button>
+        <div class="row">
+          <div class="col-md-3 col-sm-6 mb-3" *ngFor="let photo of modalPhotos">
+            <div class="photo-card">
+              <img [src]="'http://localhost:8082' + photo.photoUrl" alt="Hotel Photo">
+              <div class="overlay">
+                <div class="hotel-name">{{ photo.hotelName }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <ng-template #loadingOrEmpty>

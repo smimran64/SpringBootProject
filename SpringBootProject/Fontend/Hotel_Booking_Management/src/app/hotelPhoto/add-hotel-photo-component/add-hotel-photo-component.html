@@ -1,0 +1,24 @@
+<div class="container  ">
+
+    <!-- Hotel selection -->
+    <div class="form-group mb-3">
+        <label>Select Hotel:</label>
+        <select [(ngModel)]="hotelId" class="form-control">
+            <option *ngFor="let hotel of hotels" [value]="hotel.id">
+                {{ hotel.name }}
+            </option>
+        </select>
+    </div>
+
+    <!-- File input -->
+    <div class="form-group mb-3">
+        <label>Select Photos:</label>
+        <input type="file" multiple (change)="onFileSelected($event)" class="form-control">
+    </div>
+
+    <!-- Upload button -->
+    <button class="btn btn-primary" [disabled]="!selectedFiles.length || !hotelId" (click)="uploadPhotos()">
+        Upload Selected Photos
+    </button>
+
+</div>
