@@ -1,5 +1,6 @@
 package com.example.HotelBookingManagementSystem.service;
 
+import com.example.HotelBookingManagementSystem.dto.CustomerDTO;
 import com.example.HotelBookingManagementSystem.entity.Customer;
 import com.example.HotelBookingManagementSystem.entity.Role;
 import com.example.HotelBookingManagementSystem.entity.Token;
@@ -11,6 +12,7 @@ import com.example.HotelBookingManagementSystem.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,9 +49,30 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
-    public Customer getProfileByUserId(Long userId) {
-        return customerRepository.findByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+//    public Customer getProfileByUserId(Long userId) {
+//        return customerRepository.findByUserId(userId)
+//                .orElseThrow(() -> new RuntimeException("Customer not found"));
+//    }
+
+
+    public CustomerDTO getProfile(String email) {
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Customer not found"));
+
+        return mapToDTO(customer);
+    }
+
+    private CustomerDTO mapToDTO(Customer customer) {
+        return new CustomerDTO(
+                customer.getId(),
+                customer.getName(),
+                customer.getEmail(),
+                customer.getPhone(),
+                customer.getAddress(),
+                customer.getGender(),
+                customer.getDateOfBirth(),
+                customer.getImage()
+        );
     }
 
 

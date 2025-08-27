@@ -1,6 +1,7 @@
 package com.example.HotelBookingManagementSystem.restcontroller;
 
 
+import com.example.HotelBookingManagementSystem.dto.CustomerDTO;
 import com.example.HotelBookingManagementSystem.entity.Customer;
 import com.example.HotelBookingManagementSystem.entity.User;
 import com.example.HotelBookingManagementSystem.repository.UserRepository;
@@ -76,14 +77,21 @@ public class CustomerRestController {
 
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<?> getProfile(Authentication authentication) {
-        System.out.println("Authenticated User: " + authentication.getName());
-        System.out.println("Authorities: " + authentication.getAuthorities());
-        String email = authentication.getName();
-        Optional<User> user =userRepository.findByEmail(email);
-        Customer customer = customerService.getProfileByUserId((long) user.get().getId());
-        return ResponseEntity.ok(customer);
+//    @GetMapping("/profile")
+//    public ResponseEntity<?> getProfile(Authentication authentication) {
+//        System.out.println("Authenticated User: " + authentication.getName());
+//        System.out.println("Authorities: " + authentication.getAuthorities());
+//        String email = authentication.getName();
+//        Optional<User> user =userRepository.findByEmail(email);
+//        Customer customer = customerService.getProfileByUserId((long) user.get().getId());
+//        return ResponseEntity.ok(customer);
+//
+//    }
 
+    @GetMapping("/profile")
+    public ResponseEntity<CustomerDTO> getProfile(Authentication authentication) {
+        String email = authentication.getName(); // logged-in user's email
+        CustomerDTO customerDTO = customerService.getProfile(email);
+        return ResponseEntity.ok(customerDTO);
     }
 }

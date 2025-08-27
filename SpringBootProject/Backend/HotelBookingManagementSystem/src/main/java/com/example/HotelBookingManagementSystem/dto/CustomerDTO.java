@@ -10,7 +10,6 @@ public class CustomerDTO {
     private Long id;
     private String name;
     private String email;
-    private String password;
     private String phone;
     private String address;
     private String gender;
@@ -21,11 +20,10 @@ public class CustomerDTO {
     public CustomerDTO() {
     }
 
-    public CustomerDTO(Long id, String name, String email, String password, String phone, String address, String gender, Date dateOfBirth, String image) {
+    public CustomerDTO(Long id, String name, String email, String phone, String address, String gender, Date dateOfBirth, String image) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
         this.phone = phone;
         this.address = address;
         this.gender = gender;
@@ -55,14 +53,6 @@ public class CustomerDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhone() {

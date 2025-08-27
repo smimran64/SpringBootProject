@@ -52,6 +52,7 @@ public class SecurityConfig {
                                 "/api/hoteladmin/reg",
                                 "/api/admin/reg",
                                 "/api/customer/reg",
+                                "/api/customer/profile",
 
                                 "/api/hotel/search",
                                 "/api/hotel/{id}/rooms",

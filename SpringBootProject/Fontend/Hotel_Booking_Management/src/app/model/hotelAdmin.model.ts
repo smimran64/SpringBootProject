@@ -2,7 +2,6 @@
 
 export interface HotelAdmin {
 
-
     id: number;
     name: string;
     email: string;
@@ -11,7 +10,6 @@ export interface HotelAdmin {
     address: string;
     dateOfBirth: Date;
     image: string;
-
 
 
 }

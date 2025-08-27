@@ -19,7 +19,7 @@ export class AddBookingComponent implements OnInit {
   bookingForm!: FormGroup;
   selectedRoom!: Room;
 
-  customer!:any;
+  customer!: any;
 
   constructor(
     private fb: FormBuilder,
@@ -165,13 +165,22 @@ export class AddBookingComponent implements OnInit {
   loadCustomerDetails(): void {
 
     this.customerService.getProfile().subscribe({
-      next: (data) =>{
+      next: (data) => {
 
         this.customer = data;
-        console.log(data+"+++++++++++++++");
+        console.log(data + "+++++++++++++++");
+        this.bookingForm.patchValue({
+          customerdto: {
+            id: data.id,
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            address: data.address
+          }
+        });
 
       },
-      error:(err)=>{
+      error: (err) => {
 
         console.log("Customer Details Loaded Failed")
 
