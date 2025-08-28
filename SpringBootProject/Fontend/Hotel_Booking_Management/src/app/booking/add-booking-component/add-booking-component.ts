@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Room } from '../../model/room.model';
 import { BookingService } from '../../service/booking-service';
@@ -9,6 +9,7 @@ import { Customerservice } from '../../service/customerservice';
 import { Customer } from '../../model/customer.model';
 import { Hotel } from '../../model/hotel.model';
 import { HotelService } from '../../service/hotel.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-add-booking-component',
@@ -25,78 +26,96 @@ export class AddBookingComponent implements OnInit {
   selectedRoom!: Room;
   totalAmount: number = 0;
   dueAmount: number = 0;
-  booking!: Booking ;
+  booking!: Booking;
+
+
+  hotelId!: number | null;
+  roomId!: number | null;
+  roomType!: string | null;
+  price!: number | null;
 
   constructor(
     private fb: FormBuilder,
     private bookingService: BookingService,
     private roomService: RoomService,
     private customerService: Customerservice,
-    private hotelService: HotelService
+    private hotelService: HotelService,
+    @Inject(PLATFORM_ID) private platformId: Object
+
   ) { }
 
+
   ngOnInit(): void {
+    // Initialize form
     this.bookingForm = this.fb.group({
-      contractPersonName: ['', Validators.required],
-      phone: ['', Validators.required],
-      checkIn: ['', Validators.required],
-      checkOut: ['', Validators.required],
-      numberOfRooms: [1, [Validators.required, Validators.min(1)]],
-      discountRate: [0, [Validators.min(0), Validators.max(100)]],
-      advanceAmount: [0, Validators.min(0)],
-      customerId: ['', Validators.required],
-      hotelId: ['', Validators.required],
-      roomId: ['', Validators.required]
+      contractPersonName: [''],
+      phone: [''],
+      checkIn: [''],
+      checkOut: [''],
+      numberOfRooms: [1],
+      advanceAmount: [0],
+      totalAmount: [0],
+      dueAmount: [0],
+      customerdto: this.fb.group({
+        name: [''],
+        email: [''],
+        phone: [''],
+        address: ['']
+      }),
+      hoteldto: this.fb.group({
+        id: [null],
+        name: [''],
+        address: ['']
+      }),
+      roomdto: this.fb.group({
+        id: [null],
+        roomType: [''],
+        adults: [0],
+        children: [0],
+        price: [0]
+      })
     });
 
-    // Load data
-    this.loadRooms();
-    this.loadCustomers();
-    this.loadHotels();
+    if (isPlatformBrowser(this.platformId)) {
+      const pendingBooking = localStorage.getItem('pendingBooking');
+      if (pendingBooking) {
+        const room: Room = JSON.parse(pendingBooking);
 
-    // Watch changes to recalculate
+        this.selectedRoom = room;
+
+        this.bookingForm.patchValue({
+          hoteldto: {
+            id: room.hotelDTO?.id || null,       // <-- safe access
+            name: room.hotelDTO?.name || '',
+            address: room.hotelDTO?.address || ''
+          },
+          roomdto: {
+            id: room.id || null,
+            roomType: room.roomType || '',
+            adults: room.adults || 0,
+            children: room.children || 0,
+            price: room.price || 0
+          },
+          numberOfRooms: 1,
+          advanceAmount: 0
+        });
+
+        this.calculateAmounts();
+      }
+    }
+
     this.bookingForm.valueChanges.subscribe(() => {
       this.calculateAmounts();
     });
+
+
   }
 
-  loadRooms() {
-    this.roomService.getAllRooms().subscribe({
-      next: (data)=>{
-        this.rooms = data;
-      },
-      error: (err) => {
-        console.error('Error loading rooms:', err);
-      }
-    });
-  }
 
-  loadCustomers() {
-    this.customerService.getAllCustomers().subscribe({
-      next: (data) => {
-        this.customers = data;
-      },
-      error: (err) => {
-        console.error('Error loading customers:', err);
-      }
-    });
-  }
 
-  loadHotels() {
-    this.hotelService.getAllHotels().subscribe({
-      next: (data) => {
-        this.hotels = data;
-      },
-      error: (err) => {
-        console.error('Error loading hotels:', err);
-      }
-    });
-  }
 
-  onRoomChange(roomId: number) {
-    this.selectedRoom = this.rooms.find(r => r.id === +roomId)!;
-    this.calculateAmounts();
-  }
+
+
 
   calculateAmounts() {
     if (!this.selectedRoom) return;
@@ -137,14 +156,15 @@ export class AddBookingComponent implements OnInit {
       checkIn: this.bookingForm.get('checkIn')?.value,
       checkOut: this.bookingForm.get('checkOut')?.value,
       numberOfRooms: this.bookingForm.get('numberOfRooms')?.value,
-      discountRate: this.bookingForm.get('discountRate')?.value,
-      advanceAmount: this.bookingForm.get('advanceAmount')?.value,
+      discountRate: this.bookingForm.get('discountRate')?.value || 0,
+      advanceAmount: this.bookingForm.get('advanceAmount')?.value || 0,
       totalAmount: this.totalAmount,
       dueAmount: this.dueAmount,
-      roomId: this.bookingForm.get('roomId')?.value,
-      hotelId: this.bookingForm.get('hotelId')?.value,
-      customerId: this.bookingForm.get('customerId')?.value
+      roomId: this.bookingForm.get('roomdto.id')?.value,
+      hotelId: this.bookingForm.get('hoteldto.id')?.value,
+      customerId: this.bookingForm.get('customerdto.id')?.value // if you have logged-in user
     };
+
 
     this.bookingService.createBooking(booking).subscribe({
       next: res => {

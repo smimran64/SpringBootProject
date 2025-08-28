@@ -114,7 +114,8 @@ public class BookingService {
         return mapToDTO(savedBooking);
     }
 
-    // ✅ Delete Booking and restore room availability
+                //Delete Booking and restore room availability
+
     @Transactional
     public void deleteBooking(Long id) {
         Booking existingBooking = bookingRepository.findById(id)
@@ -129,25 +130,29 @@ public class BookingService {
         bookingRepository.delete(existingBooking);
     }
 
-    // ✅ Find by customer id
+                // Find by customer id
+
     public List<BookingDTO> getBookingsByCustomerId(Long customerId) {
         return bookingRepository.findBookingsByCustomerId(customerId)
                 .stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
-    // ✅ Find by hotel id
+                        // Find by hotel id
+
     public List<BookingDTO> getBookingsByHotelId(Long hotelId) {
         return bookingRepository.findBookingsByHotelId(hotelId)
                 .stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
-    // ✅ Find by room id
+                            //Find by room id
+
     public List<BookingDTO> getBookingsByRoomId(Long roomId) {
         return bookingRepository.findBookingsByRoomId(roomId)
                 .stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
-    // ✅ Find by booking id
+                            //Find by booking id
+
     public BookingDTO getBookingById(Long id) {
         return bookingRepository.findById(id)
                 .map(this::mapToDTO)

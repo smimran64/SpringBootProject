@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { Hotel } from '../../model/hotel.model';
 import { ActivatedRoute, Route, RouteConfigLoadEnd, Router } from '@angular/router';
 import { HotelService } from '../../service/hotel.service';
@@ -10,6 +10,8 @@ import { HotelInfoService } from '../../service/hotel-info.service';
 import { Authservice } from '../../service/authservice';
 import { HotelPhotoService } from '../../service/hotel-photo.service';
 import { HotelPhotoDTO } from '../../model/hotelPhoto.model';
+import { isPlatformBrowser } from '@angular/common';
+import { Room } from '../../model/room.model';
 
 @Component({
   selector: 'app-hotel-details-compononent',
@@ -40,7 +42,8 @@ export class HotelDetailsCompononent implements OnInit {
     private hotelAmenitiesService: HotelAmenitiesService,
     private hotelInfoService: HotelInfoService,
     private authService: Authservice,
-    private hotelPhotoService: HotelPhotoService
+    private hotelPhotoService: HotelPhotoService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   ngOnInit(): void {
@@ -115,31 +118,56 @@ export class HotelDetailsCompononent implements OnInit {
 
 
 
-  bookRoom(room: any) {
-    if (this.authService.isLoggIn()) {
-      this.router.navigate(['/addbooking', room.id], {
-        queryParams: {
-          hotelId: this.hotel?.id,
-          roomType: room.roomType,
-          price: room.price
-        }
-      });
-    } else {
-      // Save redirect URL to localStorage (or service)
-      const redirectUrl = this.router.createUrlTree(
-        ['/addbooking', room.id],
-        {
-          queryParams: {
-            hotelId: this.hotel?.id,
-            roomType: room.roomType,
-            price: room.price
-          }
-        }
-      ).toString();
+  // bookRoom(room: any) {
+  //   if (this.authService.isLoggIn()) {
+  //     this.router.navigate(['/addbooking', room.id], {
 
-      localStorage.setItem('redirectUrl', redirectUrl);
 
-      this.router.navigate(['/login']);
+  //       queryParams: {
+  //         hotelId: this.hotel?.id,
+  //         roomType: room.roomType,
+  //         price: room.price
+  //       }
+  //     });
+  //   } else {
+  //     // Save redirect URL to localStorage (or service)
+  //     const redirectUrl = this.router.createUrlTree(
+  //       ['/addbooking', room.id],
+  //       {
+  //         queryParams: {
+  //           hotelId: this.hotel?.id,
+  //           roomType: room.roomType,
+  //           price: room.price
+  //         }
+  //       }
+  //     ).toString();
+
+  //     localStorage.setItem('redirectUrl', redirectUrl);
+
+  //     this.router.navigate(['/login']);
+  //   }
+  // }
+
+
+
+  bookRoom(room: Room) {
+    if (isPlatformBrowser(this.platformId)) {
+
+          // Save the entire room object in localStorage
+
+      localStorage.setItem('pendingBooking', JSON.stringify(room));
+
+      if (this.authService.isLoggIn()) {
+
+            // User logged in → navigate directly to booking page
+
+        this.router.navigate(['/addbooking', room.id]);
+      } else {
+
+          // User not logged in → navigate to login page
+          
+        this.router.navigate(['/login']);
+      }
     }
   }
 

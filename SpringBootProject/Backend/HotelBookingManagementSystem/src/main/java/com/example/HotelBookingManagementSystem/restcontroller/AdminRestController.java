@@ -41,7 +41,16 @@ public class AdminRestController {
             @RequestPart("user") String userJson,
             @RequestPart("admin") String adminJson,
             @RequestPart(value = "image", required = false) MultipartFile file
+//             @RequestParam("adminCode") String adminCode
     ) throws JsonProcessingException {
+
+
+//        if (!"SECRET123".equals(adminCode)) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+//                    .body(Map.of("error", "Invalid Admin Code"));
+//        }
+
+
         User user = objectMapper.readValue(userJson, User.class);
         Admin admin = objectMapper.readValue(adminJson, Admin.class);
 

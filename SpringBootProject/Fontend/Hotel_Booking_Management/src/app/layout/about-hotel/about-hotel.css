@@ -326,7 +326,7 @@ h1.text-center.mt-3[style*="rgb(232, 213, 39)"] {
 .page-title {
     font-weight: 800;
     margin-bottom: 16px;
-    background: linear-gradient(90deg, #0ea5e9, #6366f1);
+    background: linear-gradient(90deg, #ecf007, #c4f576);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -344,9 +344,9 @@ h1.text-center.mt-3[style*="rgb(232, 213, 39)"] {
 
 /* Search card */
 .search-card {
-    background: #ffffff;
+    background: #494848;
     border: 1px solid rgba(99, 102, 241, 0.15);
-    box-shadow: 0 10px 25px rgba(2, 6, 23, 0.08);
+    box-shadow: 0 10px 25px rgba(236, 247, 86, 0.08);
     border-radius: 16px;
     padding: 16px;
     backdrop-filter: blur(6px);
@@ -422,7 +422,7 @@ h1.text-center.mt-3[style*="rgb(232, 213, 39)"] {
 }
 
 .badge-pill {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(87, 80, 80, 0.9);
     color: #0f172a;
     font-weight: 700;
     padding: 6px 10px;
