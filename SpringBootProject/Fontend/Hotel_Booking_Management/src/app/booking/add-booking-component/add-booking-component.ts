@@ -29,6 +29,9 @@ export class AddBookingComponent implements OnInit {
   booking!: Booking;
 
 
+ customerId: number | null = null;
+
+
   hotelId!: number | null;
   roomId!: number | null;
   roomType!: string | null;
@@ -36,10 +39,7 @@ export class AddBookingComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private bookingService: BookingService,
-    private roomService: RoomService,
-    private customerService: Customerservice,
-    private hotelService: HotelService,
+    private bookingService: BookingService,   
     @Inject(PLATFORM_ID) private platformId: Object
 
   ) { }
@@ -65,7 +65,8 @@ export class AddBookingComponent implements OnInit {
       hoteldto: this.fb.group({
         id: [null],
         name: [''],
-        address: ['']
+        address: [''],
+        location: ['']
       }),
       roomdto: this.fb.group({
         id: [null],
@@ -77,43 +78,72 @@ export class AddBookingComponent implements OnInit {
     });
 
     if (isPlatformBrowser(this.platformId)) {
+      // room, hotel, customer data localStorage থেকে আনা
       const pendingBooking = localStorage.getItem('pendingBooking');
+      const hotelDetails = localStorage.getItem('hotelDetails');
+      const customerDetails = localStorage.getItem('customer');
+
+      
+
+      if (customerDetails) {
+        const customer = JSON.parse(customerDetails);
+        this.customerId = customer.id || null; // get ID if it exists
+      }
+
       if (pendingBooking) {
         const room: Room = JSON.parse(pendingBooking);
-
         this.selectedRoom = room;
 
         this.bookingForm.patchValue({
-          hoteldto: {
-            id: room.hotelDTO?.id || null,       // <-- safe access
-            name: room.hotelDTO?.name || '',
-            address: room.hotelDTO?.address || ''
-          },
           roomdto: {
             id: room.id || null,
+
+
             roomType: room.roomType || '',
             adults: room.adults || 0,
             children: room.children || 0,
             price: room.price || 0
           },
           numberOfRooms: 1,
-          advanceAmount: 0
-        });
+          advanceAmount: 0,
 
-        this.calculateAmounts();
+        });
       }
+
+      if (hotelDetails) {
+        const hotel: Hotel = JSON.parse(hotelDetails);
+        this.bookingForm.patchValue({
+          hoteldto: {
+            id: hotel.id || null,
+            name: hotel.name || '',
+            address: hotel.address || '',
+            location: hotel.location || ''
+          }
+        });
+      }
+
+      if (customerDetails) {
+        const customer: Customer = JSON.parse(customerDetails);
+        this.bookingForm.patchValue({
+          customerdto: {
+
+            id: customer.id || null,
+            name: customer.name || '',
+            email: customer.email || '',
+            phone: customer.phone || '',
+            address: customer.address || ''
+          }
+        });
+      }
+
+      this.calculateAmounts();
     }
 
+    // Auto calculation when form value changes
     this.bookingForm.valueChanges.subscribe(() => {
       this.calculateAmounts();
     });
-
-
   }
-
-
-
-
 
 
 
@@ -121,34 +151,69 @@ export class AddBookingComponent implements OnInit {
     if (!this.selectedRoom) return;
 
     const numberOfRooms = this.bookingForm.get('numberOfRooms')?.value || 1;
-    const checkIn = new Date(this.bookingForm.get('checkIn')?.value);
-    const checkOut = new Date(this.bookingForm.get('checkOut')?.value);
+    const checkInValue = this.bookingForm.get('checkIn')?.value;
+    const checkOutValue = this.bookingForm.get('checkOut')?.value;
     const discount = this.bookingForm.get('discountRate')?.value || 0;
     const advance = this.bookingForm.get('advanceAmount')?.value || 0;
 
-    // Check valid dates
-    const diffTime = checkOut.getTime() - checkIn.getTime();
-    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    if (diffDays <= 0) diffDays = 1;
-
-    // Check room availability
-    // if (this.selectedRoom.availableRooms? <  Booking['numberOfRooms']>) {
-    //   this.totalAmount = 0;
-    //   this.dueAmount = 0;
-    //   return;
-    // }
-
-    let total = this.selectedRoom.price * numberOfRooms * diffDays;
-    if (discount > 0) {
-      total = total - (total * discount / 100);
+    if (!checkInValue || !checkOutValue) {
+      this.bookingForm.patchValue({ totalAmount: 0, dueAmount: 0 });
+      return;
     }
 
+    const checkIn = new Date(checkInValue);
+    const checkOut = new Date(checkOutValue);
+
+    // Check valid dates
+    const diffTime = checkOut.getTime() - checkIn.getTime();
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays <= 0) {
+      this.bookingForm.get('checkOut')?.setErrors({ invalidDate: true });
+      this.bookingForm.patchValue({ totalAmount: 0, dueAmount: 0 });
+      return;
+    } else {
+      this.bookingForm.get('checkOut')?.setErrors(null);
+    }
+
+    // Calculate total
+    let total = this.selectedRoom.price * numberOfRooms * diffDays;
+    if (discount > 0) {
+      total -= total * discount / 100;
+    }
+    const due = total - advance;
+
+    // Patch values to form
+    this.bookingForm.patchValue({
+      totalAmount: total,
+      dueAmount: due
+    });
+
+    // Optional: keep component variables in sync
     this.totalAmount = total;
-    this.dueAmount = total - advance;
+    this.dueAmount = due;
   }
+
+
+
 
   submitBooking() {
     if (this.bookingForm.invalid) return;
+
+
+
+    const roomId = this.bookingForm.get('roomdto.id')?.value!;
+    const hotelId = this.bookingForm.get('hoteldto.id')?.value!;
+
+
+    const cid= this.customerId;
+   
+
+
+
+    console.log(this.roomId); // now it will show the correct ID
+    console.log(this.hotelId); // now it will show the correct ID
+    console.log(this.customerId); // now it will show the correct ID
 
     const booking: Booking = {
       contractPersonName: this.bookingForm.get('contractPersonName')?.value,
@@ -160,11 +225,16 @@ export class AddBookingComponent implements OnInit {
       advanceAmount: this.bookingForm.get('advanceAmount')?.value || 0,
       totalAmount: this.totalAmount,
       dueAmount: this.dueAmount,
-      roomId: this.bookingForm.get('roomdto.id')?.value,
-      hotelId: this.bookingForm.get('hoteldto.id')?.value,
-      customerId: this.bookingForm.get('customerdto.id')?.value // if you have logged-in user
+
+      roomdto: { id: roomId },
+      hoteldto: { id: hotelId },
+      customerdto: { id: cid!}
+
     };
 
+
+    // Log the exact JSON Angular will send
+    console.log('Booking payload:', JSON.stringify(booking, null, 2));
 
     this.bookingService.createBooking(booking).subscribe({
       next: res => {
@@ -183,6 +253,41 @@ export class AddBookingComponent implements OnInit {
       }
     });
   }
+
+
+  //   submitBooking() {
+  //   if (this.bookingForm.invalid) return;
+
+  //   const booking = {
+  //     contractPersonName: this.bookingForm.get('contractPersonName')?.value,
+  //     phone: this.bookingForm.get('phone')?.value,
+  //     checkIn: this.bookingForm.get('checkIn')?.value,
+  //     checkOut: this.bookingForm.get('checkOut')?.value,
+  //     numberOfRooms: this.bookingForm.get('numberOfRooms')?.value,
+  //     discountRate: this.bookingForm.get('discountRate')?.value || 0,
+  //     advanceAmount: this.bookingForm.get('advanceAmount')?.value || 0,
+  //     totalAmount: this.totalAmount,
+  //     dueAmount: this.dueAmount,
+  //     roomdto: { id: this.bookingForm.get('roomdto.id')?.value },
+  //     hoteldto: { id: this.bookingForm.get('hoteldto.id')?.value },
+  //     customerdto: { id: this.bookingForm.get('customerdto.id')?.value }
+  //   };
+
+  //   console.log('Booking payload:', booking);
+
+  //   this.bookingService.createBooking(booking).subscribe({
+  //     next: res => {
+  //       alert('Booking Created Successfully!');
+  //       this.bookingForm.reset({ numberOfRooms: 1, discountRate: 0, advanceAmount: 0 });
+  //       this.totalAmount = 0;
+  //       this.dueAmount = 0;
+  //     },
+  //     error: err => {
+  //       alert(err.error?.message || 'Error creating booking');
+  //     }
+  //   });
+  // }
+
 
 
 }

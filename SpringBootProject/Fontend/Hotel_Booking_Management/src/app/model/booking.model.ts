@@ -15,12 +15,9 @@ export interface Booking {
   dueAmount?: number;
   
   
-  customerId: number;
-  hotelId: number;
-  roomId: number;
-
+ roomdto: { id: number };
+  hoteldto: { id: number };
+  customerdto: { id: number };
   
-  customer?: Customer;
-  hotel?: Hotel;
-  room?: Room;
+  
 }

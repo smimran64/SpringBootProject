@@ -12,6 +12,7 @@ import { HotelPhotoService } from '../../service/hotel-photo.service';
 import { HotelPhotoDTO } from '../../model/hotelPhoto.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Room } from '../../model/room.model';
+import { Customer } from '../../model/customer.model';
 
 @Component({
   selector: 'app-hotel-details-compononent',
@@ -29,6 +30,7 @@ export class HotelDetailsCompononent implements OnInit {
   hotelInfo: HotelInfo | null = null;
   role!: string | null;
   photos: HotelPhotoDTO[] = [];
+
 
   maxVisiblePhotos: number = 4; // max photos to show in gallery card
   showModal: boolean = false;
@@ -150,22 +152,20 @@ export class HotelDetailsCompononent implements OnInit {
 
 
 
-  bookRoom(room: Room) {
+  bookRoom(room: Room, hotel: Hotel) {
     if (isPlatformBrowser(this.platformId)) {
-
-          // Save the entire room object in localStorage
-
+      // তিনটা ডেটা LocalStorage এ সেভ হচ্ছে
       localStorage.setItem('pendingBooking', JSON.stringify(room));
+      localStorage.setItem('hotelDetails', JSON.stringify(hotel));
+
+
+
+     
+
 
       if (this.authService.isLoggIn()) {
-
-            // User logged in → navigate directly to booking page
-
         this.router.navigate(['/addbooking', room.id]);
       } else {
-
-          // User not logged in → navigate to login page
-          
         this.router.navigate(['/login']);
       }
     }

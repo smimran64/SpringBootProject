@@ -1,10 +1,11 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { environments } from '../../environments/environments';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthResponse } from '../model/authresponse.model';
 import { isPlatformBrowser } from '@angular/common';
+import { Customer } from '../model/customer.model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,24 @@ export class Authservice {
       )
     );
   }
+
+
+
+
+
+  getCurrentCustomer(): Observable<Customer> {
+    const token = localStorage.getItem('authToken');
+    return this.http.get<Customer>(this.baseUrl + 'me', {
+      headers: { Authorization: `Bearer ${token}` }
+    }).pipe(
+      tap(customer => {
+        localStorage.setItem('customer', JSON.stringify(customer));
+      })
+    );
+  }
+
+
+
 
 
   private isBrowser(): boolean {
@@ -125,6 +144,6 @@ export class Authservice {
   }
 
 
-  
+
 
 }

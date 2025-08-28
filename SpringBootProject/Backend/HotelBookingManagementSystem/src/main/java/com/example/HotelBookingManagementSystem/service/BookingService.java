@@ -42,6 +42,21 @@ public class BookingService {
     @Transactional
     public BookingDTO createBooking(BookingDTO bookingDTO) {
 
+
+        System.out.println(bookingDTO.getRoomdto().getId()+"1111111111111111111111111111111111111111111111");
+        // Validate nested DTOs
+        if (bookingDTO.getRoomdto() == null) {
+            throw new RuntimeException("RoomDTO cannot be null");
+        }
+        if (bookingDTO.getCustomerdto() == null) {
+            throw new RuntimeException("CustomerDTO cannot be null");
+        }
+        if (bookingDTO.getHoteldto() == null) {
+            throw new RuntimeException("HotelDTO cannot be null");
+        }
+
+
+
         Room room = roomRepository.findById(bookingDTO.getRoomdto().getId())
                 .orElseThrow(() -> new RuntimeException("Room not found"));
 
@@ -51,42 +66,32 @@ public class BookingService {
         Hotel hotel = hotelRepository.findById(bookingDTO.getHoteldto().getId())
                 .orElseThrow(() -> new RuntimeException("Hotel not found"));
 
-                    //Check room availability
-
+        //Check room availability
         if (room.getAvailableRooms() < bookingDTO.getNumberOfRooms()) {
             throw new RuntimeException("Not enough available rooms");
         }
 
-                    //Calculate days between check-in and check-out
-
+        //Calculate days between check-in and check-out
         Date checkIn = bookingDTO.getCheckIn();
         Date checkOut = bookingDTO.getCheckOut();
         long diffInMillies = checkOut.getTime() - checkIn.getTime();
         long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-
         if (days <= 0) {
             throw new RuntimeException("Check-out date must be after check-in date");
         }
 
-                    // Base total calculation
-
+        // Calculate total
         double totalPrice = room.getPrice() * bookingDTO.getNumberOfRooms() * days;
 
-                    //Apply discount calculation
-
-
+        // Apply discount
         if (bookingDTO.getDiscountRate() > 0) {
-            totalPrice = totalPrice - (totalPrice * bookingDTO.getDiscountRate() / 100);
+            totalPrice -= totalPrice * bookingDTO.getDiscountRate() / 100;
         }
-
-                    // Due calculation
-
 
         double advance = bookingDTO.getAdvanceAmount();
         double due = totalPrice - advance;
 
-        // Create Booking entity
-
+        // Create booking entity
         Booking booking = new Booking();
         booking.setContractPersonName(bookingDTO.getContractPersonName());
         booking.setPhone(bookingDTO.getPhone());
@@ -102,17 +107,94 @@ public class BookingService {
         booking.setCustomer(customer);
 
         // Update room availability
-
         room.setAvailableRooms(room.getAvailableRooms() - bookingDTO.getNumberOfRooms());
         room.setBookedRooms(room.getBookedRooms() + bookingDTO.getNumberOfRooms());
 
         // Save
-
         roomRepository.save(room);
         Booking savedBooking = bookingRepository.save(booking);
 
         return mapToDTO(savedBooking);
     }
+
+
+
+
+
+//    @Transactional
+//    public BookingDTO createBooking(BookingDTO bookingDTO) {
+//
+//        Room room = roomRepository.findById(bookingDTO.getRoomdto().getId())
+//                .orElseThrow(() -> new RuntimeException("Room not found"));
+//
+//        Customer customer = customerRepository.findById(bookingDTO.getCustomerdto().getId())
+//                .orElseThrow(() -> new RuntimeException("Customer not found"));
+//
+//        Hotel hotel = hotelRepository.findById(bookingDTO.getHoteldto().getId())
+//                .orElseThrow(() -> new RuntimeException("Hotel not found"));
+//
+//                    //Check room availability
+//
+//        if (room.getAvailableRooms() < bookingDTO.getNumberOfRooms()) {
+//            throw new RuntimeException("Not enough available rooms");
+//        }
+//
+//                    //Calculate days between check-in and check-out
+//
+//        Date checkIn = bookingDTO.getCheckIn();
+//        Date checkOut = bookingDTO.getCheckOut();
+//        long diffInMillies = checkOut.getTime() - checkIn.getTime();
+//        long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+//
+//        if (days <= 0) {
+//            throw new RuntimeException("Check-out date must be after check-in date");
+//        }
+//
+//                    // Base total calculation
+//
+//        double totalPrice = room.getPrice() * bookingDTO.getNumberOfRooms() * days;
+//
+//                    //Apply discount calculation
+//
+//
+//        if (bookingDTO.getDiscountRate() > 0) {
+//            totalPrice = totalPrice - (totalPrice * bookingDTO.getDiscountRate() / 100);
+//        }
+//
+//                    // Due calculation
+//
+//
+//        double advance = bookingDTO.getAdvanceAmount();
+//        double due = totalPrice - advance;
+//
+//        // Create Booking entity
+//
+//        Booking booking = new Booking();
+//        booking.setContractPersonName(bookingDTO.getContractPersonName());
+//        booking.setPhone(bookingDTO.getPhone());
+//        booking.setCheckIn(checkIn);
+//        booking.setCheckOut(checkOut);
+//        booking.setNumberOfRooms(bookingDTO.getNumberOfRooms());
+//        booking.setDiscountRate(bookingDTO.getDiscountRate());
+//        booking.setAdvanceAmount(advance);
+//        booking.setTotalAmount(totalPrice);
+//        booking.setDueAmount(due);
+//        booking.setRoom(room);
+//        booking.setHotel(hotel);
+//        booking.setCustomer(customer);
+//
+//        // Update room availability
+//
+//        room.setAvailableRooms(room.getAvailableRooms() - bookingDTO.getNumberOfRooms());
+//        room.setBookedRooms(room.getBookedRooms() + bookingDTO.getNumberOfRooms());
+//
+//        // Save
+//
+//        roomRepository.save(room);
+//        Booking savedBooking = bookingRepository.save(booking);
+//
+//        return mapToDTO(savedBooking);
+//    }
 
                 //Delete Booking and restore room availability
 

@@ -90,6 +90,11 @@ export class Login implements OnInit {
 
           // Role-based redirect (fallback)
           if (role === 'CUSTOMER') {
+
+            this.authService.getCurrentCustomer().subscribe(customer => {
+              // Do something with the customer data if needed
+              console.log('Customer data:', customer);
+            });
             this.router.navigate(['/customerProfile']);
           } else if (role === 'HOTEL_ADMIN') {
             this.router.navigate(['/hoteladminProfile']);

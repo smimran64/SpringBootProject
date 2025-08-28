@@ -2,9 +2,15 @@ package com.example.HotelBookingManagementSystem.restcontroller;
 
 
 import com.example.HotelBookingManagementSystem.dto.AuthenticationResponse;
+import com.example.HotelBookingManagementSystem.dto.CustomerDTO;
+import com.example.HotelBookingManagementSystem.entity.Customer;
 import com.example.HotelBookingManagementSystem.entity.User;
+import com.example.HotelBookingManagementSystem.jwt.JwtService;
+import com.example.HotelBookingManagementSystem.repository.CustomerRepository;
 import com.example.HotelBookingManagementSystem.repository.TokenRepository;
+import com.example.HotelBookingManagementSystem.repository.UserRepository;
 import com.example.HotelBookingManagementSystem.service.AuthService;
+import com.example.HotelBookingManagementSystem.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +32,24 @@ public class AuthRestController {
     private AuthService authService;
 
     @Autowired
-    private TokenRepository   tokenRepository;
+    private TokenRepository tokenRepository;
+
+
+    @Autowired
+    private JwtService jwtService;
+
+
+    @Autowired
+    private UserService userService;
+
+
+    @Autowired
+    private UserRepository userRepository;
+
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
 
     @PostMapping("save")
     public ResponseEntity<Map<String, String>> saveUser(
@@ -60,18 +83,17 @@ public class AuthRestController {
     }
 
 
-
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse>  login(@RequestBody User request){
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody User request) {
         return ResponseEntity.ok(authService.authenticate(request));
 
     }
 
     @GetMapping("/active/{id}")
-    public ResponseEntity<String> activeUser(@PathVariable("id") int id){
+    public ResponseEntity<String> activeUser(@PathVariable("id") int id) {
 
-        String response= authService.activeUser(id);
-        return  ResponseEntity.ok(response);
+        String response = authService.activeUser(id);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")
@@ -91,4 +113,35 @@ public class AuthRestController {
 
         return ResponseEntity.ok("Logged out successfully.");
     }
+
+
+
+    @GetMapping("/me")
+    public ResponseEntity<CustomerDTO> getCurrentUser(HttpServletRequest request) {
+        String token = jwtService.extractToken(request);
+        String email = jwtService.extractUserName(token);
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User Not found " + email));
+
+        Customer customer = customerRepository.findByEmail(user.getEmail())
+                .orElseThrow(() -> new RuntimeException("Customer Not found " + email));
+
+        // Convert Customer → DTO
+        CustomerDTO dto = new CustomerDTO(
+                customer.getId(),
+                customer.getName(),
+                customer.getEmail(),
+                customer.getPhone(),
+                customer.getAddress(),
+                customer.getGender(),
+                customer.getDateOfBirth(),
+                customer.getImage()
+        );
+
+        return ResponseEntity.ok(dto);
+    }
+
+
+
 }

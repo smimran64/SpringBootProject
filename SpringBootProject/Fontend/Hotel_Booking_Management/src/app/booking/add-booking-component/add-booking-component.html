@@ -47,7 +47,7 @@
             </div>
             <div class="mb-2">
                 <label>Location:</label>
-                <input class="form-control" [value]="bookingForm.get('hoteldto.location')?.value" readonly>
+                <input class="form-control" [value]="bookingForm.get('hoteldto.address')?.value" readonly>
             </div>
             <!-- </fieldset> -->
 
@@ -55,6 +55,10 @@
             <!-- <fieldset class="mb-3 border p-3 rounded">
             <legend>Room Info</legend> -->
             <legend>Room Information</legend>
+            <input type="hidden" class="form-control" [value]="bookingForm.get('roomdto.id')?.value" readonly>
+            <input type="hidden" class="form-control" [value]="bookingForm.get('hoteldto.id')?.value" readonly>
+            <input type="hidden" class="form-control" [value]="bookingForm.get('customerdto.id')?.value" readonly>
+
             <div class="mb-2">
                 <label>Room Type:</label>
                 <input class="form-control" [value]="bookingForm.get('roomdto.roomType')?.value" readonly>
@@ -78,15 +82,17 @@
             <legend>Booking Details</legend> -->
             <div class="mb-2">
                 <label>Check-in Date:</label>
-                <input type="date" class="form-control" formControlName="checkIn">
+                <input type="date" class="form-control" formControlName="checkIn" (change)="calculateAmounts()">
             </div>
+
             <div class="mb-2">
                 <label>Check-out Date:</label>
-                <input type="date" class="form-control" formControlName="checkOut">
+                <input type="date" class="form-control" formControlName="checkOut" (change)="calculateAmounts()">
             </div>
+
             <div class="mb-2">
                 <label>Number of Rooms:</label>
-                <input type="number" class="form-control" formControlName="numberOfRooms" min="1">
+                <input type="number" class="form-control" formControlName="numberOfRooms" (input)="calculateAmounts()">
             </div>
             <div class="mb-2">
                 <label>Advance Amount:</label>
