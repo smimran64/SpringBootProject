@@ -71,7 +71,7 @@ public class CustomerRestController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Customer>> getAllUsers() {
+    public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> customerList = customerService.getAllCustomers();
         return ResponseEntity.ok(customerList);
 

@@ -1,34 +1,26 @@
+import { Customer } from "./customer.model";
+import { Hotel } from "./hotel.model";
+import { Room } from "./room.model";
+
 export interface Booking {
-    id?: number;
-    contractPersonName: string;
-    phone: string;
-    checkIn: Date | string;
-    checkOut: Date | string;
-    advanceAmount: number;
-    dueAmount: number;
-    totalAmount: number;
-    numberOfRooms: number;
+  id?: number;
+  contractPersonName: string;
+  phone: string;
+  checkIn: Date | string;
+  checkOut: Date | string;
+  numberOfRooms: number;
+  discountRate?: number;
+  totalAmount?: number;
+  advanceAmount?: number;
+  dueAmount?: number;
+  
+  
+  customerId: number;
+  hotelId: number;
+  roomId: number;
 
-    customerdto?: {
-        id: number;
-        name: string;
-        email: string;
-        phone: string;
-        address: string;
-    };
-
-    hoteldto?: {
-        id: number;
-        name: string;
-        location: string;
-    };
-
-    roomdto?: {
-        id: number;
-        roomType: string;
-        bookedRooms: number;
-        adults: number;
-        children: number;
-        price: number;
-    };
+  
+  customer?: Customer;
+  hotel?: Hotel;
+  room?: Room;
 }

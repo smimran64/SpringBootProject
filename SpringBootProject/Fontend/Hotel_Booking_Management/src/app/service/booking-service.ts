@@ -22,105 +22,50 @@ export class BookingService {
 
   ) { }
 
-  // JWT token header generator
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('authToken') || '';
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
-  }
-
-  // Create new booking
-
   createBooking(booking: Booking): Observable<Booking> {
 
-    let headers = new HttpHeaders();
+      let headers = new HttpHeaders();
+
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('authToken');
       if (token) {
         headers = headers.set('Authorization', 'Bearer ' + token);
-      }
-    }
-
-    return this.http.post<Booking>(`${this.baseUrl}/save`, booking, { headers: this.getHeaders() });
-  }
-
-  // Get all bookings
-
-  getBookings(): Observable<Booking[]> {
-
-    let headers = new HttpHeaders();
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        headers = headers.set('Authorization', 'Bearer ' + token);
+        console.log(headers);
       }
     }
 
 
-    return this.http.get<Booking[]>(this.baseUrl, { headers: this.getHeaders() });
+    return this.http.post<Booking>(`${this.baseUrl}/save`, booking ,{ headers });
   }
 
-  // Get bookings by customer id
+  
+  getAllBookings(): Observable<Booking[]> {
+    return this.http.get<Booking[]>(this.baseUrl);
+  }
+
+
+  getBookingById(id: number): Observable<Booking> {
+    return this.http.get<Booking>(`${this.baseUrl}/${id}`);
+  }
+
 
   getBookingsByCustomerId(customerId: number): Observable<Booking[]> {
-
-    let headers = new HttpHeaders();
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        headers = headers.set('Authorization', 'Bearer ' + token);
-      }
-    }
-
-    return this.http.get<Booking[]>(`${this.baseUrl}/customer/${customerId}`, { headers: this.getHeaders() });
+    return this.http.get<Booking[]>(`${this.baseUrl}/customer/${customerId}`);
   }
 
-  // Get bookings by hotel id
 
   getBookingsByHotelId(hotelId: number): Observable<Booking[]> {
-
-    let headers = new HttpHeaders();
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        headers = headers.set('Authorization', 'Bearer ' + token);
-      }
-    }
-
-    return this.http.get<Booking[]>(`${this.baseUrl}/hotel/${hotelId}`, { headers: this.getHeaders() });
+    return this.http.get<Booking[]>(`${this.baseUrl}/hotel/${hotelId}`);
   }
 
-  // Get bookings by room id
-
+  
   getBookingsByRoomId(roomId: number): Observable<Booking[]> {
-
-    let headers = new HttpHeaders();
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        headers = headers.set('Authorization', 'Bearer ' + token);
-      }
-    }
-
-
-    return this.http.get<Booking[]>(`${this.baseUrl}/room/${roomId}`, { headers: this.getHeaders() });
+    return this.http.get<Booking[]>(`${this.baseUrl}/room/${roomId}`);
   }
 
-  // Delete booking
-
-  deleteBooking(bookingId: number): Observable<void> {
-
-    let headers = new HttpHeaders();
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        headers = headers.set('Authorization', 'Bearer ' + token);
-      }
-    }
-
-    return this.http.delete<void>(`${this.baseUrl}/${bookingId}`, { headers: this.getHeaders() });
+  
+  deleteBooking(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
 }

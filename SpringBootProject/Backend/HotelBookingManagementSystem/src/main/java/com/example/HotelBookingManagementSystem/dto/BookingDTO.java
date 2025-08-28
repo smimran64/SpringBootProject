@@ -8,10 +8,13 @@ public class BookingDTO {
         private String phone;
         private Date checkIn;
         private Date checkOut;
-        private double advanceAmount;
-        private double totalAmount;
-        private double dueAmount;
         private int numberOfRooms;
+        private double discountRate;
+        private double totalAmount;
+        private double advanceAmount;
+
+        private double dueAmount;
+
 
         private CustomerDTO customerdto;
         private HotelDTO hoteldto;
@@ -20,16 +23,17 @@ public class BookingDTO {
         public BookingDTO() {
         }
 
-        public BookingDTO(Long id, String contractPersonName, String phone, Date checkIn, Date checkOut, double advanceAmount, double totalAmount, double dueAmount, int numberOfRooms, CustomerDTO customerdto, HotelDTO hoteldto, RoomDTO roomdto) {
+        public BookingDTO(Long id, String contractPersonName, String phone, Date checkIn, Date checkOut, int numberOfRooms, double discountRate, double totalAmount, double advanceAmount, double dueAmount, CustomerDTO customerdto, HotelDTO hoteldto, RoomDTO roomdto) {
                 this.id = id;
                 this.contractPersonName = contractPersonName;
                 this.phone = phone;
                 this.checkIn = checkIn;
                 this.checkOut = checkOut;
-                this.advanceAmount = advanceAmount;
-                this.totalAmount = totalAmount;
-                this.dueAmount = dueAmount;
                 this.numberOfRooms = numberOfRooms;
+                this.discountRate = discountRate;
+                this.totalAmount = totalAmount;
+                this.advanceAmount = advanceAmount;
+                this.dueAmount = dueAmount;
                 this.customerdto = customerdto;
                 this.hoteldto = hoteldto;
                 this.roomdto = roomdto;
@@ -75,12 +79,20 @@ public class BookingDTO {
                 this.checkOut = checkOut;
         }
 
-        public double getAdvanceAmount() {
-                return advanceAmount;
+        public int getNumberOfRooms() {
+                return numberOfRooms;
         }
 
-        public void setAdvanceAmount(double advanceAmount) {
-                this.advanceAmount = advanceAmount;
+        public void setNumberOfRooms(int numberOfRooms) {
+                this.numberOfRooms = numberOfRooms;
+        }
+
+        public double getDiscountRate() {
+                return discountRate;
+        }
+
+        public void setDiscountRate(double discountRate) {
+                this.discountRate = discountRate;
         }
 
         public double getTotalAmount() {
@@ -91,20 +103,20 @@ public class BookingDTO {
                 this.totalAmount = totalAmount;
         }
 
+        public double getAdvanceAmount() {
+                return advanceAmount;
+        }
+
+        public void setAdvanceAmount(double advanceAmount) {
+                this.advanceAmount = advanceAmount;
+        }
+
         public double getDueAmount() {
                 return dueAmount;
         }
 
         public void setDueAmount(double dueAmount) {
                 this.dueAmount = dueAmount;
-        }
-
-        public int getNumberOfRooms() {
-                return numberOfRooms;
-        }
-
-        public void setNumberOfRooms(int numberOfRooms) {
-                this.numberOfRooms = numberOfRooms;
         }
 
         public CustomerDTO getCustomerdto() {

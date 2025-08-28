@@ -90,7 +90,7 @@ export class Login implements OnInit {
 
           // Role-based redirect (fallback)
           if (role === 'CUSTOMER') {
-            this.router.navigate(['/']);
+            this.router.navigate(['/customerProfile']);
           } else if (role === 'HOTEL_ADMIN') {
             this.router.navigate(['/hoteladminProfile']);
           } else if (role === 'ADMIN') {

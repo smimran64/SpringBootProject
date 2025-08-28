@@ -47,6 +47,20 @@ export class Customerservice {
     return this.http.get<Customer>(`${this.baseUrl}/profile`, { headers });
   }
 
+
+  getAllCustomers():Observable<Customer[]> {
+
+     let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+        console.log(headers);
+      }
+    }
+    return this.http.get<Customer[]>(`${this.baseUrl}/all`, { headers });
+  }
   
   
 }

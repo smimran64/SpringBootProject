@@ -31,42 +31,41 @@ public class BookingRestController {
 
     @PostMapping("/save")
     public ResponseEntity<BookingDTO> createBooking(@RequestBody BookingDTO bookingDTO) {
-        BookingDTO createdBooking = bookingService.createBooking(bookingDTO);
-        return ResponseEntity.ok(createdBooking);
+        BookingDTO savedBooking = bookingService.createBooking(bookingDTO);
+        return ResponseEntity.ok(savedBooking);
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<Booking>> getBookingsByCustomerId(@PathVariable Long customerId) {
-        return ResponseEntity.ok(bookingService.getBookingsByCustomerId(customerId));
+    public ResponseEntity<List<BookingDTO>> getBookingsByCustomerId(@PathVariable Long customerId) {
+        List<BookingDTO> bookings = bookingService.getBookingsByCustomerId(customerId);
+        return ResponseEntity.ok(bookings);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BookingDTO> getBookingById(@PathVariable Long id) {
+        BookingDTO bookingDTO = bookingService.getBookingById(id);
+        return ResponseEntity.ok(bookingDTO);
     }
 
 
     @GetMapping("/hotel/{hotelId}")
-    public ResponseEntity<List<Booking>> getBookingsByHotelId(@PathVariable Long hotelId) {
-        return ResponseEntity.ok(bookingService.getBookingsByHotelId(hotelId));
+    public ResponseEntity<List<BookingDTO>> getBookingsByHotelId(@PathVariable Long hotelId) {
+        List<BookingDTO> bookings = bookingService.getBookingsByHotelId(hotelId);
+        return ResponseEntity.ok(bookings);
     }
 
     @GetMapping("/room/{roomId}")
-    public ResponseEntity<List<Booking>> getBookingsByRoomId(@PathVariable Long roomId) {
-        return ResponseEntity.ok(bookingService.getBookingsByRoomId(roomId));
+    public ResponseEntity<List<BookingDTO>> getBookingsByRoomId(@PathVariable Long roomId) {
+        List<BookingDTO> bookings = bookingService.getBookingsByRoomId(roomId);
+        return ResponseEntity.ok(bookings);
     }
 
 
     //  Delete booking
     @DeleteMapping("/{id}")
-    public void deleteBooking(Long id) {
-        Booking existingBooking = bookingRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
-
-        Room room = existingBooking.getRoom();
-
-        // For cancel Booking to return availability room
-
-        room.setAvailableRooms(room.getAvailableRooms() + existingBooking.getNumberOfRooms());
-        room.setBookedRooms(room.getBookedRooms() - existingBooking.getNumberOfRooms());
-
-        roomRepository.save(room);
-        bookingRepository.delete(existingBooking);
+    public ResponseEntity<Void> deleteBooking(@PathVariable Long id) {
+        bookingService.deleteBooking(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

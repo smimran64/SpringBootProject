@@ -7,6 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Booking } from '../../model/booking.model';
 import { Customerservice } from '../../service/customerservice';
 import { Customer } from '../../model/customer.model';
+import { Hotel } from '../../model/hotel.model';
+import { HotelService } from '../../service/hotel.service';
 
 @Component({
   selector: 'app-add-booking-component',
@@ -17,175 +19,150 @@ import { Customer } from '../../model/customer.model';
 export class AddBookingComponent implements OnInit {
 
   bookingForm!: FormGroup;
+  rooms: Room[] = [];
+  customers: Customer[] = [];
+  hotels: Hotel[] = [];
   selectedRoom!: Room;
-
-  customer!: any;
+  totalAmount: number = 0;
+  dueAmount: number = 0;
+  booking!: Booking ;
 
   constructor(
     private fb: FormBuilder,
     private bookingService: BookingService,
     private roomService: RoomService,
     private customerService: Customerservice,
-    private route: ActivatedRoute,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private hotelService: HotelService
   ) { }
 
   ngOnInit(): void {
-    const roomId = Number(this.route.snapshot.paramMap.get('id'));
-
-    console.log(roomId + "  :::11111111111111111")
-    this.roomService.getRoomById(roomId).subscribe(room => {
-      this.selectedRoom = room;
-      console.log(room);
-      this.initForm();
-      this.loadCustomerDetails();
-      this.cdr.markForCheck();
-    });
-  }
-
-  private initForm(): void {
     this.bookingForm = this.fb.group({
       contractPersonName: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{11}$/)]],
+      phone: ['', Validators.required],
       checkIn: ['', Validators.required],
       checkOut: ['', Validators.required],
       numberOfRooms: [1, [Validators.required, Validators.min(1)]],
-      advanceAmount: [0, [Validators.min(0)]],
-      totalAmount: [{ value: 0, disabled: true }],
-      dueAmount: [{ value: 0, disabled: true }],
-
-      // customerdto: this.fb.group({
-      //   id: [''], // 
-      //   name: [''],
-      //   email: [''],
-      //   phone: [''],
-      //   address: ['']
-      // }),
-
-      hoteldto: this.fb.group({
-        id: [this.selectedRoom.hotelDTO.id],
-        name: [this.selectedRoom.hotelDTO.name],
-        location: [this.selectedRoom.hotelDTO.address]
-      }),
-
-      roomdto: this.fb.group({
-        id: [this.selectedRoom.id],
-        roomType: [this.selectedRoom.roomType],
-        price: [this.selectedRoom.price],
-        adults: [this.selectedRoom.adults],
-        children: [this.selectedRoom.children],
-        bookedRooms: [0]
-      })
+      discountRate: [0, [Validators.min(0), Validators.max(100)]],
+      advanceAmount: [0, Validators.min(0)],
+      customerId: ['', Validators.required],
+      hotelId: ['', Validators.required],
+      roomId: ['', Validators.required]
     });
 
-    this.bookingForm.valueChanges.subscribe(() => this.calculateAmounts());
+    // Load data
+    this.loadRooms();
+    this.loadCustomers();
+    this.loadHotels();
+
+    // Watch changes to recalculate
+    this.bookingForm.valueChanges.subscribe(() => {
+      this.calculateAmounts();
+    });
   }
 
-  private calculateAmounts(): void {
-    const numberOfRooms = this.bookingForm.get('numberOfRooms')?.value || 0;
-    const roomPrice = this.bookingForm.get('roomdto.price')?.value || 0;
-    let advance = this.bookingForm.get('advanceAmount')?.value || 0;
+  loadRooms() {
+    this.roomService.getAllRooms().subscribe({
+      next: (data)=>{
+        this.rooms = data;
+      },
+      error: (err) => {
+        console.error('Error loading rooms:', err);
+      }
+    });
+  }
 
+  loadCustomers() {
+    this.customerService.getAllCustomers().subscribe({
+      next: (data) => {
+        this.customers = data;
+      },
+      error: (err) => {
+        console.error('Error loading customers:', err);
+      }
+    });
+  }
+
+  loadHotels() {
+    this.hotelService.getAllHotels().subscribe({
+      next: (data) => {
+        this.hotels = data;
+      },
+      error: (err) => {
+        console.error('Error loading hotels:', err);
+      }
+    });
+  }
+
+  onRoomChange(roomId: number) {
+    this.selectedRoom = this.rooms.find(r => r.id === +roomId)!;
+    this.calculateAmounts();
+  }
+
+  calculateAmounts() {
+    if (!this.selectedRoom) return;
+
+    const numberOfRooms = this.bookingForm.get('numberOfRooms')?.value || 1;
     const checkIn = new Date(this.bookingForm.get('checkIn')?.value);
     const checkOut = new Date(this.bookingForm.get('checkOut')?.value);
+    const discount = this.bookingForm.get('discountRate')?.value || 0;
+    const advance = this.bookingForm.get('advanceAmount')?.value || 0;
 
-    let nights = 0;
-    if (checkIn && checkOut && checkOut > checkIn) {
-      const diffTime = Math.abs(checkOut.getTime() - checkIn.getTime());
-      nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    // Check valid dates
+    const diffTime = checkOut.getTime() - checkIn.getTime();
+    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays <= 0) diffDays = 1;
+
+    // Check room availability
+    // if (this.selectedRoom.availableRooms? <  Booking['numberOfRooms']>) {
+    //   this.totalAmount = 0;
+    //   this.dueAmount = 0;
+    //   return;
+    // }
+
+    let total = this.selectedRoom.price * numberOfRooms * diffDays;
+    if (discount > 0) {
+      total = total - (total * discount / 100);
     }
 
-    const total = numberOfRooms * roomPrice * nights;
-
-    if (advance > total) {
-      advance = total;
-    }
-
-    const due = total - advance;
-
-    this.bookingForm.patchValue(
-      {
-        totalAmount: total,
-        dueAmount: due,
-        advanceAmount: advance
-      },
-      { emitEvent: false }
-    );
+    this.totalAmount = total;
+    this.dueAmount = total - advance;
   }
 
-  bookRoom(): void {
-    if (this.bookingForm.invalid) {
+  submitBooking() {
+    if (this.bookingForm.invalid) return;
 
-      alert('Please fill all required fields correctly!');
-      return;
-    }
-
-    const booking: Booking = this.bookingForm.getRawValue();
-
-
-    if (booking.numberOfRooms > (this.selectedRoom.availableRooms || 0)) {
-      alert('Not enough rooms available!');
-      return;
-    }
-
-    if (booking.advanceAmount > booking.totalAmount) {
-      alert('Advance amount cannot exceed total amount!');
-      return;
-    }
+    const booking: Booking = {
+      contractPersonName: this.bookingForm.get('contractPersonName')?.value,
+      phone: this.bookingForm.get('phone')?.value,
+      checkIn: this.bookingForm.get('checkIn')?.value,
+      checkOut: this.bookingForm.get('checkOut')?.value,
+      numberOfRooms: this.bookingForm.get('numberOfRooms')?.value,
+      discountRate: this.bookingForm.get('discountRate')?.value,
+      advanceAmount: this.bookingForm.get('advanceAmount')?.value,
+      totalAmount: this.totalAmount,
+      dueAmount: this.dueAmount,
+      roomId: this.bookingForm.get('roomId')?.value,
+      hotelId: this.bookingForm.get('hotelId')?.value,
+      customerId: this.bookingForm.get('customerId')?.value
+    };
 
     this.bookingService.createBooking(booking).subscribe({
-      next: (res) => {
-        const updatedRoom: Room = {
-          ...this.selectedRoom,
-          availableRooms: (this.selectedRoom.availableRooms || 0) - booking.numberOfRooms,
-          bookedRooms: (this.selectedRoom.bookedRooms || 0) + booking.numberOfRooms
-        };
+      next: res => {
+        alert('Booking Created Successfully!');
+        // Update room availability locally
+        // this.selectedRoom.availableRooms -= booking.numberOfRooms;
+        // this.selectedRoom.bookedRooms += booking.numberOfRooms;
 
-        this.roomService.updateRoom(this.selectedRoom.id!, updatedRoom).subscribe({
-          next: () => {
-            alert('Booking successful and room availability updated!');
-            this.router.navigate(['/bookings']);
-            this.cdr.markForCheck();
-          },
-          error: (err) => {
-            console.error(err);
-            alert('Failed to update room availability!');
-          }
-        });
+        // Reset form
+        this.bookingForm.reset({ numberOfRooms: 1, discountRate: 0, advanceAmount: 0 });
+        this.totalAmount = 0;
+        this.dueAmount = 0;
       },
-      error: (err) => {
-        console.error(err);
-        alert('Booking failed!');
+      error: err => {
+        alert(err.error?.message || 'Error creating booking');
       }
     });
   }
 
-
-  loadCustomerDetails(): void {
-
-    this.customerService.getProfile().subscribe({
-      next: (data) => {
-
-        this.customer = data;
-        console.log(data + "+++++++++++++++");
-        this.bookingForm.patchValue({
-          customerdto: {
-            id: data.id,
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-            address: data.address
-          }
-        });
-
-      },
-      error: (err) => {
-
-        console.log("Customer Details Loaded Failed")
-
-      }
-    })
-  }
 
 }
