@@ -25,6 +25,7 @@ import { ViewHotelInfoComponent } from './hotelInfo/view-hotel-info-component/vi
 import { AddBookingComponent } from './booking/add-booking-component/add-booking-component';
 import { AddHotelPhotoComponent } from './hotelPhoto/add-hotel-photo-component/add-hotel-photo-component';
 import { ViewHotelPhotoComponent } from './hotelPhoto/view-hotel-photo-component/view-hotel-photo-component';
+import { AllUserProfileComponent } from './allUser/all-user-profile-component/all-user-profile-component';
 
 const routes: Routes = [
   {path: 'addlocation', component: AddlocationComponent},
@@ -40,6 +41,7 @@ const routes: Routes = [
   {path: 'adminprofile', component: AdminProfileComponent},
   {path: 'hoteladminProfile', component: HotelAdminProfile},
   {path: 'customerProfile', component: CustomerProfileComponent},
+  {path: 'allUserProfile', component: AllUserProfileComponent},
   // {path: 'home', component: HomeComponenent},
   {path: 'hotel-details/:id', component: HotelDetailsCompononent},
   {path: '', component: AboutHotel},

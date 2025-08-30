@@ -41,8 +41,8 @@ public class HotelAminService {
 //    }
 
 
-    public HotelAdminDTO getProfileById(Integer userId) {
-        HotelAdmin admin = hotelAdminRepository.findByUserId(userId)
+    public HotelAdminDTO getProfileById(String email) {
+        HotelAdmin admin = hotelAdminRepository.findByUserEmail(email)
                 .orElseThrow(() -> new RuntimeException("HotelAdmin not found"));
 
         return new HotelAdminDTO(

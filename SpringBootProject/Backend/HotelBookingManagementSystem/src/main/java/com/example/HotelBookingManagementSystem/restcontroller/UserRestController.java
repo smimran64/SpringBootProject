@@ -1,7 +1,9 @@
 package com.example.HotelBookingManagementSystem.restcontroller;
 
 import com.example.HotelBookingManagementSystem.dto.AuthenticationResponse;
+import com.example.HotelBookingManagementSystem.dto.UserDto;
 import com.example.HotelBookingManagementSystem.entity.User;
+import com.example.HotelBookingManagementSystem.repository.UserRepository;
 import com.example.HotelBookingManagementSystem.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,11 +18,14 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/user/")
+@RequestMapping("/api/user")
 public class UserRestController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("")
     public ResponseEntity<Map<String, String>> saveUser(
@@ -43,11 +48,27 @@ public class UserRestController {
         }
     }
 
-    @GetMapping("all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.findAll();
-        return ResponseEntity.ok(users);
+//    @GetMapping("/all")
+//    public ResponseEntity<List<User>> getAllUsers() {
+//        List<User> users = userService.findAll();
+//        return ResponseEntity.ok(users);
+//
+//    }
 
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = userRepository.findAll().stream()
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getPhone(),
+                        user.getImage(),
+                        user.getRole()
+                ))
+                .toList();
+        return ResponseEntity.ok(users);
     }
 
 

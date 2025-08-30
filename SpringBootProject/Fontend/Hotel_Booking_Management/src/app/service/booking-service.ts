@@ -24,7 +24,7 @@ export class BookingService {
 
   createBooking(booking: Booking): Observable<Booking> {
 
-      let headers = new HttpHeaders();
+    let headers = new HttpHeaders();
 
     if (isPlatformBrowser(this.platformId)) {
       const token = localStorage.getItem('authToken');
@@ -35,10 +35,10 @@ export class BookingService {
     }
 
 
-    return this.http.post<Booking>(`${this.baseUrl}/save`, booking ,{ headers });
+    return this.http.post<Booking>(`${this.baseUrl}/save`, booking, { headers });
   }
 
-  
+
   getAllBookings(): Observable<Booking[]> {
     return this.http.get<Booking[]>(this.baseUrl);
   }
@@ -50,7 +50,18 @@ export class BookingService {
 
 
   getBookingsByCustomerId(customerId: number): Observable<Booking[]> {
-    return this.http.get<Booking[]>(`${this.baseUrl}/customer/${customerId}`);
+
+    let headers = new HttpHeaders();
+
+    if (isPlatformBrowser(this.platformId)) {
+      const token = localStorage.getItem('authToken');
+      if (token) {
+        headers = headers.set('Authorization', 'Bearer ' + token);
+        console.log(headers);
+      }
+    }
+
+    return this.http.get<Booking[]>(`${this.baseUrl}/customer/${customerId}`, { headers });
   }
 
 
@@ -58,12 +69,12 @@ export class BookingService {
     return this.http.get<Booking[]>(`${this.baseUrl}/hotel/${hotelId}`);
   }
 
-  
+
   getBookingsByRoomId(roomId: number): Observable<Booking[]> {
     return this.http.get<Booking[]>(`${this.baseUrl}/room/${roomId}`);
   }
 
-  
+
   deleteBooking(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }

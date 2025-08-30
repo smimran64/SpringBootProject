@@ -1,10 +1,11 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { LocationService } from '../../service/location.service';
 import { HotelService } from '../../service/hotel.service';
 import { Router } from '@angular/router';
 import { RoomService } from '../../service/room-service';
 import { environments } from '../../../environments/environments';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-about-hotel',
@@ -26,7 +27,8 @@ export class AboutHotel implements OnInit {
     private hotelService: HotelService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private roomService: RoomService
+    private roomService: RoomService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   ngOnInit(): void {
@@ -40,7 +42,7 @@ export class AboutHotel implements OnInit {
     // load all locations
     this.locationService.getAllLocationsForHome().subscribe(data => {
       this.locations = data;
-      console.log(data+"Location");
+      console.log(data + "Location");
       this.cdr.markForCheck();
     });
   }
@@ -48,9 +50,12 @@ export class AboutHotel implements OnInit {
   // search hotels
   onSearch() {
     const { locationId, checkIn, checkOut } = this.searchForm.value;
+
+    localStorage.setItem('checkin', JSON.stringify(checkIn));
+    localStorage.setItem('checkout', JSON.stringify(checkOut));
     this.hotelService.searchHotelhome(locationId, checkIn, checkOut).subscribe(data => {
       this.hotels = data;
-      console.log(data+"Hotel");
+      console.log(data + "Hotel");
       this.searched = true;
       this.cdr.markForCheck();
     });
@@ -62,7 +67,7 @@ export class AboutHotel implements OnInit {
       next: (hotelData) => {
         this.selectedHotel = hotelData;
         this.router.navigate(['/hotel-details', hotelId]);
-        
+
       },
       error: (err) => {
         console.error('Failed to fetch hotel details', err);

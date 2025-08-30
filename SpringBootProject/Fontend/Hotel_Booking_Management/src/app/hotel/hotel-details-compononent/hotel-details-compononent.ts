@@ -13,6 +13,7 @@ import { HotelPhotoDTO } from '../../model/hotelPhoto.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Room } from '../../model/room.model';
 import { Customer } from '../../model/customer.model';
+import { RoomService } from '../../service/room-service';
 
 @Component({
   selector: 'app-hotel-details-compononent',
@@ -43,6 +44,7 @@ export class HotelDetailsCompononent implements OnInit {
     private cd: ChangeDetectorRef,
     private hotelAmenitiesService: HotelAmenitiesService,
     private hotelInfoService: HotelInfoService,
+    private roomService: RoomService,
     private authService: Authservice,
     private hotelPhotoService: HotelPhotoService,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -73,7 +75,7 @@ export class HotelDetailsCompononent implements OnInit {
 
     forkJoin({
       hotel: this.hotelService.getHotelByIdpublic(hotelId),
-      rooms: this.hotelService.getRoomsByHotelpublic(hotelId),
+      rooms: this.roomService.getRoomsByHotelIdHome(hotelId),
       amenities: this.hotelAmenitiesService.getAmenitiesByHotelIdpublic(hotelId),
       info: this.hotelInfoService.getHotelInfoByHotelIdpublic(hotelId),
       photos: this.hotelPhotoService.getPhotosByHotelPublic(hotelId)

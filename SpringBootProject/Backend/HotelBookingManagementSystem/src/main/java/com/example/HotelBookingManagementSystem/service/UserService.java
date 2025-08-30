@@ -1,8 +1,8 @@
 package com.example.HotelBookingManagementSystem.service;
 
 
-
 import com.example.HotelBookingManagementSystem.dto.AuthenticationResponse;
+import com.example.HotelBookingManagementSystem.dto.UserDto;
 import com.example.HotelBookingManagementSystem.entity.Role;
 import com.example.HotelBookingManagementSystem.entity.Token;
 import com.example.HotelBookingManagementSystem.entity.User;
@@ -29,13 +29,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
-
 
 
     private final PasswordEncoder passwordEncoder;
@@ -82,13 +82,12 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    public void saveOrUpdate(User user, MultipartFile imageFile) {
+    public void saveOrUpdate(User user, MultipartFile imageFile) throws IOException {
 
         if (imageFile != null && !imageFile.isEmpty()) {
-
-            String fileName = saveImage(imageFile, user);
-
-            user.setImage(fileName);
+            // Image save করে extension সহ file name নাও
+            String savedFileName = saveImage(imageFile, user);
+            user.setImage(savedFileName); // DB-তে এই নাম save হবে
         }
 
 
@@ -103,6 +102,21 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getPhone(),
+                        user.getImage(),
+                        user.getRole()
+                ))
+                .toList();
+    }
+
     public User findById(int id) {
 
         return userRepository.findById(id).get();
@@ -113,34 +127,63 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public String saveImage(MultipartFile file, User user) {
+//    public String saveImage(MultipartFile file, User user) {
+//
+//        Path uploadPath = Paths.get(uploadDir + "/users");
+//
+//        if (!Files.exists(uploadPath)) {
+//
+//            try {
+//                Files.createDirectory(uploadPath);
+//
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//
+//        String fileName = file.getName() + "_" + UUID.randomUUID().toString();
+//
+//
+//        try {
+//            Path filePath = uploadPath.resolve(fileName);
+//            Files.copy(file.getInputStream(), filePath);
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        return fileName;
+//
+//    }
+
+
+    public String saveImage(MultipartFile file, User user) throws IOException {
 
         Path uploadPath = Paths.get(uploadDir + "/users");
 
         if (!Files.exists(uploadPath)) {
-
-            try {
-                Files.createDirectory(uploadPath);
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            Files.createDirectories(uploadPath);
         }
 
-        String fileName = file.getName() + "_" + UUID.randomUUID().toString();
+        // original filename এবং extension নাও
+        String userName = user.getName();
+        String fileName = userName.trim().replaceAll("\\s+", "_");
 
-
-        try {
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(file.getInputStream(), filePath);
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        String extension = "";
+        if (file.getOriginalFilename() != null && file.getOriginalFilename().contains(".")) {
+            extension = file.getOriginalFilename()
+                    .substring(file.getOriginalFilename().lastIndexOf("."));
         }
 
-        return fileName;
 
+        String savedFileName = userName + "_" + UUID.randomUUID() + extension;
+        Path filePath = uploadPath.resolve(savedFileName);
+        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+
+        return savedFileName; // এটা DB-তে save করো
     }
+
 
     private void sendActivationEmail(User user) {
         String subject = "Welcome to Our Service – Confirm Your Registration";
@@ -205,7 +248,7 @@ public class UserService implements UserDetailsService {
             return;
         }
 
-        validTokens.forEach(t->{
+        validTokens.forEach(t -> {
             t.setLogout(true);
         });
 
@@ -216,7 +259,7 @@ public class UserService implements UserDetailsService {
     // It is Login Method
 
 
-    public AuthenticationResponse authencate(User request){
+    public AuthenticationResponse authencate(User request) {
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -225,37 +268,37 @@ public class UserService implements UserDetailsService {
                 )
         );
 
-        User user=userRepository.findByEmail(request.getEmail()).orElseThrow();
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 
         if (!user.isActive()) {
             throw new RuntimeException("Account is not activated. Please check your email for activation link.");
         }
 
         // Generate Token for Current User
-        String jwt=jwtService.generateToken(user);
+        String jwt = jwtService.generateToken(user);
 
         //Remove all existing toke for this user
         removeAllTokenByUser(user);
 
         saveUserToken(jwt, user);
 
-        return  new AuthenticationResponse(jwt, "User Login Successful");
+        return new AuthenticationResponse(jwt, "User Login Successful");
 
     }
 
-    public  String activeUser(int id){
+    public String activeUser(int id) {
 
-        User user=userRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("User not Found with this ID "+ id ));
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not Found with this ID " + id));
 
-        if(user !=null){
+        if (user != null) {
             user.setActive(true);
 
             userRepository.save(user);
             return "User Activated Successfully!";
 
-        }else {
-            return  "Invalid Activation Token!";
+        } else {
+            return "Invalid Activation Token!";
         }
 
     }

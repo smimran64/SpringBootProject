@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Room } from '../../model/room.model';
 import { BookingService } from '../../service/booking-service';
@@ -10,6 +10,8 @@ import { Customer } from '../../model/customer.model';
 import { Hotel } from '../../model/hotel.model';
 import { HotelService } from '../../service/hotel.service';
 import { isPlatformBrowser } from '@angular/common';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-add-booking-component',
@@ -29,7 +31,7 @@ export class AddBookingComponent implements OnInit {
   booking!: Booking;
 
 
- customerId: number | null = null;
+  customerId: number | null = null;
 
 
   hotelId!: number | null;
@@ -37,9 +39,11 @@ export class AddBookingComponent implements OnInit {
   roomType!: string | null;
   price!: number | null;
 
+  @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
+
   constructor(
     private fb: FormBuilder,
-    private bookingService: BookingService,   
+    private bookingService: BookingService,
     @Inject(PLATFORM_ID) private platformId: Object
 
   ) { }
@@ -82,8 +86,8 @@ export class AddBookingComponent implements OnInit {
       const pendingBooking = localStorage.getItem('pendingBooking');
       const hotelDetails = localStorage.getItem('hotelDetails');
       const customerDetails = localStorage.getItem('customer');
-
-      
+      const checkIn = localStorage.getItem('checkin');
+      const checkOut = localStorage.getItem('checkout');
 
       if (customerDetails) {
         const customer = JSON.parse(customerDetails);
@@ -106,6 +110,7 @@ export class AddBookingComponent implements OnInit {
           },
           numberOfRooms: 1,
           advanceAmount: 0,
+
 
         });
       }
@@ -133,6 +138,20 @@ export class AddBookingComponent implements OnInit {
             phone: customer.phone || '',
             address: customer.address || ''
           }
+        });
+      }
+
+      if (checkIn) {
+        const checkInDate = JSON.parse(checkIn);
+        this.bookingForm.patchValue({
+          checkIn: checkInDate
+        });
+      }
+
+      if (checkOut) {
+        const checkOutDate = JSON.parse(checkOut);
+        this.bookingForm.patchValue({
+          checkOut: checkOutDate
         });
       }
 
@@ -206,8 +225,8 @@ export class AddBookingComponent implements OnInit {
     const hotelId = this.bookingForm.get('hoteldto.id')?.value!;
 
 
-    const cid= this.customerId;
-   
+    const cid = this.customerId;
+
 
 
 
@@ -228,7 +247,7 @@ export class AddBookingComponent implements OnInit {
 
       roomdto: { id: roomId },
       hoteldto: { id: hotelId },
-      customerdto: { id: cid!}
+      customerdto: { id: cid! }
 
     };
 
@@ -247,6 +266,10 @@ export class AddBookingComponent implements OnInit {
         this.bookingForm.reset({ numberOfRooms: 1, discountRate: 0, advanceAmount: 0 });
         this.totalAmount = 0;
         this.dueAmount = 0;
+
+
+        this.generateBookingPDF();
+
       },
       error: err => {
         alert(err.error?.message || 'Error creating booking');
@@ -287,6 +310,37 @@ export class AddBookingComponent implements OnInit {
   //     }
   //   });
   // }
+
+
+  generateBookingPDF(): void {
+    const element = this.pdfContent.nativeElement;
+
+    // Temporary make it visible off-screen
+    element.style.display = 'block';
+    element.style.position = 'absolute';
+    element.style.left = '-9999px';
+    element.style.opacity = '1';
+
+    html2canvas(element, { scale: 2 }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('booking-details.pdf');
+    }).catch(error => {
+      console.error('Error generating canvas:', error);
+    }).finally(() => {
+      // Hide it again
+      element.style.display = 'none';
+      element.style.position = 'static';
+      element.style.opacity = '0';
+    });
+  }
+
+
 
 
 

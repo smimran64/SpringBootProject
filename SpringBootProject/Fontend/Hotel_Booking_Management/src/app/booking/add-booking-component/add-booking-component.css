@@ -1,78 +1,122 @@
-/* Container padding */
+/* Container */
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    margin-top: 6%;
-}
-
-/* Card style for fieldsets */
-fieldset {
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    max-width: 900px;
+    margin: auto;
     padding: 20px;
-    margin-bottom: 20px;
-    background-color: #f9f9f9;
 }
 
-/* Legend styling */
-legend {
+/* Section title */
+.section-title {
+    font-size: 2rem;
     font-weight: bold;
-    padding: 0 10px;
-    width: auto;
-    font-size: 1.1rem;
+    background: linear-gradient(90deg, #ff512f, #dd2476);
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 2rem;
+    text-align: center;
+    animation: titleGlow 2s infinite alternate;
 }
 
-/* Form labels */
-label {
-    font-weight: 500;
-    margin-bottom: 4px;
-    display: block;
+/* Card */
+.booking-card {
+    background: linear-gradient(135deg, #fefefe, #f0f0f5);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Inputs styling */
-input.form-control {
-    border-radius: 6px;
+/* Animated gradient overlay */
+.booking-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(60deg, #ff512f, #dd2476, #ffaf7b, #f7971e);
+    background-size: 400% 400%;
+    animation: gradientAnimation 8s ease infinite;
+    opacity: 0.15;
+    pointer-events: none;
+    border-radius: 15px;
+}
+
+.booking-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* Input focus */
+.form-control {
+    border-radius: 8px;
     border: 1px solid #ccc;
-    padding: 8px 12px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 10px;
-    transition: border 0.3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-/* Input focus effect */
-input.form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+.form-control:focus {
+    border-color: #ff512f;
+    box-shadow: 0 0 8px rgba(255, 81, 47, 0.5);
     outline: none;
 }
 
-/* Submit button */
-button.btn-primary {
-    background: linear-gradient(90deg, #007bff, #0056b3);
-    border: none;
-    padding: 10px;
-    font-size: 1rem;
-    border-radius: 6px;
-    transition: background 0.3s;
+/* Button */
+.btn-gradient {
+    background: linear-gradient(135deg, #ff512f, #dd2476);
+    color: #fff;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 12px;
+    transition: background 0.3s, transform 0.3s;
 }
 
-button.btn-primary:hover {
-    background: linear-gradient(90deg, #0056b3, #007bff);
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #f7971e, #ffd200);
+    transform: translateY(-2px);
 }
 
-/* Mobile responsiveness */
-@media (max-width: 576px) {
-    fieldset {
-        padding: 15px;
+/* Animations */
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
     }
 
-    legend {
-        font-size: 1rem;
+    50% {
+        background-position: 100% 50%;
     }
 
-    button.btn-primary {
-        font-size: 0.95rem;
-        padding: 8px;
+    100% {
+        background-position: 0% 50%;
     }
+}
+
+@keyframes titleGlow {
+    0% {
+        text-shadow: 0 0 5px #ff512f;
+    }
+
+    100% {
+        text-shadow: 0 0 20px #dd2476;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+
+    .form-section label,
+    .form-control {
+        width: 100%;
+    }
+}
+
+.pdf-container {
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    /* prevent interaction */
 }

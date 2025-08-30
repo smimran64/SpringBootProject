@@ -44,7 +44,7 @@ public class SecurityConfig {
                                 "/api/login",
                                 "/api/room/all",
                                 "/api/room/**"
-                                ,"/api/active/**",
+                                , "/api/active/**",
                                 "/api/user/active/**",
                                 "/api/hotel/searchByHotelAdminId",
                                 "/api/admin/reg",
@@ -52,7 +52,8 @@ public class SecurityConfig {
                                 "/api/hoteladmin/reg",
                                 "/api/admin/reg",
                                 "/api/customer/reg",
-                                "/api/customer/profile",
+                                "/api/user/all",
+
 
                                 "/api/hotel/search",
                                 "/api/hotel/{id}/rooms",
@@ -64,7 +65,6 @@ public class SecurityConfig {
                                 "/api/room/hotel/**",
                                 "/api/amenities/hotel/**",
                                 "/api/hotel/information/hotel/**",
-                                "/api/booking/save",
                                 "/api/hotel/hotelbyhoteladmin/**",
                                 "/api/hotelPhoto/**",
                                 "/api/hotelPhoto/hotel/**",
@@ -74,7 +74,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/hotel/save",
                                 "/api/room/save",
                                 "/api/amenities/save",
-
                                 "/api/hotel/myHotels",
                                 "/api/hotel/information/save",
                                 "/api/admin/**",
@@ -82,10 +81,15 @@ public class SecurityConfig {
                                 "/api/hotel/information/0  delete/**",
                                 "/images/**",
                                 "/api/hotelPhoto/upload/* *"
-                                ).hasRole("HOTEL_ADMIN")
+                        ).hasRole("HOTEL_ADMIN")
 
                         .requestMatchers("/api/location/save",
                                 "/api/admin/profile").hasRole("ADMIN")
+
+                        .requestMatchers(" /api/customer/profile",
+                                "/api/booking/save"
+
+                        ).hasRole("CUSTOMER")
 
                         .anyRequest().authenticated()
                 )

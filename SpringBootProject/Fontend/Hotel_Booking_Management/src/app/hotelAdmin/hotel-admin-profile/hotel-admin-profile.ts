@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HotelAdmin } from '../../model/hotelAdmin.model';
 import { HotelAdminService } from '../../service/hotel-admin-service';
 import { HotelService } from '../../service/hotel.service';
+import { Hotel } from '../../model/hotel.model';
 
 @Component({
   selector: 'app-hotel-admin-profile',
@@ -12,7 +13,7 @@ import { HotelService } from '../../service/hotel.service';
 export class HotelAdminProfile implements OnInit {
 
   profile: HotelAdmin | null = null;
-  hotels: any[] = [];
+  hotels: Hotel[] = [];
 
   constructor(
     private hotelAdminService: HotelAdminService,

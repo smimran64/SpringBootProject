@@ -58,6 +58,10 @@ export class RoomService {
     return this.http.get<any>(`${this.baseUrl}/hotell/${hotelId}`, { headers: this.getAuthHeaders() })
       .pipe(catchError(this.handleError));
   }
+  getRoomsByHotelIdHome(hotelId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/hotell/${hotelId}`, )
+      .pipe(catchError(this.handleError));
+  }
 
 
   // // Get rooms by hotel name

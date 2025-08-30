@@ -1,113 +1,234 @@
 <div class="container py-4">
-    <h2 class="mb-4">Book Room</h2>
+    <h2 class="mb-4 text-center text-primary animate__animated animate__fadeInDown">Book Room</h2>
+    <form *ngIf="bookingForm" [formGroup]="bookingForm" (ngSubmit)="submitBooking()">
 
-    <form *ngIf="bookingForm" [formGroup]="bookingForm" (ngSubmit)="  submitBooking()">
-
-        <!-- Contract Person Info -->
-        <fieldset class="mb-3 border p-3 rounded">
-            <legend>Contact Person Info</legend>
-            <div class="mb-2">
-                <label>Full Name:</label>
-                <input class="form-control" formControlName="contractPersonName" placeholder="Enter full name">
-            </div>
-            <div class="mb-2">
-                <label>Phone:</label>
-                <input class="form-control" formControlName="phone" placeholder="Enter phone number">
-            </div>
-            <!-- </fieldset> -->
-
-            <!-- Customer Info (readonly) -->
-            <!-- <fieldset class="mb-3 border p-3 rounded"> -->
-            <legend>Customer Info</legend>
-            <div class="mb-2">
-                <label>Name:</label>
-                <input class="form-control" [value]="bookingForm.get('customerdto.name')?.value" readonly>
-            </div>
-            <div class="mb-2">
-                <label>Email:</label>
-                <input class="form-control" [value]="bookingForm.get('customerdto.email')?.value" readonly>
-            </div>
-            <div class="mb-2">
-                <label>Phone:</label>
-                <input class="form-control" [value]="bookingForm.get('customerdto.phone')?.value" readonly>
-            </div>
-            <div class="mb-2">
-                <label>Address:</label>
-                <input class="form-control" [value]="bookingForm.get('customerdto.address')?.value" readonly>
-            </div>
-            <!-- </fieldset> -->
-
-            <!-- Hotel Info (readonly) -->
-            <!-- <fieldset class="mb-3 border p-3 rounded">
-            <legend>Hotel Info</legend> -->
-            <legend> Hotel Information</legend>
-            <div class="mb-2">
-                <label>Name:</label>
-                <input class="form-control" [value]="bookingForm.get('hoteldto.name')?.value" readonly>
-            </div>
-            <div class="mb-2">
-                <label>Location:</label>
-                <input class="form-control" [value]="bookingForm.get('hoteldto.address')?.value" readonly>
-            </div>
-            <!-- </fieldset> -->
-
-            <!-- Room Info (readonly) -->
-            <!-- <fieldset class="mb-3 border p-3 rounded">
-            <legend>Room Info</legend> -->
-            <legend>Room Information</legend>
-            <input type="hidden" class="form-control" [value]="bookingForm.get('roomdto.id')?.value" readonly>
-            <input type="hidden" class="form-control" [value]="bookingForm.get('hoteldto.id')?.value" readonly>
-            <input type="hidden" class="form-control" [value]="bookingForm.get('customerdto.id')?.value" readonly>
-
-            <div class="mb-2">
-                <label>Room Type:</label>
-                <input class="form-control" [value]="bookingForm.get('roomdto.roomType')?.value" readonly>
-            </div>
-            <div class="mb-2">
-                <label>Adults:</label>
-                <input class="form-control" [value]="bookingForm.get('roomdto.adults')?.value" readonly>
-            </div>
-            <div class="mb-2">
-                <label>Children:</label>
-                <input class="form-control" [value]="bookingForm.get('roomdto.children')?.value" readonly>
-            </div>
-            <div class="mb-2">
-                <label>Price per Night:</label>
-                <input class="form-control" [value]="bookingForm.get('roomdto.price')?.value | currency:'USD'" readonly>
-            </div>
-            <!-- </fieldset> -->
-
-            <!-- Booking Info -->
-            <!-- <fieldset class="mb-3 border p-3 rounded">
-            <legend>Booking Details</legend> -->
-            <div class="mb-2">
-                <label>Check-in Date:</label>
-                <input type="date" class="form-control" formControlName="checkIn" (change)="calculateAmounts()">
+        <fieldset class="border p-4 rounded shadow-sm bg-light animate__animated animate__fadeInUp">
+            <legend class="text-info">Contact Person Info</legend>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Full Name:</label>
+                    <input class="form-control" formControlName="contractPersonName" placeholder="Enter full name">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Phone:</label>
+                    <input class="form-control" formControlName="phone" placeholder="Enter phone number">
+                </div>
             </div>
 
-            <div class="mb-2">
-                <label>Check-out Date:</label>
-                <input type="date" class="form-control" formControlName="checkOut" (change)="calculateAmounts()">
+            <legend class="text-success">Customer Info</legend>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Name:</label>
+                    <input class="form-control" [value]="bookingForm.get('customerdto.name')?.value" readonly>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Email:</label>
+                    <input class="form-control" [value]="bookingForm.get('customerdto.email')?.value" readonly>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Phone:</label>
+                    <input class="form-control" [value]="bookingForm.get('customerdto.phone')?.value" readonly>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Address:</label>
+                    <input class="form-control" [value]="bookingForm.get('customerdto.address')?.value" readonly>
+                </div>
             </div>
 
-            <div class="mb-2">
-                <label>Number of Rooms:</label>
-                <input type="number" class="form-control" formControlName="numberOfRooms" (input)="calculateAmounts()">
+            <legend class="text-warning">Hotel Info</legend>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Name:</label>
+                    <input class="form-control" [value]="bookingForm.get('hoteldto.name')?.value" readonly>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Location:</label>
+                    <input class="form-control" [value]="bookingForm.get('hoteldto.address')?.value" readonly>
+                </div>
             </div>
-            <div class="mb-2">
-                <label>Advance Amount:</label>
-                <input type="number" class="form-control" formControlName="advanceAmount">
+
+            <legend class="text-danger">Room Info</legend>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Room Type:</label>
+                    <input class="form-control" [value]="bookingForm.get('roomdto.roomType')?.value" readonly>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Adults:</label>
+                    <input class="form-control" [value]="bookingForm.get('roomdto.adults')?.value" readonly>
+                </div>
             </div>
-            <div class="mb-2">
-                <label>Total Amount:</label>
-                <input class="form-control" formControlName="totalAmount" readonly>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Children:</label>
+                    <input class="form-control" [value]="bookingForm.get('roomdto.children')?.value" readonly>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Price per Night:</label>
+                    <input class="form-control" [value]="bookingForm.get('roomdto.price')?.value | currency:'USD'"
+                        readonly>
+                </div>
             </div>
-            <div class="mb-2">
-                <label>Due Amount:</label>
-                <input class="form-control" formControlName="dueAmount" readonly>
+
+            <legend class="text-primary">Booking Details</legend>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Check-in Date:</label>
+                    <input type="date" class="form-control" formControlName="checkIn" (change)="calculateAmounts()">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Check-out Date:</label>
+                    <input type="date" class="form-control" formControlName="checkOut" (change)="calculateAmounts()">
+                </div>
             </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Number of Rooms:</label>
+                    <input type="number" class="form-control" formControlName="numberOfRooms"
+                        (input)="calculateAmounts()">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Advance Amount:</label>
+                    <input type="number" class="form-control" formControlName="advanceAmount">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label>Total Amount:</label>
+                    <input class="form-control" formControlName="totalAmount" readonly>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Due Amount:</label>
+                    <input class="form-control" formControlName="dueAmount" readonly>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 animate__animated animate__pulse">Confirm Booking &
+                Download PDF</button>
         </fieldset>
-
-        <button type="submit" class="btn btn-primary w-100">Confirm Booking</button>
     </form>
+</div>
+
+<!-- PDF Container (hidden in UI) -->
+<div #pdfContent class="pdf-container" style="display:none; width:800px; padding:20px; font-family: Arial, sans-serif;">
+
+    <!-- Header -->
+    <div
+        style="text-align:center; background: linear-gradient(90deg, #6a11cb, #2575fc); color:white; padding:15px; border-radius:8px;">
+        <h1 style="margin:0; font-size:24px;">🏨 {{ bookingForm.get('hoteldto.name')?.value }}</h1>
+        <h4 style="margin:0; font-size:14px;">{{ bookingForm.get('hoteldto.address')?.value }}</h4>
+        <p style="margin:0; font-size:14px;">Thank you for booking with us!</p>
+    </div>
+
+    <!-- Customer Information -->
+    <div style="margin-top:20px; padding:15px; background:#f0f4f8; border-radius:8px;">
+        <h2 style="color:#2575fc;">Customer Information</h2>
+        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+            <tr>
+                <td><strong>Name:</strong></td>
+                <td>{{ bookingForm.get('customerdto.name')?.value }}</td>
+            </tr>
+            <tr>
+                <td><strong>Email:</strong></td>
+                <td>{{ bookingForm.get('customerdto.email')?.value }}</td>
+            </tr>
+            <tr>
+                <td><strong>Phone:</strong></td>
+                <td>{{ bookingForm.get('customerdto.phone')?.value }}</td>
+            </tr>
+            <tr>
+                <td><strong>Address:</strong></td>
+                <td>{{ bookingForm.get('customerdto.address')?.value }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Hotel Information -->
+    <div style="margin-top:20px; padding:15px; background:#fff3e0; border-radius:8px;">
+        <h2 style="color:#ff6f00;">Hotel Information</h2>
+        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+            <tr>
+                <td><strong>Name:</strong></td>
+                <td>{{ bookingForm.get('hoteldto.name')?.value }}</td>
+            </tr>
+            <tr>
+                <td><strong>Address:</strong></td>
+                <td>{{ bookingForm.get('hoteldto.address')?.value }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Room Information -->
+    <div style="margin-top:20px; padding:15px; background:#e8f5e9; border-radius:8px;">
+        <h2 style="color:#43a047;">Room Information</h2>
+        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+            <tr>
+                <td><strong>Room Type:</strong></td>
+                <td>{{ bookingForm.get('roomdto.roomType')?.value }}</td>
+            </tr>
+            <tr>
+                <td><strong>Adults:</strong></td>
+                <td>{{ bookingForm.get('roomdto.adults')?.value }}</td>
+            </tr>
+            <tr>
+                <td><strong>Children:</strong></td>
+                <td>{{ bookingForm.get('roomdto.children')?.value }}</td>
+            </tr>
+            <tr>
+                <td><strong>Price per Night:</strong></td>
+                <td>{{ bookingForm.get('roomdto.price')?.value | currency }}</td>
+            </tr>
+            <tr>
+                <td><strong>Number of Rooms:</strong></td>
+                <td>{{ bookingForm.get('numberOfRooms')?.value }}</td>
+            </tr>
+            <tr>
+                <td><strong>Check-in:</strong></td>
+                <td>{{ bookingForm.get('checkIn')?.value | date:'mediumDate' }}</td>
+            </tr>
+            <tr>
+                <td><strong>Check-out:</strong></td>
+                <td>{{ bookingForm.get('checkOut')?.value | date:'mediumDate' }}</td>
+            </tr>
+            <tr>
+                <td><strong>Contract Person:</strong></td>
+                <td>{{ bookingForm.get('contractPersonName')?.value }}</td>
+            </tr>
+            <tr>
+                <td><strong>Phone:</strong></td>
+                <td>{{ bookingForm.get('phone')?.value }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Payment Information -->
+    <div style="margin-top:20px; padding:15px; background:#fce4ec; border-radius:8px;">
+        <h2 style="color:#d81b60;">Payment Details</h2>
+        <table style="width:100%; border-collapse:collapse; font-size:14px;">
+            <tr>
+                <td><strong>Total Amount:</strong></td>
+                <td>{{ bookingForm.get('totalAmount')?.value | currency }}</td>
+            </tr>
+            <tr>
+                <td><strong>Advance Paid:</strong></td>
+                <td>{{ bookingForm.get('advanceAmount')?.value | currency }}</td>
+            </tr>
+            <tr>
+                <td><strong>Due Amount:</strong></td>
+                <td>{{ bookingForm.get('dueAmount')?.value | currency }}</td>
+            </tr>
+            <!-- <tr>
+                <td><strong>Discount:</strong></td>
+                <td>{{ bookingForm.get('discountRate')?.value || 0 }}%</td>
+            </tr> -->
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <div style="margin-top:20px; text-align:center; font-size:12px; color:#555;">
+        <p>We look forward to hosting you. Safe travels!</p>
+    </div>
+
 </div>
