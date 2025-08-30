@@ -14,7 +14,7 @@ export class AllUserProfileComponent implements OnInit {
   filteredUsers: User[] = [];
   selectedRole: string = 'All';
 
-  roles: string[] = ['All', 'Admin', 'HotelAdmin', 'Customer'];
+  roles: string[] = ['All', 'Admin', 'Hotel_Admin', 'Customer'];
 
   constructor(private userService: UserService) { }
 

@@ -160,9 +160,22 @@ export class HotelDetailsCompononent implements OnInit {
       localStorage.setItem('pendingBooking', JSON.stringify(room));
       localStorage.setItem('hotelDetails', JSON.stringify(hotel));
 
+      const redirectUrl = this.router.createUrlTree(
+        ['/addbooking', room.id],
+        {
+          queryParams: {
+            hotelId: this.hotel?.id,
+            roomType: room.roomType,
+            price: room.price
+          }
+        }
+      ).toString();
+
+      localStorage.setItem('redirectUrl', redirectUrl);
 
 
-     
+
+
 
 
       if (this.authService.isLoggIn()) {

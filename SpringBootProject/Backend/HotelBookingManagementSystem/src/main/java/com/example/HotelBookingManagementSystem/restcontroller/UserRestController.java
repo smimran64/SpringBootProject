@@ -58,7 +58,7 @@ public class UserRestController {
 
     @GetMapping("/all")
     public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<UserDto> users = userRepository.findAll().stream()
+        List<UserDto> users = userService.getAllUsers().stream()
                 .map(user -> new UserDto(
                         user.getId(),
                         user.getName(),

@@ -2,6 +2,7 @@ package com.example.HotelBookingManagementSystem.confige;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -20,5 +21,14 @@ public class WebConfig implements WebMvcConfigurer {
 
 
     }
+
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeRequests()
+//                .antMatchers("/images/**").permitAll()
+//                .anyRequest().authenticated();
+//    }
 
 }

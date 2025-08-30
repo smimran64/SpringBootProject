@@ -62,7 +62,7 @@ public class SecurityConfig {
                                 "/api/location/all",
                                 "/api/amenities/all",
                                 "/api/hotel/information/save",
-                                "/api/room/hotel/**",
+                                "/api/room/hotell/**",
                                 "/api/amenities/hotel/**",
                                 "/api/hotel/information/hotel/**",
                                 "/api/hotel/hotelbyhoteladmin/**",
