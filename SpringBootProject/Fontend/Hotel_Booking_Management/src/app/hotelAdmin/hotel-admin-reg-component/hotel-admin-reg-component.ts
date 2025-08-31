@@ -85,7 +85,7 @@ console.log(hotelAdmin)
         this.userForm.reset();
         this.hotelAdminForm.reset();
         this.photoFile = undefined!;
-        this.router.navigate(['']);
+        this.router.navigate(['login']);
 
       },
       error: err => {

@@ -1,5 +1,4 @@
-
-.container{
+.container {
     margin-top: 6%;
 }
 
@@ -96,4 +95,42 @@ select {
     border: 1px solid #ccc;
     margin-top: 10px;
     font-size: 14px;
+}
+
+
+.btn {
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #7410d1;
+    color: #fff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #095bf3;
+    transform: scale(1.05);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid #0c0607;
+    color: #ec0c1e;
+}
+
+.btn-outline:hover {
+    background-color: #0b1020;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.hotel-footer {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
 }

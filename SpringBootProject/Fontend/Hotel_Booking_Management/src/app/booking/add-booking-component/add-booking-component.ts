@@ -44,6 +44,7 @@ export class AddBookingComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private bookingService: BookingService,
+    private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
 
   ) { }
@@ -270,6 +271,7 @@ export class AddBookingComponent implements OnInit {
 
 
         this.generateBookingPDF();
+        this.router.navigate(['customerProfile'])
 
       },
       error: err => {

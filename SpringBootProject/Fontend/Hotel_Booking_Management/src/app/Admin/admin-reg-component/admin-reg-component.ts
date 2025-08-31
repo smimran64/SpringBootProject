@@ -86,7 +86,7 @@ export class AdminRegComponent {
         this.userForm.reset();
         this.adminForm.reset();
         this.photoFile = undefined!;
-        this.router.navigate(['']);
+        this.router.navigate(['login']);
 
       },
       error: err => {
