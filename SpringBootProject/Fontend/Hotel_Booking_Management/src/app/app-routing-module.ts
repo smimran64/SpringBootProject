@@ -26,6 +26,9 @@ import { AddBookingComponent } from './booking/add-booking-component/add-booking
 import { AddHotelPhotoComponent } from './hotelPhoto/add-hotel-photo-component/add-hotel-photo-component';
 import { ViewHotelPhotoComponent } from './hotelPhoto/view-hotel-photo-component/view-hotel-photo-component';
 import { AllUserProfileComponent } from './allUser/all-user-profile-component/all-user-profile-component';
+import { ViewRoomForAdmin } from './Room/view-room-for-admin/view-room-for-admin';
+import { ForgotPasswordComponent } from './password/forgot-password-component/forgot-password-component';
+import { ResetPasswordComponent } from './password/reset-password-component/reset-password-component';
 
 const routes: Routes = [
   {path: 'addlocation', component: AddlocationComponent},
@@ -35,10 +38,11 @@ const routes: Routes = [
   {path: 'viewHotel', component: Viewallhotelcomponent},
   {path: 'addroom', component: AddRoomComponent},
   {path: 'allroom', component: ViewRoomComponent},
+  {path: 'roomForAdmin', component: ViewRoomForAdmin},
   {path: 'customerReg', component: CustomerRegComponent},
   {path: 'hotelAdminReg', component: HotelAdminRegComponent},
   {path: 'adminReg', component: AdminRegComponent},
-  {path: 'adminprofile', component: AdminProfileComponent},
+  {path: 'admin-profile', component: AdminProfileComponent},
   {path: 'hoteladminProfile', component: HotelAdminProfile},
   {path: 'customerProfile', component: CustomerProfileComponent},
   {path: 'allUserProfile', component: AllUserProfileComponent},
@@ -54,6 +58,8 @@ const routes: Routes = [
   {path: 'addbooking/:id', component: AddBookingComponent},
   {path: 'photo', component: AddHotelPhotoComponent},
   {path: 'viewgallery', component: ViewHotelPhotoComponent},
+  {path: 'forgotpassword', component: ForgotPasswordComponent},
+  {path: 'reset-password', component: ResetPasswordComponent},
 
 ];
 

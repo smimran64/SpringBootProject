@@ -71,10 +71,9 @@ public class CustomerRestController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> customerList = customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
+        List<CustomerDTO> customerList = customerService.getAllCustomers();
         return ResponseEntity.ok(customerList);
-
     }
 
 //    @GetMapping("/profile")

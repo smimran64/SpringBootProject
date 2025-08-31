@@ -36,6 +36,9 @@ import { ViewBookingComponent } from './booking/view-booking-component/view-book
 import { AddHotelPhotoComponent } from './hotelPhoto/add-hotel-photo-component/add-hotel-photo-component';
 import { ViewHotelPhotoComponent } from './hotelPhoto/view-hotel-photo-component/view-hotel-photo-component';
 import { AllUserProfileComponent } from './allUser/all-user-profile-component/all-user-profile-component';
+import { ViewRoomForAdmin } from './Room/view-room-for-admin/view-room-for-admin';
+import { ForgotPasswordComponent } from './password/forgot-password-component/forgot-password-component';
+import { ResetPasswordComponent } from './password/reset-password-component/reset-password-component';
 
 @NgModule({
   declarations: [
@@ -70,7 +73,10 @@ import { AllUserProfileComponent } from './allUser/all-user-profile-component/al
     ViewBookingComponent,
     AddHotelPhotoComponent,
     ViewHotelPhotoComponent,
-    AllUserProfileComponent
+    AllUserProfileComponent,
+    ViewRoomForAdmin,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

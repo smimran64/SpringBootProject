@@ -89,7 +89,7 @@ export class Login implements OnInit {
           }
 
           // Role-based redirect (fallback)
-          if (role === 'CUSTOMER') {
+          if (role === 'CUSTOMER') {            
 
             this.authService.getCurrentCustomer().subscribe(customer => {
               // Do something with the customer data if needed
@@ -99,7 +99,7 @@ export class Login implements OnInit {
           } else if (role === 'HOTEL_ADMIN') {
             this.router.navigate(['/hoteladminProfile']);
           } else if (role === 'ADMIN') {
-            this.router.navigate(['/addlocation']);
+            this.router.navigate(['admin-profile']);
           } else {
             this.router.navigate(['/']); // fallback
           }

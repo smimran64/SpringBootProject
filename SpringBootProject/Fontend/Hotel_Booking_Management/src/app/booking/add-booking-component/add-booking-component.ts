@@ -223,6 +223,7 @@ export class AddBookingComponent implements OnInit {
 
     const roomId = this.bookingForm.get('roomdto.id')?.value!;
     const hotelId = this.bookingForm.get('hoteldto.id')?.value!;
+    
 
 
     const cid = this.customerId;

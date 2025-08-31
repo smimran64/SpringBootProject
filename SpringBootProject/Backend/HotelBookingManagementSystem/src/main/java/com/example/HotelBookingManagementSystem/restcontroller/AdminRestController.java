@@ -2,6 +2,7 @@ package com.example.HotelBookingManagementSystem.restcontroller;
 
 
 import com.example.HotelBookingManagementSystem.dto.AdminDTO;
+import com.example.HotelBookingManagementSystem.dto.CustomerDTO;
 import com.example.HotelBookingManagementSystem.entity.Admin;
 import com.example.HotelBookingManagementSystem.entity.HotelAdmin;
 import com.example.HotelBookingManagementSystem.entity.User;
@@ -76,12 +77,14 @@ public class AdminRestController {
     // Get logged-in admin profile
     @GetMapping("/profile")
     public ResponseEntity<AdminDTO> getProfile(Authentication authentication) {
-        if (authentication == null || authentication.getName() == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        String email = authentication.getName();
-        AdminDTO admin = adminService.getProfileByEmail(email);
-        return ResponseEntity.ok(admin);
+        String email = authentication.getName(); // logged-in user's email
+        AdminDTO adminDTO = adminService.getProfile(email);
+        return ResponseEntity.ok(adminDTO);
     }
 
+
+//    @GetMapping("profile/{id}")
+//    public AdminDTO getAdminProfile(@PathVariable int id) {
+//        return adminService.getAdminProfile(id);
+//    }
 }

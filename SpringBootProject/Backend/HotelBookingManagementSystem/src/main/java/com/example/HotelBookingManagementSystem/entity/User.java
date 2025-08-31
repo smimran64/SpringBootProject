@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,11 @@ public class User implements UserDetails {
     private String password;
     private String phone;
     private String image;
+
+    //for reset password extra two field
+
+    private String resetToken;
+    private Date tokenExpiry;
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
@@ -41,18 +47,45 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(int id, String name, String email, String password, String phone, String image, Role role, List<Token> tokens, HotelAdmin hotelAdmins, boolean active, boolean isLock) {
-        this.id = id;
-        this.name = name;
+    public User(boolean active, String email, HotelAdmin hotelAdmins, int id, String image, boolean isLock, String name, String password, String phone, String resetToken, Role role, Date tokenExpiry, List<Token> tokens) {
+        this.active = active;
         this.email = email;
+        this.hotelAdmins = hotelAdmins;
+        this.id = id;
+        this.image = image;
+        this.isLock = isLock;
+        this.name = name;
         this.password = password;
         this.phone = phone;
-        this.image = image;
+        this.resetToken = resetToken;
         this.role = role;
+        this.tokenExpiry = tokenExpiry;
         this.tokens = tokens;
-        this.hotelAdmins = hotelAdmins;
+    }
+
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
         this.active = active;
-        this.isLock = isLock;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public HotelAdmin getHotelAdmins() {
+        return hotelAdmins;
+    }
+
+    public void setHotelAdmins(HotelAdmin hotelAdmins) {
+        this.hotelAdmins = hotelAdmins;
     }
 
     public int getId() {
@@ -63,20 +96,28 @@ public class User implements UserDetails {
         this.id = id;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public boolean isLock() {
+        return isLock;
+    }
+
+    public void setLock(boolean lock) {
+        isLock = lock;
+    }
+
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void setPassword(String password) {
@@ -91,12 +132,12 @@ public class User implements UserDetails {
         this.phone = phone;
     }
 
-    public String getImage() {
-        return image;
+    public String getResetToken() {
+        return resetToken;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
     }
 
     public Role getRole() {
@@ -107,36 +148,20 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    public Date getTokenExpiry() {
+        return tokenExpiry;
+    }
+
+    public void setTokenExpiry(Date tokenExpiry) {
+        this.tokenExpiry = tokenExpiry;
+    }
+
     public List<Token> getTokens() {
         return tokens;
     }
 
     public void setTokens(List<Token> tokens) {
         this.tokens = tokens;
-    }
-
-    public HotelAdmin getHotelAdmins() {
-        return hotelAdmins;
-    }
-
-    public void setHotelAdmins(HotelAdmin hotelAdmins) {
-        this.hotelAdmins = hotelAdmins;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean isLock() {
-        return isLock;
-    }
-
-    public void setLock(boolean lock) {
-        isLock = lock;
     }
 
     @Override

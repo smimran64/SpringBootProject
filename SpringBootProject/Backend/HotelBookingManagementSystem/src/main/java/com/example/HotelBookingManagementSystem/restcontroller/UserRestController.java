@@ -4,6 +4,7 @@ import com.example.HotelBookingManagementSystem.dto.AuthenticationResponse;
 import com.example.HotelBookingManagementSystem.dto.UserDto;
 import com.example.HotelBookingManagementSystem.entity.User;
 import com.example.HotelBookingManagementSystem.repository.UserRepository;
+import com.example.HotelBookingManagementSystem.service.AuthService;
 import com.example.HotelBookingManagementSystem.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +27,9 @@ public class UserRestController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthService authService;
 
     @PostMapping("")
     public ResponseEntity<Map<String, String>> saveUser(
@@ -85,6 +89,22 @@ public class UserRestController {
 
         String response= userService.activeUser(id);
         return  ResponseEntity.ok(response);
+    }
+
+
+
+    //for pasword reset
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Map<String, String>> forgotPassword(@RequestParam String email) {
+        String result = userService.forgotPassword(email);
+        return ResponseEntity.ok(Map.of("message", result));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestParam String token,
+                                                             @RequestParam String newPassword) {
+        String result = userService.resetPassword(token, newPassword);
+        return ResponseEntity.ok(Map.of("message", result));
     }
 
 }

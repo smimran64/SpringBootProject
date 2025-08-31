@@ -1,0 +1,49 @@
+<div class="container">
+
+  <h2 class="text-center mb-4 text-gradient">View Rooms for Admin</h2>
+
+  <!-- Hotel Dropdown -->
+  <div class="form-group mb-3">
+    <label for="hotelSelect">Select Hotel:</label>
+    <select id="hotelSelect" class="form-control" [(ngModel)]="selectedHotelId" (change)="onHotelChange()">
+      <option value="">-- Select a Hotel --</option>
+      <option *ngFor="let hotel of hotels" [value]="hotel.id">{{ hotel.name }}</option>
+    </select>
+  </div>
+
+  <!-- Loading Spinner -->
+  <!-- <div *ngIf="loading" class="text-center my-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div> -->
+
+  <!-- Rooms Grid -->
+  <div class="row mt-4" *ngIf="rooms.length > 0">
+    <div class="col-lg-4 col-md-6 mb-4" *ngFor="let room of rooms">
+      <div class="card shadow-sm h-100 room-card">
+         <img [src]="'http://localhost:8082/images/rooms/' + room.image"
+             class="card-img-top"
+             alt="{{ room.roomType }}"
+             style="object-fit: cover; height: 180px;" />
+        <div class="card-body">
+          <h5 class="card-title" style="color: blueviolet;">Room {{ room.roomType }}</h5>
+          <p class="card-text">
+           
+            <strong>Price:</strong> {{ room.price | currency:'BDT ' }}<br>
+            <strong>Available:</strong> {{ room.availableRooms }}<br>
+            <strong>Adults:</strong> {{ room.adults || 'N/A' }}
+            <strong>Children:</strong> {{ room.children || 'N/A' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No rooms message -->
+  <div *ngIf="!rooms.length && selectedHotelId" class="alert alert-info mt-3">
+    No rooms available for the selected hotel.
+  </div>
+
+
+</div>

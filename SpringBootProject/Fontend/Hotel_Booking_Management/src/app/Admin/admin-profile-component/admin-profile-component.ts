@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Admin } from '../../model/Admin.model';
 import { AdminService } from '../../service/admin-service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-admin-profile-component',
@@ -10,21 +11,29 @@ import { AdminService } from '../../service/admin-service';
 })
 export class AdminProfileComponent implements OnInit {
 
-  admin: Admin | null = null;
+  adminProfile?: Admin;
+  loading = true;
+  error?: string;
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.adminService.getProfile().subscribe({
+    this.adminService.getLoggedInAdminProfile().subscribe({
       next: (data) => {
-        console.log('Admin profile:', data);
-        this.admin = data;
+        console.log('Admin profile fetched:', data);
+        this.adminProfile = data;
+        this.cdr.markForCheck();
+        this.loading = false;
       },
       error: (err) => {
-        console.error('Failed to load profile', err);
+        console.error('Error fetching profile', err);
+        this.error = 'Failed to load admin profile';
+        this.loading = false;
       }
     });
   }
+
+
 
 
 }

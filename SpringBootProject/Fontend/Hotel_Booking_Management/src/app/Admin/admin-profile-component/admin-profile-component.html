@@ -1,25 +1,46 @@
-<div class="profile-container" *ngIf="admin; else loading">
-    <div class="profile-card">
-        <div class="profile-header">
-            <div class="profile-image-wrapper">
-                <img [src]="admin.image ? 'http://localhost:8082/images/admins/' + admin.image : 'assets/default-avatar.png'"
-                    alt="Admin Image" class="profile-image">
-            </div>
-            <h2 class="profile-name">{{ admin.name }}</h2>
-            <p class="profile-role">Administrator</p>
-        </div>
+<div class="profile-container">
 
-        <div class="profile-details">
-            <div class="detail-row"><span>Email:</span> <span>{{ admin.email }}</span></div>
-            <div class="detail-row"><span>Phone:</span> <span>{{ admin.phone }}</span></div>
-            <div class="detail-row"><span>Gender:</span> <span>{{ admin.gender }}</span></div>
-            <div class="detail-row"><span>Address:</span> <span>{{ admin.address }}</span></div>
-            <div class="detail-row"><span>Date of Birth:</span> <span>{{ admin.dateOfBirth | date:'longDate' }}</span>
-            </div>
-        </div>
+  <!-- Cover + Profile -->
+  <div class="cover-wrapper">
+    <img class="cover-photo" src="https://tinyurl.com/2neupb9b" alt="Cover Photo" />
+    <div class="profile-pic-wrapper">
+      <img class="profile-picture" [src]="'http://localhost:8082/images/Admins/' + adminProfile?.image"
+        alt="{{ adminProfile?.name }}" />
     </div>
-</div>
+  </div>
 
-<ng-template #loading>
-    <div class="loading">Loading profile...</div>
-</ng-template>
+  <!-- Admin Info -->
+  <div class="user-info text-center">
+    <h1 class="name">{{ adminProfile?.name }}</h1>
+    <h3 class="role">Admin</h3>
+    <h5 class="bio">🌍 Managing the platform with dedication and responsibility!</h5>
+  </div>
+
+  <!-- Basic Information -->
+  <div class="basic-info section">
+    <h2 class="section-title">📌 Basic Information</h2>
+    <div class="info-grid">
+      <div class="info-item email">
+        <h6>Email</h6>
+        <p>{{ adminProfile?.email }}</p>
+      </div>
+      <div class="info-item phone">
+        <h6>Phone</h6>
+        <p>{{ adminProfile?.phone || '+880 123 456 7890' }}</p>
+      </div>
+      <div class="info-item address">
+        <h6>Address</h6>
+        <p>{{ adminProfile?.address || 'Dhaka, Bangladesh' }}</p>
+      </div>
+      <div class="info-item gender">
+        <h6>Gender</h6>
+        <p>{{ adminProfile?.gender || 'N/A' }}</p>
+      </div>
+      <div class="info-item dob">
+        <h6>Date of Birth</h6>
+        <p>{{ adminProfile?.dateOfBirth | date:'longDate' }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>

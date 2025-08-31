@@ -30,9 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -302,5 +300,78 @@ public class UserService implements UserDetailsService {
         }
 
     }
+
+
+    // Forgot Password
+
+    public String forgotPassword(String email) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+
+            // 1. Token generate
+            String token = UUID.randomUUID().toString();
+            user.setResetToken(token);
+
+            System.out.println(token +"++++++++++++++++++++++++");
+
+            // 2. Expiry after 15 munites
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MINUTE, 15);
+            Date expiryDate = calendar.getTime();
+            user.setTokenExpiry(expiryDate);
+
+            // 3. Save user
+            userRepository.save(user);
+
+            // Reset link & email
+
+            String resetLink = "http://localhost:4200/reset-password?token=" + token;
+            String mailBody = "<!DOCTYPE html>"
+                    + "<html><body>"
+                    + "<p>Dear " + user.getName() + ",</p>"
+                    + "<p>You requested a password reset. Click the link below to reset your password:</p>"
+                    + "<p><a href=\"" + resetLink + "\">Reset Password</a></p>"
+                    + "<p>This link will expire in 15 minutes.</p>"
+                    + "<p>Best regards,<br>Support Team</p>"
+                    + "</body></html>";
+
+            try {
+                sendEmail(user.getEmail(), "Password Reset Request", mailBody);
+            } catch (MessagingException e) {
+                throw new RuntimeException("Failed to send email", e);
+            }
+
+            return "Reset link sent to your email!";
+        }
+        return "User not found!";
+    }
+
+    // Reset Password
+    public String resetPassword(String token, String newPassword) {
+        Optional<User> userOpt = userRepository.findByResetToken(token);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+
+            Date now = new Date();
+            if (user.getTokenExpiry() == null || user.getTokenExpiry().before(now)) {
+                return "Token expired!";
+            }
+
+            user.setPassword(passwordEncoder.encode(newPassword));
+            user.setResetToken(null);
+            user.setTokenExpiry(null);
+            userRepository.save(user);
+
+            return "Password updated successfully!";
+        }
+        return "Invalid token!";
+    }
+
+    // General sendEmail method
+    private void sendEmail(String to, String subject, String body) throws MessagingException {
+        emailService.sendSimpleEmail(to, subject, body);
+    }
+
 
 }

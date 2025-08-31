@@ -1,101 +1,121 @@
-/* Profile container */
 .profile-container {
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-    background: #f5f6fa;
-    min-height: 100vh;
-    box-sizing: border-box;
+    max-width: 900px;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+    padding: 0 15px;
     margin-top: 6%;
 }
 
-/* Card */
-.profile-card {
-    background: #fff;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-    padding: 1.5rem;
-    text-align: center;
-    transition: transform 0.3s ease;
+.cover-wrapper {
+    position: relative;
+    height: 220px;
+    overflow: visible;
+    border-radius: 12px;
 }
 
-.profile-card:hover {
-    transform: translateY(-5px);
-}
-
-/* Header */
-.profile-header {
-    margin-bottom: 1.5rem;
-}
-
-.profile-image-wrapper {
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 1rem auto;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 4px solid #3498db;
-}
-
-.profile-image {
+.cover-photo {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.profile-name {
-    margin: 0.5rem 0;
-    font-size: 1.5rem;
-    color: #2c3e50;
+.profile-pic-wrapper {
+    position: absolute;
+    bottom: -50px; /* overlap */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;      /* square */
+    height: 120px;     /* square */
+    border-radius: 12px; /* slightly rounded corners */
+    overflow: hidden;
+    border: 5px solid #fff;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
 }
 
-.profile-role {
-    font-size: 0.95rem;
-    color: #7f8c8d;
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
-/* Details */
-.profile-details {
-    text-align: left;
+.profile-pic-wrapper:hover .profile-picture {
+    transform: scale(1.05);
 }
 
-.detail-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #ecf0f1;
-}
-
-.detail-row span:first-child {
-    font-weight: 600;
-    color: #34495e;
-}
-
-.detail-row span:last-child {
-    color: #7f8c8d;
-}
-
-/* Loading */
-.loading {
+.user-info {
+    margin-top: 70px; /* space for profile pic overlap */
     text-align: center;
-    font-size: 1.2rem;
-    color: #7f8c8d;
-    margin-top: 2rem;
 }
 
-/* Responsive */
-@media (max-width: 500px) {
-    .profile-card {
-        padding: 1rem;
-    }
+.user-info .name {
+    margin: 0;
+    font-size: 28px;
+    color: #333;
+}
 
-    .profile-name {
-        font-size: 1.3rem;
-    }
+.user-info .role {
+    margin: 5px 0;
+    font-size: 18px;
+    color: #777;
+}
 
-    .profile-role {
-        font-size: 0.85rem;
-    }
+.user-info .bio {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+}
+
+.basic-info {
+    margin-top: 30px;
+}
+
+.section-title {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.info-item {
+    padding: 15px;
+    border-radius: 12px;
+    color: #fff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Colorful cards */
+.info-item.email { background: linear-gradient(135deg, #6a11cb, #2575fc); }
+.info-item.phone { background: linear-gradient(135deg, #f7971e, #ffd200); color: #333; }
+.info-item.address { background: linear-gradient(135deg, #43cea2, #185a9d); }
+.info-item.gender { background: linear-gradient(135deg, #ff512f, #dd2476); }
+.info-item.dob { background: linear-gradient(135deg, #56ab2f, #a8e063); color: #333; }
+
+.info-item h6 {
+    margin: 0 0 5px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.info-item p {
+    margin: 0;
+    font-size: 16px;
+}
+
+/* Hover effect */
+.info-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* Responsive tweaks */
+@media (max-width: 640px){
+    .profile-pic-wrapper { width: 100px; height: 100px; }
+    .user-info .name { font-size: 22px; }
+    .info-grid { grid-template-columns: 1fr; }
 }

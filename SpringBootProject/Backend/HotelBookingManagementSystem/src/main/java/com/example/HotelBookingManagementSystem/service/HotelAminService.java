@@ -18,8 +18,11 @@ public class HotelAminService {
     private HotelAdminRepository hotelAdminRepository;
 
 
-    public List<HotelAdmin> getHotelAdmins() {
-        return hotelAdminRepository.findAll();
+    public List<HotelAdminDTO> getAllHotelAdmins() {
+        List<HotelAdmin> admins = hotelAdminRepository.findAll();
+        return admins.stream()
+                .map(this::mapToDTO)
+                .toList(); // যদি Java 8 হয়, তাহলে .collect(Collectors.toList()) ব্যবহার করবে
     }
 
     public Optional<HotelAdmin> getHotelAdminById(Integer id) {
@@ -45,6 +48,21 @@ public class HotelAminService {
         HotelAdmin admin = hotelAdminRepository.findByUserEmail(email)
                 .orElseThrow(() -> new RuntimeException("HotelAdmin not found"));
 
+        return new HotelAdminDTO(
+                admin.getId(),
+                admin.getName(),
+                admin.getEmail(),
+                admin.getPhone(),
+                admin.getAddress(),
+                admin.getGender(),
+                admin.getDateOfBirth(),
+                admin.getImage()
+        );
+    }
+
+
+    // Entity → DTO mapper method
+    private HotelAdminDTO mapToDTO(HotelAdmin admin) {
         return new HotelAdminDTO(
                 admin.getId(),
                 admin.getName(),

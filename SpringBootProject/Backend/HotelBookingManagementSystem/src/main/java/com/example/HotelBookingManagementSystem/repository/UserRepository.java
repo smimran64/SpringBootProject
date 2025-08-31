@@ -12,5 +12,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 
 
+    Optional<User> findByResetToken(String resetToken);
+
+
+
+
 
 }

@@ -32,19 +32,17 @@ export class AdminService {
   }
 
 
-  getProfile(): Observable<Admin> {
-    let headers = new HttpHeaders();
+  getLoggedInAdminProfile(): Observable<Admin> {
+  const token = localStorage.getItem('authToken')!;
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  return this.http.get<Admin>(`${this.baseUrl}/profile`, { headers });
+}
 
-    if (isPlatformBrowser(this.platformId)) {
-      const token = localStorage.getItem('authToken');
-      if (token) {
-        headers = headers.set('Authorization', 'Bearer ' + token);
-      }
-    }
 
-    return this.http.get<Admin>(`${this.baseUrl}/profile`, { headers });
+  // Specific admin profile by id
+  getAdminProfile(adminId: number): Observable<Admin> {
+    return this.http.get<Admin>(`${this.baseUrl}/profile/${adminId}`);
   }
-
 
 
 

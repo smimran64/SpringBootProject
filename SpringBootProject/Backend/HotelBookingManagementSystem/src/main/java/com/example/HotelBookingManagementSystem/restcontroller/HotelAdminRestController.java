@@ -85,11 +85,10 @@ public class HotelAdminRestController {
 
     }
 
-    @GetMapping("all")
-    public ResponseEntity<List<HotelAdmin>> getAllUsers() {
-        List<HotelAdmin> hotelAdminList = hotelAminService.getHotelAdmins();
-        return ResponseEntity.ok(hotelAdminList);
-
+    @GetMapping("/all")
+    public ResponseEntity<List<HotelAdminDTO>> getAllHotelAdmins() {
+        List<HotelAdminDTO> admins = hotelAminService.getAllHotelAdmins();
+        return ResponseEntity.ok(admins);
     }
 
     @GetMapping("/profile")

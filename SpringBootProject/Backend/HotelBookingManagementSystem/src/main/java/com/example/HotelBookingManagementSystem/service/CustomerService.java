@@ -32,8 +32,11 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public List<CustomerDTO> getAllCustomers() {
+        List<Customer> customers = customerRepository.findAll();
+        return customers.stream()
+                .map(this::mapToDTO)
+                .toList();
     }
 
     public Optional<Customer> getCustomerById(Long id) {

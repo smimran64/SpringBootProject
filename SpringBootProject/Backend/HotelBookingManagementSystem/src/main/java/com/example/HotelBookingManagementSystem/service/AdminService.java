@@ -2,11 +2,14 @@ package com.example.HotelBookingManagementSystem.service;
 
 
 import com.example.HotelBookingManagementSystem.dto.AdminDTO;
+import com.example.HotelBookingManagementSystem.dto.CustomerDTO;
 import com.example.HotelBookingManagementSystem.entity.Admin;
+import com.example.HotelBookingManagementSystem.entity.Customer;
 import com.example.HotelBookingManagementSystem.entity.HotelAdmin;
 import com.example.HotelBookingManagementSystem.repository.AdminRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +21,29 @@ public class AdminService {
     private AdminRepository adminRepository;
 
     // Fetch admin profile by email (used for logged-in admin)
-    public AdminDTO getProfileByEmail(String email) {
+    public AdminDTO getProfile(String email) {
         Admin admin = adminRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("Admin not found with email: " + email));
+                .orElseThrow(() -> new UsernameNotFoundException("Customer not found"));
+
         return mapToDTO(admin);
     }
+
+
+//    public AdminDTO getAdminProfile(int id) {
+//        Admin admin = adminRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Admin not found with id: " + id));
+//
+//        return new AdminDTO(
+//                admin.getId(),
+//                admin.getName(),
+//                admin.getEmail(),
+//                admin.getPhone(),
+//                admin.getAddress(),
+//                admin.getGender(),
+//                admin.getDateOfBirth(),
+//                admin.getImage()
+//        );
+//    }
 
     // Convert Admin entity to DTO
     private AdminDTO mapToDTO(Admin admin) {
