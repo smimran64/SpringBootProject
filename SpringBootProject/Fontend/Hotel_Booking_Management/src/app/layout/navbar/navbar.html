@@ -15,43 +15,48 @@
                         <i class="fas fa-hotel me-1"></i> Hotel
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="hotelDropdown">
-
-                        <li><a class="dropdown-item" href="addhotel">Add Hotel</a></li>
-
+                        <ng-container *ngIf="isHotelAdmin()">
+                            <li><a class="dropdown-item" href="addhotel">Add Hotel</a></li>
+                        </ng-container>
 
                         <li><a class="dropdown-item" routerLink="viewHotel">View All Hotel</a></li>
 
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="roomsDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-bed me-1"></i> Rooms
-                    </a>
+                    <ng-container *ngIf="isHotelAdmin()|| isAdmin()">
+                        <a class="nav-link dropdown-toggle" href="#" id="roomsDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bed me-1"></i> Rooms
+                        </a>
+                    </ng-container>
                     <ul class="dropdown-menu" aria-labelledby="roomsDropdown">
 
-                        <li><a class="dropdown-item" routerLink="addroom">Add Room</a></li>
+                        <ng-container *ngIf="isHotelAdmin()">
+                            <li><a class="dropdown-item" routerLink="addroom">Add Room</a></li>
 
-
-                        <li><a class="dropdown-item" routerLink="allroom">View All Room By Hotel</a></li>
-
-
-                        <li><a class="dropdown-item" routerLink="roomForAdmin">View Room For Hotel
-                                Admin</a></li>
+                            <li><a class="dropdown-item" routerLink="allroom">View All Room By Hotel</a></li>
+                        </ng-container>
+                        <ng-container *ngIf="isAdmin()">
+                            <li><a class="dropdown-item" routerLink="roomForAdmin">View Room For
+                                    Admin</a></li>
+                        </ng-container>
 
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="locationDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-map-marker-alt me-1"></i> Location
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="locationDropdown">
-                        <li><a class="dropdown-item" routerLink="addlocation">Add Location</a></li>
-                        <li><a class="dropdown-item" routerLink="viewlocation">View All Location</a></li>
-                    </ul>
-                </li>
+                <ng-container *ngIf="isAdmin()">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="locationDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-map-marker-alt me-1"></i> Location
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+                            <li><a class="dropdown-item" routerLink="addlocation">Add Location</a></li>
+                            <li><a class="dropdown-item" routerLink="viewlocation">View All Location</a></li>
+                        </ul>
+                    </li>
+                </ng-container>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="locationDropdown" role="button"
@@ -59,29 +64,52 @@
                         <i class="fa-solid fa-book"></i> Bookings
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="locationDropdown">
+                        <ng-container *ngIf="isHotelAdmin()">
 
-                        <li><a class="dropdown-item" routerLink="viewallbooking">View All Bookings</a></li>
+                            <li><a class="dropdown-item" routerLink="/viewbookingsForHotelAdmin">Bookings</a></li>
+
+                        </ng-container>
+                        <ng-container *ngIf="isAdmin()">
+
+                            <li><a class="dropdown-item" routerLink="/viewbookingsForAdmin">Bookings</a></li>
+                            
+                        </ng-container>
 
                     </ul>
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="locationDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-user"></i> Cridentials
-                    </a>
+                    <ng-container *ngIf="isHotelAdmin()|| isAdmin()">
+                        <a class="nav-link dropdown-toggle" href="#" id="locationDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user"></i> Cridentials
+                        </a>
+                    </ng-container>
                     <ul class="dropdown-menu" aria-labelledby="locationDropdown">
 
-                        <li><a class="dropdown-item" routerLink="addamenities">Add Amenities</a></li>
+                        <ng-container *ngIf="isHotelAdmin()">
 
+                            <li><a class="dropdown-item" routerLink="addamenities">Add Amenities</a></li>
 
-                        <li><a class="dropdown-item" routerLink="viewamenities">View All Amenities</a></li>
+                        </ng-container>
+                        <ng-container *ngIf="isHotelAdmin() || isAdmin()">
+                            <li><a class="dropdown-item" routerLink="viewamenities">View All Amenities</a></li>
+                        </ng-container>
 
+                        <ng-container *ngIf="isHotelAdmin()">
 
-                        <li><a class="dropdown-item" routerLink="addhotelinfo">Add Hotel Info</a></li>
+                            <li><a class="dropdown-item" routerLink="addhotelinfo">Add Hotel Info</a></li>
+
+                        </ng-container>
 
                         <li><a class="dropdown-item" routerLink="viewhotelinfo">View All Hotel Info</a></li>
-                        <li><a class="dropdown-item" routerLink="photo">Add Photo</a></li>
+
+                        <ng-container *ngIf="isHotelAdmin()">
+
+                            <li><a class="dropdown-item" routerLink="photo">Add Photo</a></li>
+
+                        </ng-container>
+
                         <li><a class="dropdown-item" routerLink="viewgallery">View Photo Gallery</a></li>
 
                     </ul>
@@ -93,8 +121,23 @@
                 </li>
 
 
-                <li class="nav-item">
-                    <a class="nav-link" routerLink="viewallusers"><i class="fa-solid fa-users"></i> All Users</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-book"></i> Profile
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+                        <ng-container *ngIf="isCustomer()">
+                            <li><a class="dropdown-item" routerLink="/customerProfile">Profile</a></li>
+                        </ng-container>
+                        <ng-container *ngIf="isHotelAdmin()">
+                            <li><a class="dropdown-item" routerLink="/hoteladminProfile">Profile</a></li>
+                        </ng-container>
+                        <ng-container *ngIf="isAdmin()">
+                            <li><a class="dropdown-item" routerLink="/admin-profile">Profile</a></li>
+                        </ng-container>
+
+                    </ul>
                 </li>
 
                 <li class="nav-item">

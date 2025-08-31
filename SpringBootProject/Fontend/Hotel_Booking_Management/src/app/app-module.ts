@@ -39,6 +39,7 @@ import { AllUserProfileComponent } from './allUser/all-user-profile-component/al
 import { ViewRoomForAdmin } from './Room/view-room-for-admin/view-room-for-admin';
 import { ForgotPasswordComponent } from './password/forgot-password-component/forgot-password-component';
 import { ResetPasswordComponent } from './password/reset-password-component/reset-password-component';
+import { ViewBookingForHotelAdmin } from './booking/view-booking-for-hotel-admin/view-booking-for-hotel-admin';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { ResetPasswordComponent } from './password/reset-password-component/rese
     AllUserProfileComponent,
     ViewRoomForAdmin,
     ForgotPasswordComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ViewBookingForHotelAdmin
   ],
   imports: [
     BrowserModule,

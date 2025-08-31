@@ -29,6 +29,8 @@ import { AllUserProfileComponent } from './allUser/all-user-profile-component/al
 import { ViewRoomForAdmin } from './Room/view-room-for-admin/view-room-for-admin';
 import { ForgotPasswordComponent } from './password/forgot-password-component/forgot-password-component';
 import { ResetPasswordComponent } from './password/reset-password-component/reset-password-component';
+import { ViewBookingComponent } from './booking/view-booking-component/view-booking-component';
+import { ViewBookingForHotelAdmin } from './booking/view-booking-for-hotel-admin/view-booking-for-hotel-admin';
 
 const routes: Routes = [
   {path: 'addlocation', component: AddlocationComponent},
@@ -60,6 +62,8 @@ const routes: Routes = [
   {path: 'viewgallery', component: ViewHotelPhotoComponent},
   {path: 'forgotpassword', component: ForgotPasswordComponent},
   {path: 'reset-password', component: ResetPasswordComponent},
+  {path: 'viewbookingsForAdmin', component: ViewBookingComponent},
+  {path: 'viewbookingsForHotelAdmin', component:ViewBookingForHotelAdmin},
 
 ];
 
