@@ -29,8 +29,8 @@
 }
 
 .profile-picture {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   border-radius: 12px;
   /* square look with small rounded edge */
   border: 5px solid #fff;
