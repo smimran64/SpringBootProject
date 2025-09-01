@@ -72,7 +72,7 @@
                         <ng-container *ngIf="isAdmin()">
 
                             <li><a class="dropdown-item" routerLink="/viewbookingsForAdmin">Bookings</a></li>
-                            
+
                         </ng-container>
 
                     </ul>
@@ -108,10 +108,14 @@
 
                             <li><a class="dropdown-item" routerLink="photo">Add Photo</a></li>
 
+                            <li><a class="dropdown-item" routerLink="viewgallery">View Photo Gallery</a></li>
                         </ng-container>
 
-                        <li><a class="dropdown-item" routerLink="viewgallery">View Photo Gallery</a></li>
 
+                        <ng-container *ngIf="isAdmin()">
+
+                            <li><a class="dropdown-item" routerLink="/photoforadmin">View Photo Gallery</a></li>
+                        </ng-container>
                     </ul>
                 </li>
 

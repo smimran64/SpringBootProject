@@ -138,3 +138,8 @@
 .animate-fadeIn {
     animation: fadeIn 0.8s ease-in-out;
 }
+
+.card-grid{
+
+    margin-top: 6%;
+}

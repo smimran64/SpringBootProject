@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -24,7 +24,8 @@ export class ResetPasswordComponent {
 
   constructor(
     private http: HttpClient,
-     private route: ActivatedRoute
+     private route: ActivatedRoute,
+     private cdr: ChangeDetectorRef
    
   ) {
     this.route.queryParams.subscribe(params => {
@@ -41,6 +42,7 @@ export class ResetPasswordComponent {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     }).subscribe({
       next: (res: any) =>{
+        this.cdr.markForCheck();
         this.message =("Password Reset successfully" +  res.message);
         
         // this.cdr.markForCheck();

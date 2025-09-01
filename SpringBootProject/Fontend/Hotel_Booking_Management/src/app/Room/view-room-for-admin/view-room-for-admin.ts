@@ -26,8 +26,14 @@ export class ViewRoomForAdmin implements OnInit {
 
   loadHotels() {
     this.http.get<any[]>('http://localhost:8082/api/hotel/all')
-      .subscribe(res => this.hotels = res);
-      this.cd.markForCheck();
+      .subscribe(res =>{
+         this.hotels = res;
+         this.cd.markForCheck();
+      }   
+    
+    
+    );
+      
   }
 
   onHotelChange() {
