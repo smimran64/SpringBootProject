@@ -1,4 +1,4 @@
-<div *ngIf="!loading && hotel; else loadingOrEmpty" class="container py-4">
+<div *ngIf="!loading && hotel; else loadingOrEmpty" class="container">
 
   <!-- Hotel Info -->
   <div class="card hotel-card shadow-lg mb-5 border-0">
@@ -38,6 +38,7 @@
           <h5 class="card-title fw-semibold text-gradient">{{ room.roomType }}</h5>
           <p class="mb-1 text-muted">Price: <span class="fw-bold text-dark">${{ room.price }}/night</span></p>
           <p class="mb-1">Available: <span class="fw-bold">{{ room.availableRooms }}</span></p>
+          
           <p class="mb-1">Adults: <span class="fw-bold">{{ room.adults }}</span></p>
           <p class="mb-3">Children: <span class="fw-bold">{{ room.children }}</span></p>
           <div class="mt-auto" *ngIf="role?.toUpperCase() !== 'HOTEL_ADMIN'">

@@ -38,3 +38,10 @@
     border-radius: 12px;
     font-size: 1.1rem;
 }
+
+
+.btn-danger {
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-weight: 600;
+}

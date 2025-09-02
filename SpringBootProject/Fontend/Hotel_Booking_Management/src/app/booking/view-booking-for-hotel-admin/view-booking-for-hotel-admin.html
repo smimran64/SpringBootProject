@@ -66,3 +66,58 @@
     </ng-template>
 
 </div>
+
+
+
+<!-- Booking Table -->
+<div *ngIf="bookings.length > 0; else noBookings">
+
+    <!-- Export Button -->
+    <!-- View Report Section -->
+
+    <div class="text-center mt-3">
+        <button class="btn btn-danger shadow-sm" (click)="generateBookingPDF()">
+            <i class="bi bi-printer-fill"></i> Download PDF
+        </button>
+    </div>
+
+
+    <!-- Hidden PDF Content -->
+    <div class="table-responsive shadow-sm rounded" #pdfContent style="display:none;">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>No Of Bookings</th>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>Contact Person</th>
+                    <th>Phone</th>
+                    <th>Room Type</th>
+                    <th>Check In</th>
+                    <th>Check Out</th>
+                    <th>Rooms</th>
+                    <th>Total</th>
+                    <th>Advance</th>
+                    <th>Due</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let booking of bookings; let i = index" class="text-center">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ booking.customerdto?.name }}</td>
+                    <td>{{ booking.customerdto?.phone }}</td>
+                    <td>{{ booking.contractPersonName }}</td>
+                    <td>{{ booking.phone }}</td>
+                    <td>{{ booking.roomdto?.roomType }}</td>
+                    <td>{{ booking.checkIn | date }}</td>
+                    <td>{{ booking.checkOut | date }}</td>
+                    <td>{{ booking.numberOfRooms }}</td>
+                    <td>৳ {{ booking.totalAmount }}</td>
+                    <td>৳ {{ booking.advanceAmount }}</td>
+                    <td>৳ {{ booking.dueAmount }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

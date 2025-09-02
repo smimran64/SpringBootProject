@@ -1,4 +1,12 @@
-/* General Container Padding */
+/* ---------------- Full Page Background ---------------- */
+body,
+html {
+    background-color: #38ce44;
+    /* পুরো page এর background color */
+    min-height: 100vh;
+}
+
+/* ---------------- General Container ---------------- */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -6,16 +14,59 @@
     margin-top: 6%;
 }
 
-/* Gradient Text */
+/* ---------------- Gradient Text ---------------- */
 .text-gradient {
     color: #130501;
-    /* fallback color */
-    text-shadow:
-        1px 0 #6a0dad,
-        2px 0 #1a1a1a;
+    /* fallback */
+    text-shadow: 1px 0 #6a0dad, 2px 0 #1a1a1a;
 }
 
-/* Section Headers */
+/* ---------------- Hotel Card & Image ---------------- */
+.hotel-card {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    margin-bottom: 3rem;
+    background: #ffffff;
+    /* card background white for readability */
+}
+
+.hotel-card .col-md-4 {
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align: center;
+}
+
+.hotel-image {
+    width: 100%;
+    height: 850px;
+    /* height increased */
+    object-fit: cover;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+    transition: transform 0.3s;
+}
+
+.hotel-image:hover {
+    transform: scale(1.02);
+}
+
+/* ---------------- Card Body (Hotel Info) ---------------- */
+.card-body h2,
+.card-body h3 {
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 3px #000000;
+}
+
+.card-body p {
+    text-align: center;
+    font-size: 1rem;
+    color: #333;
+}
+
+/* ---------------- Rooms Section ---------------- */
 .section-header,
 h3.text-gradient {
     display: flex;
@@ -24,6 +75,7 @@ h3.text-gradient {
     gap: 10px;
     margin-bottom: 1.5rem;
     font-size: 1.8rem;
+    text-shadow: 1px 1px 2px #000;
 }
 
 /* Gradient Badge */
@@ -34,14 +86,50 @@ h3.text-gradient {
     border-radius: 50px;
 }
 
+/* Room Cards */
+.room-card {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: #ffffff;
+    padding: 0.5rem;
+}
+
+.room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.room-card img {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    height: 240px;
+    /* increased height */
+    object-fit: cover;
+}
+
+/* Room Card Text */
+.room-card .card-body h5 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.room-card .card-body p {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    text-align: center;
+}
+
 /* Buttons */
 .btn-gradient {
     background: linear-gradient(90deg, #667eea, #764ba2);
     color: white;
     border: none;
-    border-radius: 8px;
-    transition: 0.3s;
+    border-radius: 12px;
     font-weight: 600;
+    transition: all 0.3s;
 }
 
 .btn-gradient:hover {
@@ -49,61 +137,133 @@ h3.text-gradient {
     transform: translateY(-2px);
 }
 
-/* Cards */
-.card {
-    border-radius: 15px;
-    transition: 0.3s;
+/* ---------------- Hotel Info Card ---------------- */
+.card.hotel-info,
+.card.shadow-sm.mb-5.border-0 {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 20px;
+    margin-top: 2rem;
+    color: #333;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-}
-
-/* Hotel Image */
-.hotel-image {
-    max-height: 600px;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 15px;
-}
-
-/* Room Card */
-.room-card img {
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-}
-
-/* Text Alignments */
-.card-body p,
-.card-body h5 {
+.card.hotel-info h3.fw-bold.text-gradient {
+    font-size: 1.8rem;
     text-align: center;
+    margin-bottom: 1rem;
+    color: #6a11cb;
 }
 
-/* Amenities Icons & List */
+/* ---------------- Amenities ---------------- */
+.card.amenities-card {
+    background: #ffffff;
+    color: #333;
+    padding: 1.5rem;
+    border-radius: 20px;
+    margin-top: 2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
 ul.list-unstyled {
     padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
 }
 
 ul.list-unstyled li {
-    font-weight: 500;
-    font-size: 1rem;
+    color: #333;
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 
 ul.list-unstyled i {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     margin-right: 8px;
     vertical-align: middle;
 }
 
-/* Responsive Adjustments */
+/* ---------------- Gallery ---------------- */
+.photo-card {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.photo-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.photo-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+/* Extra Card */
+.extra-card {
+    background: #ff9a9e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.extra-card:hover {
+    background: #ff6a88;
+}
+
+/* Modal */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    max-width: 90%;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* ---------------- Responsive ---------------- */
 @media (max-width: 768px) {
     .hotel-card .row {
         flex-direction: column;
     }
 
     .hotel-image {
-        max-height: 250px;
+        max-height: 500px;
         margin-bottom: 1rem;
     }
 
@@ -127,93 +287,4 @@ ul.list-unstyled i {
     ul.list-unstyled li {
         font-size: 0.95rem;
     }
-}
-
-
-/* Photo card */
-.container {
-    margin-top: 6%;
-}
-
-.photo-card {
-    position: relative;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-    margin-top: 6%;
-}
-
-.photo-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-.photo-card img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-}
-
-.overlay {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    padding: 5px;
-    text-align: center;
-}
-
-.hotel-name {
-    font-size: 0.9rem;
-}
-
-/* Extra card */
-.extra-card {
-    background: #ddd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 180px;
-    cursor: pointer;
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-}
-
-.extra-card:hover {
-    background: #ccc;
-}
-
-/* Modal */
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    overflow-y: auto;
-}
-
-.modal-content {
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    max-width: 90%;
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: transparent;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
 }
