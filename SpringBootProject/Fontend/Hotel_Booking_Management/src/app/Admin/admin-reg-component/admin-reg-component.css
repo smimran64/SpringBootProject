@@ -1,0 +1,136 @@
+/* Container */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 15px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #6a11cb 0%, #5528f8 100%);
+    
+}
+
+/* Card */
+.register-card {
+    background: #fff;
+    width: 100%;
+    max-width: 900px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+    animation: fadeInUp 0.8s ease-in-out;
+}
+
+/* Title */
+.form-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: #2575fc;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Section */
+.form-section {
+    margin-bottom: 25px;
+}
+
+.form-section h4 {
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 15px;
+    border-left: 4px solid #2575fc;
+    padding-left: 10px;
+}
+
+/* Row system */
+.row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.col {
+    flex: 1;
+    min-width: 200px;
+}
+
+/* Inputs */
+.form-control,
+.form-select,
+.file-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    transition: 0.3s;
+    font-size: 0.95rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #2575fc;
+    outline: none;
+    box-shadow: 0px 0px 8px rgba(37, 117, 252, 0.4);
+}
+
+/* Submit button */
+.btn-submit {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Alert */
+.alert {
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.alert-success {
+    background: #e6ffed;
+    color: #2d8a42;
+}
+
+.alert-danger {
+    background: #ffe6e6;
+    color: #d93025;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .register-card {
+        padding: 25px;
+    }
+
+    .form-title {
+        font-size: 1.6rem;
+    }
+}

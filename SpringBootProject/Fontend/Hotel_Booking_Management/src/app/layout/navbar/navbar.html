@@ -18,10 +18,12 @@
                         <ng-container *ngIf="isHotelAdmin()">
                             <li><a class="dropdown-item" href="addhotel">Add Hotel</a></li>
                         </ng-container>
-                        <ng-container *ngIf="isHotelAdmin()|| isAdmin()">
+                        <ng-container *ngIf="isAdmin()">
                             <li><a class="dropdown-item" routerLink="viewHotel">View All Hotel</a></li>
                         </ng-container>
-
+                        <ng-container *ngIf="isHotelAdmin()">
+                            <li><a class="dropdown-item" routerLink="viewHotelForHotelAdmin">View All Hotel</a></li>
+                        </ng-container>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">

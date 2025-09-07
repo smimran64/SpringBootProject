@@ -73,7 +73,7 @@ export class AddhotelComponent implements OnInit {
     this.hotelService.saveHotel(hotel, this.selectedImage).subscribe({
       next: () => {
         alert('Hotel added successfully');
-        this.router.navigate(['/viewHotel']);
+        this.router.navigate(['/viewHotelForHotelAdmin']);
       },
       error: (err) => {        
         this.message = 'Error saving hotel';

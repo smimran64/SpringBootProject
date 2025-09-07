@@ -6,6 +6,16 @@ html {
     min-height: 100vh;
 }
 
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 15px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #724b9c 0%, #5528f8 100%);
+    
+}
+
 /* ---------------- General Container ---------------- */
 .container {
     max-width: 1200px;

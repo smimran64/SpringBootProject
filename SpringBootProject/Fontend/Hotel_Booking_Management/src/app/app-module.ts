@@ -41,6 +41,7 @@ import { ForgotPasswordComponent } from './password/forgot-password-component/fo
 import { ResetPasswordComponent } from './password/reset-password-component/reset-password-component';
 import { ViewBookingForHotelAdmin } from './booking/view-booking-for-hotel-admin/view-booking-for-hotel-admin';
 import { HotelPhotoForAdmin } from './hotelPhoto/hotel-photo-for-admin/hotel-photo-for-admin';
+import { ViewForHotelAdmin } from './hotel/view-for-hotel-admin/view-for-hotel-admin';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { HotelPhotoForAdmin } from './hotelPhoto/hotel-photo-for-admin/hotel-pho
     ForgotPasswordComponent,
     ResetPasswordComponent,
     ViewBookingForHotelAdmin,
-    HotelPhotoForAdmin
+    HotelPhotoForAdmin,
+    ViewForHotelAdmin
   ],
   imports: [
     BrowserModule,

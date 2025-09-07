@@ -13,9 +13,12 @@
                 Join With Us Today!!
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <ng-container *ngIf="isAdmin()">
+                    <li><a class="dropdown-item" routerLink="/adminReg">Add New Admin</a></li>
+                </ng-container>
                 <li><a class="dropdown-item" routerLink="/customerReg">As a Customer</a></li>
                 <li><a class="dropdown-item" routerLink="/hotelAdminReg">As a Hotel Admin</a></li>
-                
+
 
             </ul>
         </div>

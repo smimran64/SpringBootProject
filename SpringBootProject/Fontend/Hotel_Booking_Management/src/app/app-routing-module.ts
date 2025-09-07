@@ -32,6 +32,7 @@ import { ResetPasswordComponent } from './password/reset-password-component/rese
 import { ViewBookingComponent } from './booking/view-booking-component/view-booking-component';
 import { ViewBookingForHotelAdmin } from './booking/view-booking-for-hotel-admin/view-booking-for-hotel-admin';
 import { HotelPhotoForAdmin } from './hotelPhoto/hotel-photo-for-admin/hotel-photo-for-admin';
+import { ViewForHotelAdmin } from './hotel/view-for-hotel-admin/view-for-hotel-admin';
 
 const routes: Routes = [
   {path: 'addlocation', component: AddlocationComponent},
@@ -39,6 +40,7 @@ const routes: Routes = [
   {path: 'editlocation/:id', component: EditLocationComponent},
   {path: 'addhotel', component: AddhotelComponent},
   {path: 'viewHotel', component: Viewallhotelcomponent},
+  {path: 'viewHotelForHotelAdmin', component: ViewForHotelAdmin},
   {path: 'addroom', component: AddRoomComponent},
   {path: 'allroom', component: ViewRoomComponent},
   {path: 'roomForAdmin', component: ViewRoomForAdmin},

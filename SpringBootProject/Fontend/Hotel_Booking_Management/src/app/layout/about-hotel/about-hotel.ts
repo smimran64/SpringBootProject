@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { RoomService } from '../../service/room-service';
 import { environments } from '../../../environments/environments';
 import { isPlatformBrowser } from '@angular/common';
+import { Authservice } from '../../service/authservice';
 
 @Component({
   selector: 'app-about-hotel',
@@ -21,7 +22,16 @@ export class AboutHotel implements OnInit {
   searched: boolean = false;
   selectedHotel: any;
 
+
+  // for ng container
+
+  userRole: string | null = null;
+  isLoggedIn: boolean = false;
+
+
   constructor(
+
+    private authService: Authservice,
     private fb: FormBuilder,
     private locationService: LocationService,
     private hotelService: HotelService,
@@ -94,5 +104,18 @@ export class AboutHotel implements OnInit {
   }
 
   trackById = (_: number, item: any) => item.id;
+
+
+  // 🔥 shortcut functions (ng-container এ direct use করতে পারো)
+  isAdmin(): boolean {
+    return this.authService.isAdmin();
+  }
+  isEmployee(): boolean {
+    return this.authService.isCustomer();
+  }
+  isConsumer(): boolean {
+    return this.authService.isHotelAdmin();
+  }
+  
 
 }
