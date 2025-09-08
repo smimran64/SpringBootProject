@@ -11,6 +11,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -53,6 +54,7 @@ public class SecurityConfig {
                                 "/api/admin/reg",
                                 "/api/customer/reg",
                                 "/api/user/all",
+                                "/api/all",
 
 
                                 "/api/hotel/search",
@@ -79,6 +81,7 @@ public class SecurityConfig {
 
 
 
+
                         ).permitAll()
 
                         .requestMatchers("/api/hotel/save",
@@ -88,8 +91,7 @@ public class SecurityConfig {
                                 "/api/hotel/information/save",
                                 "/api/admin/**",
                                 "/api/hoteladmin/profile",
-                                "/api/hotel/information/0  delete/**",
-                                "/images/**",
+                                "/api/hotel/information/delete/**",
                                 "/api/hotelPhoto/upload/**",
                                 "/api/hotel/hotelbyhoteladmin/**"
                         ).hasRole("HOTEL_ADMIN")
@@ -97,7 +99,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/location/save"
                                 ).hasRole("ADMIN")
 
-                        .requestMatchers(" /api/customer/profile",
+                        .requestMatchers("/api/customer/profile",
                                 "/api/booking/save"
 
                         ).hasRole("CUSTOMER")
@@ -139,5 +141,14 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
+
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring().requestMatchers("/images/**");
+    }
+
+
 
 }

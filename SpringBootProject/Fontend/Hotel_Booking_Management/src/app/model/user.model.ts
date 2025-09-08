@@ -7,4 +7,6 @@ export interface User {
     phone: string;
     image:string;
     role: string;
+
+    
 }

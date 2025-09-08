@@ -33,6 +33,9 @@ export class AllUserProfileComponent implements OnInit {
       }
     });
   }
+  
+
+
 
   filterUsers() {
     if (this.selectedRole === 'All') {

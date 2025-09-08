@@ -3,6 +3,7 @@ package com.example.HotelBookingManagementSystem.restcontroller;
 
 import com.example.HotelBookingManagementSystem.dto.AuthenticationResponse;
 import com.example.HotelBookingManagementSystem.dto.CustomerDTO;
+import com.example.HotelBookingManagementSystem.dto.UserDto;
 import com.example.HotelBookingManagementSystem.entity.Customer;
 import com.example.HotelBookingManagementSystem.entity.User;
 import com.example.HotelBookingManagementSystem.jwt.JwtService;
@@ -76,9 +77,25 @@ public class AuthRestController {
     }
 
 
-    @GetMapping("all")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = authService.findAll();
+//    @GetMapping("/all")
+//    public ResponseEntity<List<User>> getAllUsers() {
+//        List<User> users = authService.findAll();
+//        return ResponseEntity.ok(users);
+//    }
+
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<UserDto> users = authService.getAllUsers().stream()
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getPhone(),
+                        user.getImage(),
+                        user.getRole()
+                ))
+                .toList();
         return ResponseEntity.ok(users);
     }
 

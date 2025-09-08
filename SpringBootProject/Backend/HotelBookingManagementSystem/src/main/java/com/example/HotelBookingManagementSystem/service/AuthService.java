@@ -2,6 +2,7 @@ package com.example.HotelBookingManagementSystem.service;
 
 
 import com.example.HotelBookingManagementSystem.dto.AuthenticationResponse;
+import com.example.HotelBookingManagementSystem.dto.UserDto;
 import com.example.HotelBookingManagementSystem.entity.*;
 import com.example.HotelBookingManagementSystem.jwt.JwtService;
 import com.example.HotelBookingManagementSystem.repository.TokenRepository;
@@ -68,6 +69,21 @@ public class AuthService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> new UserDto(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail(),
+                        user.getPhone(),
+                        user.getImage(),
+                        user.getRole()
+                ))
+                .toList();
     }
 
     public User findById(int id) {
@@ -151,7 +167,7 @@ public class AuthService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return fileName;
+        return saveFileName;
 
     }
 
