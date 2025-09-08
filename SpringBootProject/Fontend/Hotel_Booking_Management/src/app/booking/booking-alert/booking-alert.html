@@ -1,0 +1,30 @@
+<div class="col-md-4 mt-4">
+    <div class="container">
+
+        <h3 class="mb-3">📢 Booking Notifications</h3>
+
+        <!-- Empty State -->
+        <div *ngIf="notifications.length === 0" class="alert alert-info">
+            No notifications found.
+        </div>
+
+        <!-- Notifications List -->
+        <div *ngIf="notifications.length > 0" class="d-flex flex-column gap-3">
+            <div *ngFor="let note of notifications" class="border rounded shadow-sm p-3 bg-white">
+                <p><strong>🧑 User ID:</strong> {{ note.userId }}</p>
+                <p><strong>👤 Contact Person:</strong> {{ note.contractPersonName }}</p>
+                <p><strong>🏨 Hotel Name:</strong> {{ note.hotelName }}</p>
+                <p><strong>📍 Location:</strong> {{ note.location }}</p>
+                <p><strong>💰 Total Amount:</strong> {{ note.totalAmount }} TK</p>
+                <p class="text-muted small">⏰ {{ note.time }}</p>
+            </div>
+        </div>
+
+        <!-- Clear Button -->
+        <button class="btn btn-danger btn-sm mt-3 w-100" (click)="clearNotifications()"
+            *ngIf="notifications.length > 0">
+            Clear All
+        </button>
+
+    </div>
+</div>

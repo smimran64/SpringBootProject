@@ -33,6 +33,7 @@ import { ViewBookingComponent } from './booking/view-booking-component/view-book
 import { ViewBookingForHotelAdmin } from './booking/view-booking-for-hotel-admin/view-booking-for-hotel-admin';
 import { HotelPhotoForAdmin } from './hotelPhoto/hotel-photo-for-admin/hotel-photo-for-admin';
 import { ViewForHotelAdmin } from './hotel/view-for-hotel-admin/view-for-hotel-admin';
+import { BookingAlert } from './booking/booking-alert/booking-alert';
 
 const routes: Routes = [
   {path: 'addlocation', component: AddlocationComponent},
@@ -68,6 +69,7 @@ const routes: Routes = [
   {path: 'reset-password', component: ResetPasswordComponent},
   {path: 'viewbookingsForAdmin', component: ViewBookingComponent},
   {path: 'viewbookingsForHotelAdmin', component:ViewBookingForHotelAdmin},
+  {path: 'bookingalert', component:BookingAlert},
 
 ];
 

@@ -90,7 +90,8 @@ public class SecurityConfig {
                                 "/api/hoteladmin/profile",
                                 "/api/hotel/information/0  delete/**",
                                 "/images/**",
-                                "/api/hotelPhoto/upload/**"
+                                "/api/hotelPhoto/upload/**",
+                                "/api/hotel/hotelbyhoteladmin/**"
                         ).hasRole("HOTEL_ADMIN")
 
                         .requestMatchers("/api/location/save"

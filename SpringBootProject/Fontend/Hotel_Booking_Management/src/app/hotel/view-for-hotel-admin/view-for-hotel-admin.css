@@ -1,90 +1,35 @@
+/* Card hover effect */
 .hotel-card {
-    border-radius: 12px;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-        border-color 0.4s ease;
-    border: 1px solid #dee2e6;
-    background: #ffffff;
-    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 15px;
+    overflow: hidden;
+   
 }
 
 .hotel-card:hover {
-    transform: scale(1.05) translateY(-12px);
-    box-shadow:
-        0 12px 24px rgba(59, 91, 253, 0.4),
-        0 0 15px rgba(59, 91, 253, 0.6);
-    border-color: #3b5bfd;
-    z-index: 10;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
 }
 
-.card-img-top {
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    height: 180px;
+/* Hotel image */
+.hotel-img {
+    height: 200px;
     object-fit: cover;
     transition: transform 0.4s ease;
 }
 
-.hotel-card:hover .card-img-top {
-    transform: scale(1.1);
+.hotel-card:hover .hotel-img {
+    transform: scale(1.05);
 }
 
-.card-title {
-    color: #2c3e50;
-    font-size: 1.25rem;
-    transition: color 0.3s ease;
-}
-
-.hotel-card:hover .card-title {
-    color: #3b5bfd;
-}
-
-.card-footer {
-    border-top: none;
-    background-color: #fff;
-    transition: background-color 0.3s ease;
-}
-
-.btn-outline-primary {
-    border-width: 2px;
-    font-weight: 600;
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: none;
-}
-
-.btn-outline-primary:hover {
-    background-color: #3b5bfd;
-    color: #fff;
-    border-color: #3b5bfd;
-    box-shadow: 0 0 15px rgba(59, 91, 253, 0.7);
-}
-
-.btn-outline-danger {
-    border-width: 2px;
-    font-weight: 600;
-    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: none;
-}
-
-.btn-outline-danger:hover {
-    background-color: #e3342f;
-    color: #fff;
-    border-color: #e3342f;
-    box-shadow: 0 0 15px rgba(227, 52, 47, 0.7);
-}
-
-/* Responsive adjustments */
-@media (max-width: 767px) {
-    .card-img-top {
-        height: 150px;
+/* Responsive */
+@media (max-width: 768px) {
+    .hotel-img {
+        height: 160px;
     }
 
     .card-title {
-        font-size: 1.1rem;
+        font-size: 16px;
     }
-}
-
-.container {
-
-    margin-top: 7%;
 }

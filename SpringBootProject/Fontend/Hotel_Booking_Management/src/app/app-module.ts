@@ -42,6 +42,7 @@ import { ResetPasswordComponent } from './password/reset-password-component/rese
 import { ViewBookingForHotelAdmin } from './booking/view-booking-for-hotel-admin/view-booking-for-hotel-admin';
 import { HotelPhotoForAdmin } from './hotelPhoto/hotel-photo-for-admin/hotel-photo-for-admin';
 import { ViewForHotelAdmin } from './hotel/view-for-hotel-admin/view-for-hotel-admin';
+import { BookingAlert } from './booking/booking-alert/booking-alert';
 
 @NgModule({
   declarations: [
@@ -82,7 +83,8 @@ import { ViewForHotelAdmin } from './hotel/view-for-hotel-admin/view-for-hotel-a
     ResetPasswordComponent,
     ViewBookingForHotelAdmin,
     HotelPhotoForAdmin,
-    ViewForHotelAdmin
+    ViewForHotelAdmin,
+    BookingAlert
   ],
   imports: [
     BrowserModule,

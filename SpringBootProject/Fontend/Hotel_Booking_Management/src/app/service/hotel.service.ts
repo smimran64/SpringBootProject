@@ -50,13 +50,7 @@ export class HotelService {
   }
 
 
-  // Fetch only hotels of logged-in HOTEL_ADMIN
-
-  // getHotelsForhotelAdmin(): Observable<Hotel[]> {
-  //   const headers = this.getAuthHeaders();
-  //   return this.http.get<Hotel[]>(`${this.baseUrl}/forhotelAdmin`, { headers })
-  //     .pipe(catchError(this.handleError));
-  // }
+  
 
 
 

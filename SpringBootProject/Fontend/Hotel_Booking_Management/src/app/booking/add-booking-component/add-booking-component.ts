@@ -12,6 +12,7 @@ import { HotelService } from '../../service/hotel.service';
 import { isPlatformBrowser } from '@angular/common';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { LocaStorageService } from '../../service/loca-storage.service';
 
 @Component({
   selector: 'app-add-booking-component',
@@ -39,12 +40,16 @@ export class AddBookingComponent implements OnInit {
   roomType!: string | null;
   price!: number | null;
 
+
+  notifications: any[] = [];
+
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
 
   constructor(
     private fb: FormBuilder,
     private bookingService: BookingService,
     private router: Router,
+    private localStorageService: LocaStorageService,
     @Inject(PLATFORM_ID) private platformId: Object
 
   ) { }
@@ -224,7 +229,7 @@ export class AddBookingComponent implements OnInit {
 
     const roomId = this.bookingForm.get('roomdto.id')?.value!;
     const hotelId = this.bookingForm.get('hoteldto.id')?.value!;
-    
+
 
 
     const cid = this.customerId;
@@ -260,6 +265,17 @@ export class AddBookingComponent implements OnInit {
     this.bookingService.createBooking(booking).subscribe({
       next: res => {
         alert('Booking Created Successfully!');
+
+
+        // ✅ Notification runtime update
+        this.notifications.unshift({
+          customerId: cid,
+          contractPersonName: booking.contractPersonName,
+          hotelName: this.bookingForm.get('hoteldto.name')?.value,
+          location: this.bookingForm.get('hoteldto.location')?.value,
+          totalAmount: booking.totalAmount,
+          time: new Date().toLocaleString()
+        });
         // Update room availability locally
         // this.selectedRoom.availableRooms -= booking.numberOfRooms;
         // this.selectedRoom.bookedRooms += booking.numberOfRooms;

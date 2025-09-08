@@ -29,8 +29,9 @@ export class ViewForHotelAdmin implements OnInit {
   loadHotels(): void {
     this.loading = true;
     this.hotelService.getMyHotels().subscribe({
-      next: (data: Hotel[]) => { // type safe
-        this.hotels = data;
+      next: (data: Hotel[]) => {
+        console.log('Hotels from backend:', data);
+        this.hotels = Array.isArray(data) ? data : [data]; // সবসময় array বানাও
         this.loading = false;
         this.cdr.markForCheck();
       },
@@ -40,6 +41,7 @@ export class ViewForHotelAdmin implements OnInit {
         console.error(err);
       }
     });
+
   }
 
   // Delete method
