@@ -131,7 +131,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-book"></i> Profile
+                        <i class="fa-solid fa-user"></i> Profile
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                         <ng-container *ngIf="isCustomer()">
@@ -146,6 +146,13 @@
 
                     </ul>
                 </li>
+
+                 <ng-container *ngIf="isAdmin()">
+                <li class="nav-item">
+
+                    <a class="nav-link" routerLink="allUserProfile"><i class="fa-solid fa-users"></i>Users Profile</a>
+                </li>
+                </ng-container>
 
                 <li class="nav-item">
                     <a class="nav-link auth-link" routerLink="login"><i class="fas fa-sign-in-alt me-1"></i> Sign In</a>

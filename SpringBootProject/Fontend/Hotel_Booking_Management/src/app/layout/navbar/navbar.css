@@ -84,3 +84,9 @@
 .overlay.active {
     display: block;
 }
+
+.container {
+  width: 95%;        /* pura width er 95% nibe */
+  max-width: 1400px; /* boro screen e limited */
+  margin: auto;      /* majhkhane */
+}

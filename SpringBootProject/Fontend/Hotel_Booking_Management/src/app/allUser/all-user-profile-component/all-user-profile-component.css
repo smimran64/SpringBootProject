@@ -59,11 +59,12 @@
 
 /* Profile Image */
 .user-image {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    border-radius: 12px; /* ekhane round na kore halka smooth corner */
     object-fit: cover;
     margin-bottom: 1rem;
+    transition: transform 0.3s ease, border 0.3s ease;
 }
 
 .user-card {
