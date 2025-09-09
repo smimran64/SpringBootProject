@@ -268,14 +268,25 @@ export class AddBookingComponent implements OnInit {
 
 
         // ✅ Notification runtime update
-        this.notifications.unshift({
-          customerId: cid,
+        // ✅ Build new notification object
+        const newNotification = {
+          userId: cid,
           contractPersonName: booking.contractPersonName,
           hotelName: this.bookingForm.get('hoteldto.name')?.value,
           location: this.bookingForm.get('hoteldto.location')?.value,
           totalAmount: booking.totalAmount,
           time: new Date().toLocaleString()
-        });
+        };
+
+        // ✅ Load existing notifications
+        const existing = this.localStorageService.getItem('bookingNotifications') || [];
+
+        // ✅ Add the new one at beginning
+        existing.unshift(newNotification);
+
+        // ✅ Save back to localStorage
+        this.localStorageService.setItem('bookingNotifications', existing);
+
         // Update room availability locally
         // this.selectedRoom.availableRooms -= booking.numberOfRooms;
         // this.selectedRoom.bookedRooms += booking.numberOfRooms;

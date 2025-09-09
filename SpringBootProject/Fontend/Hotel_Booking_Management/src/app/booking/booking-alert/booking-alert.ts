@@ -14,11 +14,21 @@ export class BookingAlert {
   constructor(private localStorageService: LocaStorageService) { }
 
   ngOnInit(): void {
-    this.notifications = this.localStorageService.getItem('bookingNotifications') || [];
+    this.loadNotifications();
+
+    // Optional: Auto refresh every 5 seconds
+    setInterval(() => {
+      this.loadNotifications();
+    }, 5000);
+  }
+
+  loadNotifications() {
+    const data = this.localStorageService.getItem('bookingNotifications') || [];
+    this.notifications = data;
   }
 
   clearNotifications() {
-    this.localStorageService.removeItem('bookingNotifications'); // service ব্যবহার করলাম
+    this.localStorageService.removeItem('bookingNotifications');
     this.notifications = [];
   }
 }
