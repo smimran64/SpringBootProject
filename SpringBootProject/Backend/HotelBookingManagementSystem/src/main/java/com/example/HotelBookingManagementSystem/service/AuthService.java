@@ -86,6 +86,20 @@ public class AuthService {
                 .toList();
     }
 
+
+    public UserDto getUserById(Integer id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return new UserDto(
+                user.getId(),
+                user.getName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getImage(),
+                user.getRole()
+        );
+    }
+
     public User findById(int id) {
         return userRepository.findById(id).get();
     }
@@ -123,7 +137,7 @@ public class AuthService {
                 + "      <p>Please confirm your email address to activate your account and get started.</p>"
                 + "      <p>If you have any questions or need help, feel free to reach out to our support team.</p>"
                 + "      <br>"
-                + "      <p>Best regards,<br>The Support Team</p>"
+                + "      <p>Best regards,<br>Hotel Booking Management System</p>"
                 + "      <p>To Activate Your Account, please click the following link:</p>"
                 + "      <p><a href=\"" + activationLink + "\">Activate Account</a></p>"
                 + "    </div>"

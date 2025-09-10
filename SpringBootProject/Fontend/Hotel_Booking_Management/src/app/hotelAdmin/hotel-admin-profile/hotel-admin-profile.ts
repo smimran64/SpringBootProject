@@ -3,6 +3,7 @@ import { HotelAdmin } from '../../model/hotelAdmin.model';
 import { HotelAdminService } from '../../service/hotel-admin-service';
 import { HotelService } from '../../service/hotel.service';
 import { Hotel } from '../../model/hotel.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-hotel-admin-profile',
@@ -12,16 +13,20 @@ import { Hotel } from '../../model/hotel.model';
 })
 export class HotelAdminProfile implements OnInit {
 
+  id!:number;
+
   profile: HotelAdmin | null = null;
   hotels: Hotel[] = [];
 
   constructor(
     private hotelAdminService: HotelAdminService,
     private hotelService: HotelService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.id = this.router.snapshot.params['id'];
     this.loadProfile();
   }
 

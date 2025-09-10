@@ -1,28 +1,36 @@
 <div class="container mx-auto p-4">
-    <!-- Dropdown -->
-    <div class="dropdown-container">
-        <label>Select Role</label>
-        <select [(ngModel)]="selectedRole" (change)="filterUsers()">
+    <!-- Dropdown for Role Selection -->
+    <div class="dropdown-container mb-4">
+        <label for="roleSelect" class="block font-semibold mb-1">Select Role</label>
+        <select id="roleSelect" [(ngModel)]="selectedRole" (change)="filterUsers()"
+            class="border rounded px-2 py-1 w-full max-w-xs">
             <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
         </select>
     </div>
 
-    <!-- User Cards -->
-    <div class="card-grid">
-        <div *ngFor="let user of filteredUsers" class="user-card animate-fadeIn">
-            <div class="user-card-inner">
+    <!-- User Cards Grid -->
+    <div class="card-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div *ngFor="let user of filteredUsers"
+            class="user-card p-4 border rounded shadow hover:shadow-lg transition duration-200">
+            <div class="user-card-inner flex flex-col items-center text-center">
                 <!-- Profile Image -->
-                <img [src]="'http://localhost:8082/images/users/' + user.image" alt="{{user.name}}"
-                   class="user-image" />
+                <img [src]="'http://localhost:8082/images/users/' + user.image" [alt]="user.name"
+                    class="user-image rounded-full w-24 h-24 object-cover mb-3"
+                    onerror="this.onerror=null;this.src='assets/default-profile.png';" />
 
-                <!-- Info -->
-                <h3>{{ user.name }}</h3>
-                <p>{{ user.email }}</p>
-                <p>{{ user.phone }}</p>
-                <span class="role-badge">{{ user.role }}</span>
+                <!-- User Info -->
+                <h3 class="text-lg font-bold mb-1">{{ user.name }}</h3>
+                <p class="text-sm text-gray-600 mb-1">{{ user.email }}</p>
+                <p class="text-sm text-gray-600 mb-2">{{ user.phone }}</p>
 
-                <!-- Button -->
-                <button (click)="viewDetails(user)" class="btn-view">View Activitiess</button>
+                <span class="role-badge inline-block bg-blue-500 text-white text-xs px-2 py-1 rounded mb-3">{{ user.role
+                    }}</span>
+
+                <!-- View Activities Button -->
+                <button (click)="viewDetails(user)"
+                    class="btn-view bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
+                    View Activities
+                </button>
             </div>
         </div>
     </div>

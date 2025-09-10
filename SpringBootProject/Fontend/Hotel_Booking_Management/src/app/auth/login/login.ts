@@ -95,11 +95,11 @@ export class Login implements OnInit {
               // Do something with the customer data if needed
               console.log('Customer data:', customer);
             });
-            this.router.navigate(['/customerProfile']);
+            this.router.navigate(['/customerProfile/:id']);
           } else if (role === 'HOTEL_ADMIN') {
-            this.router.navigate(['/hoteladminProfile']);
+            this.router.navigate(['/hoteladminProfile/:id']);
           } else if (role === 'ADMIN') {
-            this.router.navigate(['admin-profile']);
+            this.router.navigate(['admin-profile/:id']);
           } else {
             this.router.navigate(['/']); // fallback
           }

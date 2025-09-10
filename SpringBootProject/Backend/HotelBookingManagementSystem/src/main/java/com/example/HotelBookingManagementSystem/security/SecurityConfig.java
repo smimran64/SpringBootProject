@@ -55,7 +55,7 @@ public class SecurityConfig {
                                 "/api/customer/reg",
                                 "/api/user/all",
                                 "/api/all",
-
+                                "/api/users/**",
 
                                 "/api/hotel/search",
                                 "/api/hotel/{id}/rooms",

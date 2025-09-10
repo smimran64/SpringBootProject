@@ -13,9 +13,9 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-     @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object
 
-  ) {}
+  ) { }
 
 
   getAllUsers(): Observable<User[]> {
@@ -25,11 +25,19 @@ export class UserService {
 
 
   getUserImage(filename: string): Observable<Blob> {
-  const token = localStorage.getItem('authToken');
-  return this.http.get(`${this.baseUrl}/user-image/${filename}`, {
-    headers: { Authorization: `Bearer ${token}` },
-    responseType: 'blob'
-  });
-}
-  
+    const token = localStorage.getItem('authToken');
+    return this.http.get(`${this.baseUrl}/user-image/${filename}`, {
+      headers: { Authorization: `Bearer ${token}` },
+      responseType: 'blob'
+    });
+
+
+
+  }
+
+
+  getUserById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/users/${id}`);
+  }
+
 }
