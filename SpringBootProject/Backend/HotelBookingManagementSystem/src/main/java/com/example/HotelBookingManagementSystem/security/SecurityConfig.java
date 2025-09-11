@@ -77,7 +77,10 @@ public class SecurityConfig {
                                 "/api/user/forgot-password",
                                 "/api/user/reset-password",
                                 "/api/admin/profile",
-                                "/api/booking/hotel/**"
+                                "/api/booking/hotel/**",
+                                "/api/hoteladmin/**",
+                                "/api/customer/**",
+                                "/api/admin/**"
 
 
 

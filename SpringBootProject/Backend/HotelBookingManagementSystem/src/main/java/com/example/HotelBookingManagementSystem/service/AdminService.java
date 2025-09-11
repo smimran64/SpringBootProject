@@ -85,4 +85,13 @@ public class AdminService {
                 .orElseThrow(() -> new EntityNotFoundException("Admin not found with id: " + id));
         return mapToDTO(admin);
     }
+
+    public AdminDTO findAdminById(Integer id) {
+        Admin admin = adminRepository.findAdminByUser_Id(id);
+        if (admin == null) {
+            throw new EntityNotFoundException("Admin not found for user ID: " + id);
+        }
+        return mapToDTO(admin);
+    }
+
 }

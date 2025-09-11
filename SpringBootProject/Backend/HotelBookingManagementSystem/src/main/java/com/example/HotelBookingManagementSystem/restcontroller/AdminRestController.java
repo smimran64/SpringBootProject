@@ -83,6 +83,13 @@ public class AdminRestController {
     }
 
 
+    @GetMapping("/{id}")
+    public ResponseEntity<AdminDTO> findAdminById(@PathVariable Integer id) {
+        AdminDTO dto = adminService.findAdminById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+
 //    @GetMapping("profile/{id}")
 //    public AdminDTO getAdminProfile(@PathVariable int id) {
 //        return adminService.getAdminProfile(id);

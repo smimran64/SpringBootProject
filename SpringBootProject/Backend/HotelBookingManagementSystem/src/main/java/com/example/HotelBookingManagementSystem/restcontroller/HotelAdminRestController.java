@@ -106,6 +106,16 @@ public class HotelAdminRestController {
         return ResponseEntity.ok(profile);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<HotelAdminDTO> findHotelAdminById(@PathVariable Integer id) {
+        HotelAdminDTO dto = hotelAminService.findHotelAdminById(id);
+        return ResponseEntity.ok(dto);
+    }
+
+
+
+
+
 
 
 }

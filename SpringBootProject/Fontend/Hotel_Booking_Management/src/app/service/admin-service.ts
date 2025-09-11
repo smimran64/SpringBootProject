@@ -33,10 +33,10 @@ export class AdminService {
 
 
   getLoggedInAdminProfile(): Observable<Admin> {
-  const token = localStorage.getItem('authToken')!;
-  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-  return this.http.get<Admin>(`${this.baseUrl}/profile`, { headers });
-}
+    const token = localStorage.getItem('authToken')!;
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<Admin>(`${this.baseUrl}/profile`, { headers });
+  }
 
 
   // Specific admin profile by id
@@ -50,6 +50,8 @@ export class AdminService {
   //   return this.http.get<any>(`${this.baseUrl}/${id}`);
   // }
 
-
+  getAdminById(id: number): Observable<Admin> {
+    return this.http.get<Admin>(`${this.baseUrl}/${id}`);
+  }
 
 }

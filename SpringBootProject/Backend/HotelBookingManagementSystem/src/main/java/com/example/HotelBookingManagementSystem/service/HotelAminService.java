@@ -5,6 +5,7 @@ import com.example.HotelBookingManagementSystem.dto.HotelAdminDTO;
 import com.example.HotelBookingManagementSystem.entity.Customer;
 import com.example.HotelBookingManagementSystem.entity.HotelAdmin;
 import com.example.HotelBookingManagementSystem.repository.HotelAdminRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,5 +75,16 @@ public class HotelAminService {
                 admin.getImage()
         );
     }
+
+    public HotelAdminDTO findHotelAdminById(Integer id) {
+        HotelAdmin hotelAdmin = hotelAdminRepository.findHotelAdminByUser_Id(id);
+        if (hotelAdmin == null) {
+            throw new EntityNotFoundException("HotelAdmin not found for user ID: " + id);
+        }
+        return mapToDTO(hotelAdmin);
+    }
+
+
+
 
 }

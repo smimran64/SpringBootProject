@@ -2,6 +2,7 @@ package com.example.HotelBookingManagementSystem.restcontroller;
 
 
 import com.example.HotelBookingManagementSystem.dto.CustomerDTO;
+import com.example.HotelBookingManagementSystem.dto.HotelAdminDTO;
 import com.example.HotelBookingManagementSystem.entity.Customer;
 import com.example.HotelBookingManagementSystem.entity.User;
 import com.example.HotelBookingManagementSystem.repository.UserRepository;
@@ -92,5 +93,12 @@ public class CustomerRestController {
         String email = authentication.getName(); // logged-in user's email
         CustomerDTO customerDTO = customerService.getProfile(email);
         return ResponseEntity.ok(customerDTO);
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerDTO> findCustomerById(@PathVariable Integer id) {
+        CustomerDTO dto = customerService.findCustomerById(id);
+        return ResponseEntity.ok(dto);
     }
 }

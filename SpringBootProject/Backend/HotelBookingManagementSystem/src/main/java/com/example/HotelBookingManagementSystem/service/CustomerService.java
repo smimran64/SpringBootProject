@@ -1,15 +1,14 @@
 package com.example.HotelBookingManagementSystem.service;
 
 import com.example.HotelBookingManagementSystem.dto.CustomerDTO;
-import com.example.HotelBookingManagementSystem.entity.Customer;
-import com.example.HotelBookingManagementSystem.entity.Role;
-import com.example.HotelBookingManagementSystem.entity.Token;
-import com.example.HotelBookingManagementSystem.entity.User;
+import com.example.HotelBookingManagementSystem.dto.HotelAdminDTO;
+import com.example.HotelBookingManagementSystem.entity.*;
 import com.example.HotelBookingManagementSystem.jwt.JwtService;
 import com.example.HotelBookingManagementSystem.repository.CustomerRepository;
 import com.example.HotelBookingManagementSystem.repository.TokenRepository;
 import com.example.HotelBookingManagementSystem.repository.UserRepository;
 import jakarta.mail.MessagingException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -78,7 +77,13 @@ public class CustomerService {
         );
     }
 
-
+    public CustomerDTO findCustomerById(Integer id) {
+        Customer customer = customerRepository.findCustomerByUser_Id(id);
+        if (customer == null) {
+            throw new EntityNotFoundException("Customer not found for user ID: " + id);
+        }
+        return mapToDTO(customer);
+    }
 
 
 

@@ -15,22 +15,55 @@ export class AdminProfileComponent implements OnInit {
   loading = true;
   error?: string;
 
-  constructor(private adminService: AdminService, private cdr: ChangeDetectorRef) { }
+  id!: number
+
+  constructor(
+    private adminService: AdminService,
+    private cdr: ChangeDetectorRef,
+    private router: ActivatedRoute
+
+  ) { }
 
   ngOnInit(): void {
-    this.adminService.getLoggedInAdminProfile().subscribe({
-      next: (data) => {
-        console.log('Admin profile fetched:', data);
-        this.adminProfile = data;
-        this.cdr.markForCheck();
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error fetching profile', err);
-        this.error = 'Failed to load admin profile';
-        this.loading = false;
-      }
-    });
+
+    const idParam = this.router.snapshot.paramMap.get('id');
+
+    if (idParam && !isNaN(+idParam)) {
+      this.id = +idParam;
+    } else {
+      this.id = 0;
+    }
+
+    if (this.id === 0) {
+      this.adminService.getLoggedInAdminProfile().subscribe({
+        next: (data) => {
+          console.log('Admin profile fetched:', data);
+          this.adminProfile = data;
+          this.cdr.markForCheck();
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error fetching profile', err);
+          this.error = 'Failed to load admin profile';
+          this.loading = false;
+        }
+      });
+    } else {
+
+      this.adminService.getAdminById(this.id).subscribe({
+        next: (data) => {
+          console.log('Admin profile fetched:', data);
+          this.adminProfile = data;
+          this.cdr.markForCheck();
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Error fetching profile', err);
+          this.error = 'Failed to load admin profile';
+          this.loading = false;
+        }
+      });
+    }
   }
 
 

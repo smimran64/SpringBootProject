@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HotelAdminProfile implements OnInit {
 
-  id!:number;
+  id!: number;
 
   profile: HotelAdmin | null = null;
   hotels: Hotel[] = [];
@@ -23,25 +23,46 @@ export class HotelAdminProfile implements OnInit {
     private hotelService: HotelService,
     private cdr: ChangeDetectorRef,
     private router: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.id = this.router.snapshot.params['id'];
+    const idParam = this.router.snapshot.paramMap.get('id');
+
+    if (idParam && !isNaN(+idParam)) {
+      this.id = +idParam;
+    } else {
+      this.id = 0;
+    }
+
     this.loadProfile();
   }
 
   loadProfile(): void {
-    this.hotelAdminService.getProfile().subscribe({
-      next: (res) => {
-        this.profile = res;
-        console.log('Profile loaded:', res);
-        this.loadHotels(res.id);
-        this.cdr.markForCheck();
-      },
-      error: (err) => {
-        console.error('Failed to load profile:', err);
-      }
-    });
+    if (this.id === 0) {
+      this.hotelAdminService.getProfile().subscribe({
+        next: (res) => {
+          this.profile = res;
+          console.log('Profile loaded:', res);
+          this.loadHotels(res.id);
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('Failed to load profile:', err);
+        }
+      });
+    } else {
+      this.hotelAdminService.getHotelAdminById(this.id).subscribe({
+        next: (res) => {
+          this.profile = res;
+          console.log('Profile loaded:', res);
+          this.loadHotels(res.id);
+          this.cdr.markForCheck();
+        },
+        error: (err) => {
+          console.error('Failed to load profile:', err);
+        }
+      });
+    }
   }
 
   loadHotels(adminId: number): void {

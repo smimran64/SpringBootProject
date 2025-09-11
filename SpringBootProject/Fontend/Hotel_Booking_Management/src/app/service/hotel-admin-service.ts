@@ -96,4 +96,11 @@ export class HotelAdminService {
      return this.http.get<Hotel[]>(`${this.baseUrl}/myHotels`, { headers });
    }
 
+   
+
+   getHotelAdminById(id: number): Observable<HotelAdmin> {
+    return this.http.get<HotelAdmin>(`${this.baseUrl}/${id}`);
+  }
+
+  
 }
