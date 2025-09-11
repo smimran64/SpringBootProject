@@ -271,6 +271,7 @@ export class AddBookingComponent implements OnInit {
         // ✅ Build new notification object
         const newNotification = {
           userId: cid,
+         
           contractPersonName: booking.contractPersonName,
           hotelName: this.bookingForm.get('hoteldto.name')?.value,
           location: this.bookingForm.get('hoteldto.location')?.value,

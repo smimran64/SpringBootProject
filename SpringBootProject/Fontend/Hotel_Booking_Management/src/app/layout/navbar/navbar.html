@@ -135,13 +135,13 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                         <ng-container *ngIf="isCustomer()">
-                            <li><a class="dropdown-item" routerLink="/customerProfile">Profile</a></li>
+                            <li><a class="dropdown-item" routerLink="/customerProfile/:id">Profile</a></li>
                         </ng-container>
                         <ng-container *ngIf="isHotelAdmin()">
-                            <li><a class="dropdown-item" routerLink="/hoteladminProfile">Profile</a></li>
+                            <li><a class="dropdown-item" routerLink="/hoteladminProfile/:id">Profile</a></li>
                         </ng-container>
                         <ng-container *ngIf="isAdmin()">
-                            <li><a class="dropdown-item" routerLink="/admin-profile">Profile</a></li>
+                            <li><a class="dropdown-item" routerLink="/admin-profile/:id">Profile</a></li>
                         </ng-container>
 
                     </ul>
