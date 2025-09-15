@@ -10,16 +10,16 @@ import { Authservice } from '../../service/authservice';
 export class Navbar implements OnInit {
 
 
-   userRole: string | null = null;
+  userRole: string | null = null;
   isLoggedIn: boolean = false;
 
-  constructor(private authService: Authservice) {}
+  constructor(private authService: Authservice) { }
 
   ngOnInit(): void {
     this.userRole = this.authService.getUserRole();
     this.isLoggedIn = this.authService.isLoggIn();
 
-    
+
     this.authService.userRole$.subscribe(role => {
       this.userRole = role;
     });
@@ -29,7 +29,7 @@ export class Navbar implements OnInit {
     this.authService.logout();
   }
 
- 
+
   isAdmin(): boolean {
     return this.authService.isAdmin();
   }
@@ -41,5 +41,5 @@ export class Navbar implements OnInit {
   }
 
 
-  
+
 }
