@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { AuthResponse } from '../model/authresponse.model';
 import { isPlatformBrowser } from '@angular/common';
 import { Customer } from '../model/customer.model';
+import { User } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,8 @@ export class Authservice {
 
   public userRole$: Observable<string | null> = this.userRoleSubject.asObservable();
 
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -86,6 +89,11 @@ export class Authservice {
     }
     return null;
 
+  }
+
+  isAuthenticated(): boolean {
+
+    return !!this.getToken();
   }
 
 

@@ -19,7 +19,7 @@ export class Navbar implements OnInit {
     this.userRole = this.authService.getUserRole();
     this.isLoggedIn = this.authService.isLoggIn();
 
-    // যদি subject use করতে চাও তাহলে observable ও ধরতে পারিস
+    
     this.authService.userRole$.subscribe(role => {
       this.userRole = role;
     });
@@ -29,7 +29,7 @@ export class Navbar implements OnInit {
     this.authService.logout();
   }
 
-  // shortcut functions (direct html এ ব্যবহার করতে পারবি)
+ 
   isAdmin(): boolean {
     return this.authService.isAdmin();
   }

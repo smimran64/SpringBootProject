@@ -34,42 +34,48 @@ import { ViewBookingForHotelAdmin } from './booking/view-booking-for-hotel-admin
 import { HotelPhotoForAdmin } from './hotelPhoto/hotel-photo-for-admin/hotel-photo-for-admin';
 import { ViewForHotelAdmin } from './hotel/view-for-hotel-admin/view-for-hotel-admin';
 import { BookingAlert } from './booking/booking-alert/booking-alert';
+import { CustomerGuard } from './guards/customer-guard';
+import { AdminGuard } from './guards/admin-guard';
+import { HotelAdminGuard } from './guards/hotel-admin-guard';
+import { AllGuard } from './guards/all-guard';
+import { AdminHotelAdminGuard } from './guards/admin-hotel-admin-guard';
+import { AdminAndCustomerGuard } from './guards/admin-and-customer-guard';
 
 const routes: Routes = [
-  {path: 'addlocation', component: AddlocationComponent},
-  {path: 'viewlocation', component: Viewalllocation},
-  {path: 'editlocation/:id', component: EditLocationComponent},
-  {path: 'addhotel', component: AddhotelComponent},
-  {path: 'viewHotel', component: Viewallhotelcomponent},
-  {path: 'viewHotelForHotelAdmin', component: ViewForHotelAdmin},
-  {path: 'addroom', component: AddRoomComponent},
-  {path: 'allroom', component: ViewRoomComponent},
-  {path: 'roomForAdmin', component: ViewRoomForAdmin},
+  {path: 'addlocation', component: AddlocationComponent, canActivate:[AdminGuard]},
+  {path: 'viewlocation', component: Viewalllocation, canActivate:[AdminGuard]},
+  {path: 'editlocation/:id', component: EditLocationComponent, canActivate:[AdminGuard]},
+  {path: 'addhotel', component: AddhotelComponent, canActivate:[HotelAdminGuard]},
+  {path: 'viewHotel', component: Viewallhotelcomponent, canActivate:[AdminGuard]},
+  {path: 'viewHotelForHotelAdmin', component: ViewForHotelAdmin, canActivate:[HotelAdminGuard]},
+  {path: 'addroom', component: AddRoomComponent, canActivate:[HotelAdminGuard]},
+  {path: 'allroom', component: ViewRoomComponent, canActivate:[HotelAdminGuard]},
+  {path: 'roomForAdmin', component: ViewRoomForAdmin, canActivate:[AdminGuard]},
   {path: 'customerReg', component: CustomerRegComponent},
   {path: 'hotelAdminReg', component: HotelAdminRegComponent},
-  {path: 'adminReg', component: AdminRegComponent},
+  {path: 'adminReg', component: AdminRegComponent, canActivate:[AdminGuard]},
   {path: 'admin-profile/:id', component: AdminProfileComponent},
-  {path: 'hoteladminProfile/:id', component: HotelAdminProfile},
-  {path: 'customerProfile/:id', component: CustomerProfileComponent},
-  {path: 'allUserProfile', component: AllUserProfileComponent},
+  {path: 'hoteladminProfile/:id', component: HotelAdminProfile, canActivate:[AdminHotelAdminGuard]},
+  {path: 'customerProfile/:id', component: CustomerProfileComponent, canActivate: [AdminAndCustomerGuard]},
+  {path: 'allUserProfile', component: AllUserProfileComponent, canActivate:[AdminGuard]},
   // {path: 'home', component: HomeComponenent},
   {path: 'hotel-details/:id', component: HotelDetailsCompononent},
   {path: '', component: AboutHotel},
   {path: 'login', component: Login},
   {path: 'logout', component: Logout},
-  {path: 'addamenities', component: AddAmenitiesComponent},
-  {path: 'viewamenities', component: ViewAmenitiesComponent},
-  {path: 'addhotelinfo', component: HotelInfoComponent},
-  {path: 'viewhotelinfo', component: ViewHotelInfoComponent},
-  {path: 'addbooking/:id', component: AddBookingComponent},
-  {path: 'photo', component: AddHotelPhotoComponent},
-  {path: 'photoforadmin', component: HotelPhotoForAdmin},
-  {path: 'viewgallery', component: ViewHotelPhotoComponent},
-  {path: 'forgotpassword', component: ForgotPasswordComponent},
-  {path: 'reset-password', component: ResetPasswordComponent},
-  {path: 'viewbookingsForAdmin', component: ViewBookingComponent},
-  {path: 'viewbookingsForHotelAdmin', component:ViewBookingForHotelAdmin},
-  {path: 'bookingalert', component:BookingAlert},
+  {path: 'addamenities', component: AddAmenitiesComponent, canActivate:[HotelAdminGuard]},
+  {path: 'viewamenities', component: ViewAmenitiesComponent, canActivate:[AdminHotelAdminGuard]},
+  {path: 'addhotelinfo', component: HotelInfoComponent, canActivate:[HotelAdminGuard]},
+  {path: 'viewhotelinfo', component: ViewHotelInfoComponent, canActivate:[AdminHotelAdminGuard]},
+  {path: 'addbooking/:id', component: AddBookingComponent,canActivate:[AllGuard]},
+  {path: 'photo', component: AddHotelPhotoComponent, canActivate:[HotelAdminGuard]},
+  {path: 'photoforadmin', component: HotelPhotoForAdmin, canActivate:[AdminGuard]},
+  {path: 'viewgallery', component: ViewHotelPhotoComponent, canActivate:[HotelAdminGuard]},
+  {path: 'forgotpassword', component: ForgotPasswordComponent, canActivate:[AllGuard]},
+  {path: 'reset-password', component: ResetPasswordComponent, canActivate:[AllGuard]},
+  {path: 'viewbookingsForAdmin', component: ViewBookingComponent, canActivate:[AdminGuard]},
+  {path: 'viewbookingsForHotelAdmin', component:ViewBookingForHotelAdmin, canActivate:[HotelAdminGuard]},
+  {path: 'bookingalert', component:BookingAlert, canActivate:[AllGuard]},
 
 ];
 
