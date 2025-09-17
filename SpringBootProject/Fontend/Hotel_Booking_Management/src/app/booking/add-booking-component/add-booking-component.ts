@@ -299,7 +299,7 @@ export class AddBookingComponent implements OnInit {
 
 
         this.generateBookingPDF();
-        this.router.navigate(['customerProfile'])
+        this.router.navigate(['customerProfile/:id'])
 
       },
       error: err => {
