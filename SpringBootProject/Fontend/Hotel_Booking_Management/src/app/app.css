@@ -1,0 +1,19 @@
+
+
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: linear-gradient(135deg, #edf857, #6848da,#58eb70,#f13311);
+    color: white;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+  }

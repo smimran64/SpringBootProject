@@ -358,7 +358,7 @@ h1.text-center.mt-3[style*="rgb(232, 213, 39)"] {
     font-weight: 700;
     border-radius: 12px;
     padding: 10px 14px;
-    background: linear-gradient(90deg, #0ea5e9, #6366f1);
+    background: linear-gradient(90deg, #0ee919, #b93fe9,#f1fc55,#f01f29);
     color: #fff;
     box-shadow: 0 8px 16px rgba(99, 102, 241, 0.35);
     transition: transform .15s ease, box-shadow .2s ease, opacity .2s ease;
