@@ -55,16 +55,33 @@ export class Authservice {
 
 
 
+  // getCurrentCustomer(): Observable<Customer> {
+  //   const token = localStorage.getItem('authToken');
+  //   return this.http.get<Customer>(this.baseUrl + 'me', {
+  //     headers: { Authorization: `Bearer ${token}` }
+  //   }).pipe(
+  //     tap(customer => {
+  //       localStorage.setItem('customer', JSON.stringify(customer));
+  //     })
+  //   );
+  // }
+
+
   getCurrentCustomer(): Observable<Customer> {
     const token = localStorage.getItem('authToken');
-    return this.http.get<Customer>(this.baseUrl + 'me', {
+
+    console.log('Token sent to /me:', token); 
+
+    return this.http.get<Customer>(`${this.baseUrl}me`, {
       headers: { Authorization: `Bearer ${token}` }
     }).pipe(
       tap(customer => {
+        console.log('Customer received from /me:', customer); 
         localStorage.setItem('customer', JSON.stringify(customer));
       })
     );
   }
+
 
 
 
