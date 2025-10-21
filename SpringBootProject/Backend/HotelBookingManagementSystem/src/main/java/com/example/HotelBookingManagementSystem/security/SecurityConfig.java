@@ -38,25 +38,19 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/images/**",
-                                "/api/customer/**",
-                                "/api/customer/",
-                                "/api/hotelAdmin/**",
                                 "/api/hotel/all",
                                 "/api/login",
                                 "/api/room/all",
-                                "/api/room/**"
-                                , "/api/active/**",
+                                "/api/room/**",
+                                "/api/active/**",
                                 "/api/user/active/**",
-                                "/api/hotel/searchByHotelAdminId",
                                 "/api/admin/reg",
                                 "/api/location/delete/**",
                                 "/api/hoteladmin/reg",
                                 "/api/admin/reg",
                                 "/api/customer/reg",
-                                "/api/user/all",
                                 "/api/all",
                                 "/api/users/**",
-
                                 "/api/hotel/search",
                                 "/api/hotel/{id}/rooms",
                                 "/api/hotel/**",
@@ -67,22 +61,12 @@ public class SecurityConfig {
                                 "/api/room/hotell/**",
                                 "/api/amenities/hotel/**",
                                 "/api/hotel/information/hotel/**",
-                                "/api/hotel/hotelbyhoteladmin/**",
                                 "/api/hotelPhoto/**",
                                 "/api/hotelPhoto/hotel/**",
                                 "/api/me",
-                                "/api/admin/all",
-                                "/api/hoteladmin/all",
-                                "/api/customer/all",
                                 "/api/user/forgot-password",
                                 "/api/user/reset-password",
-                                "/api/admin/profile",
-                                "/api/booking/hotel/**",
-                                "/api/hoteladmin/**",
-                                "/api/customer/**",
-                                "/api/admin/**"
-
-
+                                "/api/booking/hotel/**"
 
 
                         ).permitAll()
@@ -96,14 +80,27 @@ public class SecurityConfig {
                                 "/api/hoteladmin/profile",
                                 "/api/hotel/information/delete/**",
                                 "/api/hotelPhoto/upload/**",
-                                "/api/hotel/hotelbyhoteladmin/**"
+                                "/api/hotel/hotelbyhoteladmin/**",
+                                "/api/hotel/searchByHotelAdminId",
+                                "/api/hotelAdmin/**",
+                                "/api/hoteladmin/**"
+
                         ).hasRole("HOTEL_ADMIN")
 
-                        .requestMatchers("/api/location/save"
+                        .requestMatchers("/api/location/save",
+                                "/api/user/all",
+                                "/api/admin/profile",
+                                "/api/admin/all",
+                                "/api/hoteladmin/all",
+                                "/api/customer/all",
+                                "/api/admin/**"
                                 ).hasRole("ADMIN")
 
                         .requestMatchers("/api/customer/profile",
-                                "/api/booking/save"
+                                "/api/booking/save",
+                                "/api/customer/**",
+                                "/api/customer/**",
+                                "/api/customer/"
 
                         ).hasRole("CUSTOMER")
 
