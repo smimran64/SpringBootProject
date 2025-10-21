@@ -66,7 +66,20 @@ public class SecurityConfig {
                                 "/api/me",
                                 "/api/user/forgot-password",
                                 "/api/user/reset-password",
-                                "/api/booking/hotel/**"
+                                "/api/booking/hotel/**",
+                                "/api/hoteladmin/all",
+                                "/api/customer/all",
+                                "/api/user/all",
+                                "/api/customer/**",
+                                "/api/customer/**",
+                                "/api/customer/",
+                                "/api/hotel/information/delete/**",
+                                "/api/hotelPhoto/upload/**",
+                                "/api/hotel/hotelbyhoteladmin/**",
+                                "/api/hotel/searchByHotelAdminId",
+                                "/api/hotelAdmin/**",
+                                "/api/hoteladmin/**",
+                                "/api/admin/**"
 
 
                         ).permitAll()
@@ -76,31 +89,17 @@ public class SecurityConfig {
                                 "/api/amenities/save",
                                 "/api/hotel/myHotels",
                                 "/api/hotel/information/save",
-                                "/api/admin/**",
-                                "/api/hoteladmin/profile",
-                                "/api/hotel/information/delete/**",
-                                "/api/hotelPhoto/upload/**",
-                                "/api/hotel/hotelbyhoteladmin/**",
-                                "/api/hotel/searchByHotelAdminId",
-                                "/api/hotelAdmin/**",
-                                "/api/hoteladmin/**"
-
+                                "/api/hoteladmin/profile"
                         ).hasRole("HOTEL_ADMIN")
 
                         .requestMatchers("/api/location/save",
-                                "/api/user/all",
                                 "/api/admin/profile",
                                 "/api/admin/all",
-                                "/api/hoteladmin/all",
-                                "/api/customer/all",
                                 "/api/admin/**"
                                 ).hasRole("ADMIN")
 
                         .requestMatchers("/api/customer/profile",
-                                "/api/booking/save",
-                                "/api/customer/**",
-                                "/api/customer/**",
-                                "/api/customer/"
+                                "/api/booking/save"
 
                         ).hasRole("CUSTOMER")
 
