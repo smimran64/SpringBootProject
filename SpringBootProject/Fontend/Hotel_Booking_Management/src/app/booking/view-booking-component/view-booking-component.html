@@ -18,6 +18,19 @@
         </select>
     </div>
 
+    <!-- Date Filters -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-3">
+            <label class="form-label fw-bold">Start Date:</label>
+            <input type="date" class="form-control" [(ngModel)]="startDate" (change)="onHotelChange()">
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-bold">End Date:</label>
+            <input type="date" class="form-control" [(ngModel)]="endDate" (change)="onHotelChange()">
+        </div>
+    </div>
+
+
     <!-- Booking Table -->
     <div *ngIf="bookings.length > 0; else noBookings">
         <div class="table-responsive shadow-sm rounded">

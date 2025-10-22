@@ -1,123 +1,143 @@
 <div class="container py-4">
+  <!-- Page Header -->
+  <div class="text-center mb-4">
+    <h2 class="page-title">📖 View Bookings</h2>
+    <p class="subtitle">Select a hotel to view all bookings</p>
+  </div>
 
-    <!-- Page Header -->
-    <div class="text-center mb-4">
-        <h2 class="page-title">📖 View Bookings</h2>
-        <p class="subtitle">Select a hotel to view all bookings</p>
+  <!-- Hotel Dropdown -->
+  <div class="form-group mb-4 text-center">
+    <label for="hotelSelect" class="form-label fw-bold">Choose Hotel:</label>
+    <select
+      id="hotelSelect"
+      class="form-select w-50 mx-auto"
+      [(ngModel)]="selectedHotelId"
+      (change)="onHotelChange()"
+    >
+      <option [ngValue]="null" disabled selected>-- Select a Hotel --</option>
+      <option *ngFor="let hotel of hotels" [value]="hotel.id">
+        {{ hotel.name }}
+      </option>
+    </select>
+  </div>
+
+  <!-- Date Filter -->
+  <div *ngIf="bookings.length > 0" class="row justify-content-center mb-4">
+    <div class="col-md-3">
+      <label class="fw-bold">Start Date:</label>
+      <input type="date" class="form-control" [(ngModel)]="startDate" />
+    </div>
+    <div class="col-md-3">
+      <label class="fw-bold">End Date:</label>
+      <input type="date" class="form-control" [(ngModel)]="endDate" />
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+      <button class="btn btn-primary w-100" (click)="filterBookingsByDate()">
+        🔍 Filter
+      </button>
+    </div>
+    <div class="col-md-2 d-flex align-items-end">
+      <button class="btn btn-secondary w-100" (click)="resetFilter()">
+        ♻️ Reset
+      </button>
+    </div>
+  </div>
+
+  <!-- Booking Table -->
+  <div *ngIf="filteredBookings.length > 0; else noBookings">
+    <div class="table-responsive shadow-sm rounded">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark text-center">
+          <tr>
+            <th>No</th>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Contact Person</th>
+            <th>Contact Phone</th>
+            <th>Room Type</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Rooms</th>
+            <th>Total</th>
+            <th>Advance</th>
+            <th>Due</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let booking of filteredBookings; let i = index"
+            class="text-center"
+          >
+            <td>{{ i + 1 }}</td>
+            <td>{{ booking.customerdto?.name }}</td>
+            <td>{{ booking.customerdto?.phone }}</td>
+            <td>{{ booking.contractPersonName }}</td>
+            <td>{{ booking.phone }}</td>
+            <td>{{ booking.roomdto?.roomType }}</td>
+            <td>{{ booking.checkIn | date }}</td>
+            <td>{{ booking.checkOut | date }}</td>
+            <td>{{ booking.numberOfRooms }}</td>
+            <td>৳ {{ booking.totalAmount }}</td>
+            <td>৳ {{ booking.advanceAmount }}</td>
+            <td>৳ {{ booking.dueAmount }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <!-- Hotel Dropdown -->
-    <div class="form-group mb-4 text-center">
-        <label for="hotelSelect" class="form-label fw-bold">Choose Hotel:</label>
-        <select id="hotelSelect" class="form-select w-50 mx-auto" [(ngModel)]="selectedHotelId"
-            (change)="onHotelChange()">
-            <option [ngValue]="null" disabled selected>-- Select a Hotel --</option>
-            <option *ngFor="let hotel of hotels" [value]="hotel.id">
-                {{ hotel.name }}
-            </option>
-        </select>
-    </div>
-
-    <!-- Booking Table -->
-    <div *ngIf="bookings.length > 0; else noBookings">
-        <div class="table-responsive shadow-sm rounded">
-            <table class="table table-bordered table-hover align-middle">
-                <thead class="table-dark text-center">
-                    <tr>
-                        <th>No Of Bookings</th>
-                        <th>Customer</th>
-                        <th>Phone</th>
-                        <th>Contact Person</th>
-                        <th>Phone</th>
-                        <th>Room Type</th>
-                        <th>Check In</th>
-                        <th>Check Out</th>
-                        <th>Rooms</th>
-                        <th>Total</th>
-                        <th>Advance</th>
-                        <th>Due</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let booking of bookings; let i = index" class="text-center">
-                        <td>{{ i + 1 }}</td>
-                        <td>{{ booking.customerdto?.name }}</td>
-                        <td>{{ booking.customerdto?.phone }}</td>
-                        <td>{{booking.contractPersonName}}</td>
-                        <td>{{booking.phone}}</td>
-                        <td>{{ booking.roomdto?.roomType }}</td>
-                        <td>{{ booking.checkIn | date }}</td>
-                        <td>{{ booking.checkOut | date }}</td>
-                        <td>{{ booking.numberOfRooms }}</td>
-                        <td>৳ {{ booking.totalAmount }}</td>
-                        <td>৳ {{ booking.advanceAmount }}</td>
-                        <td>৳ {{ booking.dueAmount }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- No Booking Template -->
-    <ng-template #noBookings>
-        <div class="alert alert-warning text-center mt-4 shadow-sm">
-            <strong>No bookings found for this hotel.</strong>
-        </div>
-    </ng-template>
-
-</div>
-
-
-
-<!-- Booking Table -->
-<div *ngIf="bookings.length > 0; else noBookings">
-
-    <!-- Export Button -->
-    <!-- View Report Section -->
-
+    <!-- Download PDF -->
     <div class="text-center mt-3">
-        <button class="btn btn-danger shadow-sm" (click)="generateBookingPDF()">
-            <i class="bi bi-printer-fill"></i> Download PDF
-        </button>
+      <button class="btn btn-danger shadow-sm" (click)="generateBookingPDF()">
+        <i class="bi bi-printer-fill"></i> Download PDF
+      </button>
     </div>
-
 
     <!-- Hidden PDF Content -->
     <div class="table-responsive shadow-sm rounded" #pdfContent style="display:none;">
-        <table class="table table-bordered table-hover align-middle">
-            <thead class="table-dark text-center">
-                <tr>
-                    <th>No Of Bookings</th>
-                    <th>Customer</th>
-                    <th>Phone</th>
-                    <th>Contact Person</th>
-                    <th>Phone</th>
-                    <th>Room Type</th>
-                    <th>Check In</th>
-                    <th>Check Out</th>
-                    <th>Rooms</th>
-                    <th>Total</th>
-                    <th>Advance</th>
-                    <th>Due</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let booking of bookings; let i = index" class="text-center">
-                    <td>{{ i + 1 }}</td>
-                    <td>{{ booking.customerdto?.name }}</td>
-                    <td>{{ booking.customerdto?.phone }}</td>
-                    <td>{{ booking.contractPersonName }}</td>
-                    <td>{{ booking.phone }}</td>
-                    <td>{{ booking.roomdto?.roomType }}</td>
-                    <td>{{ booking.checkIn | date }}</td>
-                    <td>{{ booking.checkOut | date }}</td>
-                    <td>{{ booking.numberOfRooms }}</td>
-                    <td>৳ {{ booking.totalAmount }}</td>
-                    <td>৳ {{ booking.advanceAmount }}</td>
-                    <td>৳ {{ booking.dueAmount }}</td>
-                </tr>
-            </tbody>
-        </table>
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-dark text-center">
+          <tr>
+            <th>No</th>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Contact Person</th>
+            <th>Contact Phone</th>
+            <th>Room Type</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Rooms</th>
+            <th>Total</th>
+            <th>Advance</th>
+            <th>Due</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let booking of filteredBookings; let i = index"
+            class="text-center"
+          >
+            <td>{{ i + 1 }}</td>
+            <td>{{ booking.customerdto?.name }}</td>
+            <td>{{ booking.customerdto?.phone }}</td>
+            <td>{{ booking.contractPersonName }}</td>
+            <td>{{ booking.phone }}</td>
+            <td>{{ booking.roomdto?.roomType }}</td>
+            <td>{{ booking.checkIn | date }}</td>
+            <td>{{ booking.checkOut | date }}</td>
+            <td>{{ booking.numberOfRooms }}</td>
+            <td>৳ {{ booking.totalAmount }}</td>
+            <td>৳ {{ booking.advanceAmount }}</td>
+            <td>৳ {{ booking.dueAmount }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 
+  <!-- No Booking -->
+  <ng-template #noBookings>
+    <div class="alert alert-warning text-center mt-4 shadow-sm">
+      <strong>No bookings found for this selection.</strong>
+    </div>
+  </ng-template>
 </div>

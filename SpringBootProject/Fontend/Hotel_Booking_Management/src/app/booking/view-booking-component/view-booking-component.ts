@@ -20,6 +20,11 @@ export class ViewBookingComponent implements OnInit {
   bookings: any[] = [];
 
 
+  startDate: string | null = null;
+  endDate: string | null = null;
+
+
+
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
 
   constructor(
@@ -48,19 +53,35 @@ export class ViewBookingComponent implements OnInit {
 
 
   onHotelChange() {
-    if (this.selectedHotelId) {
-      this.http.get<any[]>(`http://localhost:8082/api/booking/hotel/${this.selectedHotelId}`)
-        .subscribe({
-          next: (data) => {
-            this.bookings = data;
-            this.cdr.markForCheck();
-          },
-          error: (err) => console.error('Error loading bookings', err)
-        });
-    } else {
-      this.bookings = [];
-    }
+  if (this.selectedHotelId) {
+    this.http.get<any[]>(`http://localhost:8082/api/booking/hotel/${this.selectedHotelId}`)
+      .subscribe({
+        next: (data) => {
+          this.bookings = data;
+          this.filterBookingsByDate(); // ⬅️ Filter after fetching
+          this.cdr.markForCheck();
+        },
+        error: (err) => console.error('Error loading bookings', err)
+      });
+  } else {
+    this.bookings = [];
   }
+}
+
+
+filterBookingsByDate() {
+  if (!this.startDate || !this.endDate) return;
+
+  const start = new Date(this.startDate);
+  const end = new Date(this.endDate);
+
+  this.bookings = this.bookings.filter(booking => {
+    const checkInDate = new Date(booking.checkIn);
+    return checkInDate >= start && checkInDate <= end;
+  });
+}
+
+
 
 
   generateBookingPDF(): void {
@@ -117,15 +138,7 @@ export class ViewBookingComponent implements OnInit {
 
       pdf.addImage(imgData, 'PNG', 0, tableY, pdfWidth, pdfHeight);
 
-      // === Watermark Over Table Only ===
-      // const watermarkX = pdfWidth / 2;
-      // const watermarkY = tableY + pdfHeight / 2; // center of table
-      // pdf.setTextColor(200, 200, 200);
-      // pdf.setFontSize(60);
-      // pdf.setFont('helvetica', 'bold');
-      // pdf.text('HOTEL BOOKING', watermarkX, watermarkY, { align: 'center', angle: 45 });
 
-      // === Footer ===
       const pageHeight = pdf.internal.pageSize.getHeight();
       pdf.setFillColor(30, 144, 255);
       pdf.rect(0, pageHeight - 20, pdfWidth, 20, 'F');

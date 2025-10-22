@@ -20,10 +20,13 @@ export class ViewBookingForHotelAdmin implements OnInit {
   hotels: Hotel[] = [];
   selectedHotelId: number | null = null;
   bookings: any[] = [];
+  filteredBookings: any[] = [];
+
+  startDate: string = '';
+  endDate: string = '';
 
   loading = false;
   errorMessage: string | null = null;
-
 
   @ViewChild('pdfContent', { static: false }) pdfContent!: ElementRef;
 
@@ -31,12 +34,11 @@ export class ViewBookingForHotelAdmin implements OnInit {
     private hotelService: HotelService,
     private cdr: ChangeDetectorRef,
     private http: HttpClient
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadHotels();
   }
-
 
   private loadHotels(): void {
     this.loading = true;
@@ -61,17 +63,43 @@ export class ViewBookingForHotelAdmin implements OnInit {
         .subscribe({
           next: (data) => {
             this.bookings = data;
+            this.filteredBookings = data; // Initially all bookings visible
             this.cdr.markForCheck();
           },
           error: (err) => console.error('Error loading bookings', err)
         });
     } else {
       this.bookings = [];
+      this.filteredBookings = [];
     }
   }
 
+  filterBookingsByDate(): void {
+  if (!this.startDate || !this.endDate) {
+    alert('⚠️ Please select both start and end dates!');
+    return;
+  }
+
+  const start = new Date(this.startDate);
+  const end = new Date(this.endDate);
+
+  // 🧠 Logic:
+  // Include booking if any part of its stay (checkIn→checkOut) overlaps with the selected range.
+  this.filteredBookings = this.bookings.filter((booking) => {
+    const checkIn = new Date(booking.checkIn);
+    const checkOut = new Date(booking.checkOut);
+
+    // overlap condition
+    return checkOut >= start && checkIn <= end;
+  });
+}
 
 
+resetFilter(): void {
+    this.startDate = '';
+    this.endDate = '';
+    this.filteredBookings = [...this.bookings];
+  }
 
   generateBookingPDF(): void {
     if (!this.selectedHotelId) return;
@@ -79,10 +107,9 @@ export class ViewBookingForHotelAdmin implements OnInit {
     const element = this.pdfContent.nativeElement;
     const selectedHotel = this.hotels.find(h => h.id === Number(this.selectedHotelId));
 
-    // Current date & time
     const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleDateString(); // 03/09/2025
-    const formattedTime = currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }); // 12:12 AM
+    const formattedDate = currentDate.toLocaleDateString();
+    const formattedTime = currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
 
     // Force show off-screen
     element.style.display = 'block';
@@ -92,21 +119,18 @@ export class ViewBookingForHotelAdmin implements OnInit {
 
     html2canvas(element, { scale: 2, useCORS: true }).then((canvas) => {
       const imgData = canvas.toDataURL('image/png');
-
       const pdf = new jsPDF('p', 'mm', 'a4');
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
       // === 🎨 Header ===
-      pdf.setFillColor(44, 62, 80); // Dark blue
+      pdf.setFillColor(44, 62, 80);
       pdf.rect(0, 0, pdfWidth, 45, 'F');
       pdf.setTextColor(255, 255, 255);
 
-      // Auto Logo (left)
       const autoLogo = 'https://tinyurl.com/55m4a32c';
       pdf.addImage(autoLogo, 'PNG', 10, 10, 30, 30);
 
-      // Hotel Name & Address (center)
       pdf.setFontSize(18);
       pdf.setFont('helvetica', 'bold');
       pdf.text(selectedHotel?.name || 'Hotel', pdfWidth / 2, 18, { align: 'center' });
@@ -117,7 +141,6 @@ export class ViewBookingForHotelAdmin implements OnInit {
         pdf.text(selectedHotel.address, pdfWidth / 2, 28, { align: 'center' });
       }
 
-      // Date & Time (right)
       pdf.setFontSize(10);
       pdf.text(`Date: ${formattedDate}`, pdfWidth - 10, 15, { align: 'right' });
       pdf.text(`Time: ${formattedTime}`, pdfWidth - 10, 23, { align: 'right' });
